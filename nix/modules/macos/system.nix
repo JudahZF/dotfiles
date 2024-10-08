@@ -41,11 +41,11 @@
             "yabai"
         ];
         masApps = {
-            "Amphetamine" ="937984704"
-            "Encrypto" = "935235287"
-            "Home Assistant" = "1099568401"
-            "Mactracker" = "430255202"
-            "Sonicwall Mobile Connect" = "822514576"
+            "Amphetamine" ="937984704";
+            "Encrypto" = "935235287";
+            "Home Assistant" = "1099568401";
+            "Mactracker" = "430255202";
+            "Sonicwall Mobile Connect" = "822514576";
         };
         onActivation.cleanup = "zap";
         taps = {

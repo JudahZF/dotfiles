@@ -8,7 +8,7 @@
         nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     };
 
-    outputs = inputs@{ self, nixpkgs, ... }:
+    outputs = inputs@{ self, nixpkgs, nix-darwin, nix-homebrew, ... }:
         {
             # Build darwin flake using:
             # $ darwin-rebuild build --flake .#simple
