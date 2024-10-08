@@ -8,18 +8,12 @@
         nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     };
 
-    outputs = inputs@{ self, base, macos }:
-        let
-            configuration = { pkgs, config, ... }: {
-                nixpkgs.hostPlatform = "aarch64-darwin";
-            };
-        in
+    outputs = inputs@{ self, nixpkgs, ... }:
         {
             # Build darwin flake using:
             # $ darwin-rebuild build --flake .#simple
             darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
                 modules = [
-                    configuration
                     nix-homebrew.darwinModules.nix-homebrew
                     {
                         nix-homebrew = {
