@@ -9,10 +9,10 @@
             "mas"
         ];
         casks = [
-            "affinity-designer"
-            "affinity-photo"
-            "affinity-publisher"
-            "pika"
+            # "affinity-designer"
+            # "affinity-photo"
+            # "affinity-publisher"
+            # "pika"
         ];
         onActivation.cleanup = "zap";
     };

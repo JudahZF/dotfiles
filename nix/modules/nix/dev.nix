@@ -9,10 +9,10 @@
         bun
         cmake
         gitkraken
-        node
+        nodejs
         postman
         python3
-        rpi-imager
+        # rpi-imager
         zed
     ];
 
