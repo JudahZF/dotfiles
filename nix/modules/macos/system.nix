@@ -4,28 +4,32 @@
     pkgs,
     ...
 }: {
+    nixpkgs.hostPlatform = "aarch64-darwin";
     homebrew = {
         enable = true;
         brews = [
             "mas"
+            "sketchybar"
+            "yabai"
         ];
         casks = [
-            "adobe-acrobat-reader"
-            "aldente"
-            "alt-tab"
-            "arc"
-            "balenaetcher"
-            "betterdisplay"
-            "cheatsheet"
-            "daisydisk"
-            "displaperture"
-            "dropbox"
-            "hiddenbar"
-            "keka"
-            "malwarebytes"
-            "microsoft-office"
-            "onedrive"
-            "onyx"
+            # "1Password"
+            # "adobe-acrobat-reader"
+            # "aldente"
+            # "alt-tab"
+            # "arc"
+            # "balenaetcher"
+            # "betterdisplay"
+            # "cheatsheet"
+            # "daisydisk"
+            # "displaperture"
+            # "dropbox"
+            # "hiddenbar"
+            # "keka"
+            # "malwarebytes"
+            # "microsoft-office"
+            # "onedrive"
+            # "onyx"
             "qlcolorcode"
             "qlimagesize"
             "qlmarkdown"
@@ -33,26 +37,23 @@
             "qlvideo"
             "quicklook-json"
             "quicklookase"
-            "raycast"
-            "rockboxutility"
-            "sketchybar"
+            # "raycast"
+            # "rockboxutility"
             "stats"
-            "ukelele"
-            "yabai"
+            # "ukelele"
         ];
         masApps = {
-            "Amphetamine" ="937984704";
-            "Encrypto" = "935235287";
-            "Home Assistant" = "1099568401";
-            "Mactracker" = "430255202";
-            "Sonicwall Mobile Connect" = "822514576";
+            "Amphetamine" = 937984704;
+            "Encrypto" = 935235287;
+            "Home Assistant" = 1099568401;
+            "Mactracker" = 430255202;
+            "Sonicwall Mobile Connect" = 822514576;
         };
         onActivation.cleanup = "zap";
-        taps = {
-            homebrew-core = "homebrew/homebrew-core";
-            homebrew-cask = "homebrew/homebrew-cask";
-            FelixKratz = "FelixKratz/formulae";
-        };
+        taps = [
+            "FelixKratz/formulae"
+            "koekeishiya/formulae"
+        ];
         # brews."sketchybar".start_service = true;
         # brews."yabai".start_service = true;
     };
@@ -93,7 +94,7 @@
         finder.AppleShowAllFiles = true;
         finder.FXPreferredViewStyle = "clmv";
         finder.QuitMenuItem = true;
-        finder.showpathbar = true;
+        finder.ShowPathbar = true;
         finder.ShowStatusBar = true;
         loginwindow.GuestEnabled  = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
@@ -102,5 +103,5 @@
         screencapture.type = "png";
         spaces.spans-displays = true;
     };
-    nixpkgs.hostPlatform = "aarch64-darwin";
+    system.stateVersion = 5;
 }
