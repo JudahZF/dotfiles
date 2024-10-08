@@ -53,8 +53,8 @@
             homebrew-cask = "homebrew/homebrew-cask";
             FelixKratz = "FelixKratz/formulae";
         };
-        sketchybar.start_service = true;
-        yabai.start_service = true;
+        brews.sketchybar.start_service = true;
+        brews.yabai.start_service = true;
     };
 
     system.activationScripts.applications.text = let
