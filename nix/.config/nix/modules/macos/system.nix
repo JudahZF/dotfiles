@@ -102,4 +102,5 @@
         screencapture.type = "png";
         spaces.spans-displays = true;
     };
+    nixpkgs.hostPlatform = "aarch64-darwin";
 }
