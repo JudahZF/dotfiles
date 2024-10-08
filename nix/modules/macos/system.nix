@@ -52,7 +52,7 @@
             "homebrew/homebrew-core" = homebrew-core;
             "homebrew/homebrew-cask" = homebrew-cask;
             "FelixKratz/formulae" = FelixKratz;
-        }
+        };
         sketchybar.start_service = true;
         yabai.start_service = true;
     };
