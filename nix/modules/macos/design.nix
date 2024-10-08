@@ -12,7 +12,7 @@
             # "affinity-designer"
             # "affinity-photo"
             # "affinity-publisher"
-            # "pika"
+            "pika"
         ];
         onActivation.cleanup = "zap";
     };
