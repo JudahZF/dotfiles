@@ -18,7 +18,7 @@
             # "aldente"
             # "alt-tab"
             # "arc"
-            # "balenaetcher"
+            "balenaetcher"
             # "betterdisplay"
             # "cheatsheet"
             # "daisydisk"

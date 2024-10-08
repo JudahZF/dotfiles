@@ -18,9 +18,9 @@
           "arturia-software-center"
           "ilok-license-manager"
           "izotope-product-portal"
-          # "midi-monitor"
+          "midi-monitor"
           # "native-access"
-          # "propresenter"
+          "propresenter"
           # "waves-central"
         ];
         masApps = {
