@@ -2,20 +2,18 @@
   description = "Judah\'s nix config";
 
   inputs = {
-    agenix.url = "github:ryantm/agenix";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
+    # agenix.url = "github:ryantm/agenix";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager.url = "github:nix-community/home-manager";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nixpkgs }:
   let
     configuration = { pkgs, config, ... }: {
 
       nixpkgs.config.allowUnfree = true;
 
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
       environment.systemPackages =
         [
           pkgs._1password-gui
@@ -36,30 +34,26 @@
           pkgs.stow
           pkgs.tmux
           pkgs.vlc
+          pkgs.zoxide
         ];
 
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
-      # nix.package = pkgs.nix;
+        fonts.packages = [
+            (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+        ];
 
-      # Necessary for using flakes on this system.
+      services.nix-daemon.enable = true;
+
       nix.settings.experimental-features = "nix-command flakes";
 
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;  # default shell on catalina
-      # programs.fish.enable = true;
+      programs.zsh.enable = true;
 
-      # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
 
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
       system.stateVersion = 4;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
     };
   in
   {
+    packages.x86_64-linux.default = configuration;
+    packages.aarch64-darwin.default = configuration;
   };
 }
