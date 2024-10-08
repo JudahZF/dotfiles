@@ -49,9 +49,9 @@
         };
         onActivation.cleanup = "zap";
         taps = {
-            "homebrew/homebrew-core" = homebrew-core;
-            "homebrew/homebrew-cask" = homebrew-cask;
-            "FelixKratz/formulae" = FelixKratz;
+            homebrew-core = "homebrew/homebrew-core";
+            homebrew-cask = "homebrew/homebrew-cask";
+            FelixKratz = "FelixKratz/formulae";
         };
         sketchybar.start_service = true;
         yabai.start_service = true;
