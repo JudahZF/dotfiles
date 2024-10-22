@@ -8,6 +8,7 @@
     homebrew = {
         enable = true;
         brews = [
+            "cmatrix"
             "mas"
             {
                 name = "sketchybar";
@@ -28,15 +29,15 @@
             # "arc"
             "balenaetcher"
             # "betterdisplay"
-            # "cheatsheet"
+            "cheatsheet"
             # "daisydisk"
-            # "displaperture"
+            "displaperture"
             # "dropbox"
             # "hiddenbar"
             # "keka"
             # "malwarebytes"
             # "microsoft-office"
-            # "onedrive"
+            "onedrive"
             # "onyx"
             "qlcolorcode"
             "qlimagesize"
@@ -46,9 +47,10 @@
             "quicklook-json"
             "quicklookase"
             # "raycast"
-            # "rockboxutility"
+            "raspberry-pi-imager"
+            "rockboxutility"
             "stats"
-            # "ukelele"
+            "ukelele"
         ];
         masApps = {
             "Amphetamine" = 937984704;
