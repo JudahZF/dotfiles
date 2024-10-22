@@ -87,6 +87,8 @@
         done
     '';
 
+    services.nix-daemon.enable = true;
+
     system.defaults = {
         dock = {
             appswitcher-all-displays = true;
