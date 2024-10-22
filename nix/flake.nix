@@ -18,7 +18,7 @@
     {
         # Build darwin flake using:
         # $ darwin-rebuild build --flake .#simple
-        darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
+        darwinConfigurations.air = nix-darwin.lib.darwinSystem {
             modules = [
                 ./modules/macos/system.nix
                 ./modules/nix/system.nix
@@ -36,10 +36,14 @@
                 ./modules/macos/design.nix
                 ./modules/macos/production.nix
                 ./modules/macos/music.nix
-                ./modules/home/home.nix
+                home-manager.darwinModules.home-manager {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.users.judahfuller = import ./modules/home/macos.nix;
+                }
             ];
         };
         # Expose the package set, including overlays, for convenience.
-        darwinPackages = self.darwinConfigurations."air".pkgs;
+        darwinPackages = self.darwinConfigurations.air.pkgs;
     };
 }

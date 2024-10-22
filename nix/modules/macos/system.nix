@@ -87,8 +87,6 @@
         done
     '';
 
-    services.nix-daemon.enable = true;
-
     system.defaults = {
         dock = {
             appswitcher-all-displays = true;
@@ -211,4 +209,5 @@
         };
     };
     system.stateVersion = 5;
+    users.users.judahfuller.home = "/Users/judahfuller";
 }
