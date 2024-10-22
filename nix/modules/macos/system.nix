@@ -9,8 +9,16 @@
         enable = true;
         brews = [
             "mas"
-            "sketchybar"
-            "yabai"
+            {
+                name = "sketchybar";
+                start_service = true;
+                restart_service = true;
+            }
+            {
+                name = "yabai";
+                start_service = true;
+                restart_service = true;
+            }
         ];
         casks = [
             # "1Password"
@@ -52,10 +60,9 @@
         onActivation.cleanup = "zap";
         taps = [
             "FelixKratz/formulae"
+            "homebrew/homebrew-services"
             "koekeishiya/formulae"
         ];
-        # brews."sketchybar".start_service = true;
-        # brews."yabai".start_service = true;
     };
 
     system.activationScripts.applications.text = let
