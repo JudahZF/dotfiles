@@ -88,29 +88,125 @@
     '';
 
     system.defaults = {
-        dock.autohide  = true;
-        dock.largesize = 64;
-        dock.orientation = "right";
-        dock.persistent-apps = [
-            "/Applications/Arc.app"
-            "${pkgs.alacritty}/Applications/Alacritty.app"
-            "${pkgs.obsidian}/Applications/Obsidian.app"
-            "/System/Applications/Mail.app"
-            "/System/Applications/Calendar.app"
-            "/System/Applications/1Password.app"
-        ];
-        finder.AppleShowAllExtensions = true;
-        finder.AppleShowAllFiles = true;
-        finder.FXPreferredViewStyle = "clmv";
-        finder.QuitMenuItem = true;
-        finder.ShowPathbar = true;
-        finder.ShowStatusBar = true;
-        loginwindow.GuestEnabled  = false;
-        NSGlobalDomain.AppleICUForce24HourTime = true;
-        NSGlobalDomain.AppleInterfaceStyle = "Dark";
-        NSGlobalDomain.KeyRepeat = 2;
-        screencapture.type = "png";
-        spaces.spans-displays = true;
+        dock = {
+            appswitcher-all-displays = true;
+            autohide = true;
+            autohide-delay = 0.0;
+            autohide-time-modifier = 0.0;
+            dashboard-in-overlay = false;
+            enable-spring-load-actions-on-all-items = false;
+            expose-animation-duration = 0.1;
+            expose-group-by-app = false;
+            largesize = 16;
+            launchanim = false;
+            magnification = false;
+            mineffect = "scale";
+            minimize-to-application = true;
+            mouse-over-hilite-stack = false;
+            mru-spaces = false;
+            orientation = "right";
+            persistent-apps = [
+                "/Applications/Arc.app"
+                "${pkgs.alacritty}/Applications/Alacritty.app"
+                "${pkgs.obsidian}/Applications/Obsidian.app"
+                "/System/Applications/Mail.app"
+                "/System/Applications/Calendar.app"
+                "/Applications/1Password.app"
+            ];
+            persistent-others = [];
+            show-process-indicators = true;
+            show-recents = false;
+            showhidden = false;
+            slow-motion-allowed = false;
+            static-only = false;
+            tilesize = 48;
+            wvous-bl-corner = 1;
+            wvous-br-corner = 1;
+            wvous-tl-corner = 1;
+            wvous-tr-corner = 12;
+        };
+        finder = {
+            _FXShowPosixPathInTitle = true;
+            _FXSortFoldersFirst = true;
+            AppleShowAllExtensions = true;
+            AppleShowAllFiles = true;
+            CreateDesktop = false;
+            FXDefaultSearchScope = "SCcf";
+            FXEnableExtensionChangeWarning = false;
+            FXPreferredViewStyle = "clmv";
+            QuitMenuItem = true;
+            ShowPathbar = true;
+            ShowStatusBar = true;
+        };
+        LaunchServices = {
+            LSQuarantine = false;
+        };
+        loginwindow = {
+            autoLoginUser = null;
+            DisableConsoleAccess = true;
+            GuestEnabled  = false;
+            LoginwindowText = "Judah Fuller\'s M1 MBA";
+            PowerOffDisabledWhileLoggedIn = false;
+            RestartDisabled = false;
+            RestartDisabledWhileLoggedIn = false;
+            SHOWFULLNAME = false;
+            ShutDownDisabled = true;
+            ShutDownDisabledWhileLoggedIn = true;
+            SleepDisabled = false;
+        };
+        magicmouse = {
+            MouseButtonMode = "TwoButton";
+        };
+        menuExtraClock = {
+            IsAnalog = false;
+            Show24Hour = true;
+            ShowAMPM = false;
+            ShowDate = 0;
+            ShowDayOfMonth = true;
+            ShowDayOfWeek = true;
+            ShowSeconds = false;
+        };
+        NSGlobalDomain = {
+            AppleICUForce24HourTime = true;
+            AppleInterfaceStyle = "Dark";
+            KeyRepeat = 2;
+        };
+        screencapture = {
+            disable-shadow = false;
+            location = "~/Pictures/Screen Captures/";
+            show-thumbnail = true;
+            type = "png";
+        };
+        screensaver = {
+            askForPassword = true;
+            askForPasswordDelay = 30;
+        };
+        SoftwareUpdate = {
+            AutomaticallyInstallMacOSUpdates = false;
+        };
+        spaces = {
+            spans-displays = false;
+        };
+        trackpad = {
+            ActuationStrength = 1;
+            Clicking = false;
+            Dragging = false;
+            FirstClickThreshold = 1;
+            SecondClickThreshold = 2;
+            TrackpadRightClick = true;
+            TrackpadThreeFingerDrag = true;
+            TrackpadThreeFingerTapGesture = 0;
+        };
+        WindowManager = {
+            AppWindowGroupingBehavior = false;
+            AutoHide = true;
+            EnableStandardClickToShowDesktop = true;
+            GloballyEnabled = false;
+            HideDesktop = false;
+            StageManagerHideWidgets = true;
+            StandardHideDesktopIcons = false;
+            StandardHideWidgets = true;
+        };
     };
     system.stateVersion = 5;
 }
