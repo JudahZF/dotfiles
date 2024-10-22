@@ -8,12 +8,8 @@
         reaper
     ];
     homebrew = {
-        enable = true;
-        brews = [
-          "mas"
-        ];
         casks = [
-          # "4k-video-downloader"
+          "4k-video-downloader"
           # "ableton-live-suite@11"
           "arturia-software-center"
           "ilok-license-manager"
@@ -29,6 +25,5 @@
           "Logic Pro" = 634148309;
           "Wireguard" = 1451685025;
         };
-        onActivation.cleanup = "zap";
     };
 }
