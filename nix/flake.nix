@@ -20,10 +20,12 @@
         # $ darwin-rebuild build --flake .#simple
         darwinConfigurations.air = nix-darwin.lib.darwinSystem {
             modules = [
-                ./modules/macos/system.nix
-                ./modules/nix/system.nix
-                nix-homebrew.darwinModules.nix-homebrew
-                {
+                home-manager.darwinModules.home-manager {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.users.judahfuller = import ./modules/home/macos.nix;
+                }
+                nix-homebrew.darwinModules.nix-homebrew {
                     nix-homebrew = {
                         enable = true;
                         enableRosetta = true;
@@ -31,16 +33,13 @@
                         autoMigrate = true;
                     };
                 }
+                ./modules/macos/system.nix
+                ./modules/nix/system.nix
                 ./modules/nix/standard.nix
                 ./modules/nix/dev.nix
                 ./modules/macos/design.nix
                 ./modules/macos/production.nix
                 ./modules/macos/music.nix
-                home-manager.darwinModules.home-manager {
-                    home-manager.useGlobalPkgs = true;
-                    home-manager.useUserPackages = true;
-                    home-manager.users.judahfuller = import ./modules/home/macos.nix;
-                }
             ];
         };
         # Expose the package set, including overlays, for convenience.

@@ -19,7 +19,11 @@
     ];
 
     fonts.packages = [
-        (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+        (pkgs.nerdfonts.override {
+            fonts = [
+                "FiraCode"
+            ];
+        })
     ];
     services.nix-daemon.enable = true;
     nix.settings.experimental-features = "nix-command flakes";
