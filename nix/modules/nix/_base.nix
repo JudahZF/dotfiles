@@ -37,10 +37,6 @@
           pkgs.zoxide
         ];
 
-        fonts.packages = [
-            (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-        ];
-
       services.nix-daemon.enable = true;
 
       nix.settings.experimental-features = "nix-command flakes";
