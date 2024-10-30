@@ -6,6 +6,7 @@
     homebrew = {
         casks = [
             "ableset"
+            "handbrake"
             "lightkey"
             "propresenter"
         ];
