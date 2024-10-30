@@ -5,17 +5,16 @@
     ...
 }: {
     environment.systemPackages = with pkgs; [
-        mkalias
-        nchat
-        nix
-        neovim
-        oh-my-posh
-        stow
-        tmux
-        zoxide
         btop
         cmatrix
+        fastfetch
+        mkalias
+        nchat
+        neovim
+        nix
         nixd
+        starship
+        zoxide
     ];
 
     fonts.packages = [

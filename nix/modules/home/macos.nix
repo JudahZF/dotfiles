@@ -7,19 +7,22 @@
         stateVersion = "23.05"; # Please read the comment before changing.
 
         # Makes sense for user specific applications that shouldn't be available system-wide
-        packages = [
-        ];
+        packages = [];
 
         # Home Manager is pretty good at managing dotfiles. The primary way to manage
         # plain files is through 'home.file'.
         file = {
-            ".config/sketchybar".source = ~/dotfiles/sketchybar;
-            "~/Library/Fonts".source = ~/dotfiles/fonts;
             ".config/nix".source = ~/dotfiles/nix;
+            ".config/fastfetch".source = ~/dotfiles/fastfetch;
+            ".config/sketchybar".source = ~/dotfiles/sketchybar;
+            ".config/yabai".source = ~/dotfiles/yabai;
+            "~/Library/Fonts".source = ~/dotfiles/fonts;
+            ".zprofile".source = ~/dotfiles/zsh/macos/zprofile;
+            ".zshenv".source = ~/dotfiles/zsh/macos/zshenv;
+            ".zshrc".source = ~/dotfiles/zsh/macos/zshrc;
         };
 
-        sessionVariables = {
-        };
+        sessionVariables = {};
 
         sessionPath = [
         "/run/current-system/sw/bin"
@@ -27,14 +30,4 @@
         ];
     };
     programs.home-manager.enable = true;
-    programs.zsh = {
-        enable = true;
-        initExtra = ''
-            # Add any additional configurations here
-            export PATH=/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH
-            if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-            . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-            fi
-        '';
-    };
 }
