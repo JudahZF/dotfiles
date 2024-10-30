@@ -10,7 +10,7 @@
     homebrew = {
         casks = [
           "4k-video-downloader"
-          # "ableton-live-suite@11"
+          "ableton-live-suite@12"
           "arturia-software-center"
           "ilok-license-manager"
           "izotope-product-portal"
