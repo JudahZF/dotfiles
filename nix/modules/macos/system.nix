@@ -35,6 +35,7 @@
             # "dropbox"
             # "hiddenbar"
             # "keka"
+            "kicad"
             # "malwarebytes"
             # "microsoft-office"
             "onedrive"

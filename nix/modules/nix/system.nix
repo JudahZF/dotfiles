@@ -14,7 +14,9 @@
         nix
         nixd
         starship
-        zoxide
+        tmux
+	tree-sitter
+	zoxide
     ];
 
     fonts.packages = [

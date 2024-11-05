@@ -6,10 +6,10 @@
 }: {
     environment.systemPackages = with pkgs; [
         ansible
-        bun
         cmake
         gitkraken
         nodejs
+        pnpm
         postman
         python3
         # rpi-imager
