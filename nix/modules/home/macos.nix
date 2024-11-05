@@ -12,11 +12,11 @@
         # Home Manager is pretty good at managing dotfiles. The primary way to manage
         # plain files is through 'home.file'.
         file = {
-            ".config/nix".source = ~/dotfiles/nix;
             ".config/fastfetch".source = ~/dotfiles/fastfetch;
+            ".config/nix".source = ~/dotfiles/nix;
+            ".config/nvim".source = ~/dotfiles/nvim;
             ".config/sketchybar".source = ~/dotfiles/sketchybar;
             ".config/yabai".source = ~/dotfiles/yabai;
-            "~/Library/Fonts".source = ~/dotfiles/fonts;
             ".zprofile".source = ~/dotfiles/zsh/macos/zprofile;
             ".zshenv".source = ~/dotfiles/zsh/macos/zshenv;
             ".zshrc".source = ~/dotfiles/zsh/macos/zshrc;
