@@ -40,6 +40,7 @@
             # "microsoft-office"
             "onedrive"
             # "onyx"
+            "pnpm"
             "qlcolorcode"
             "qlimagesize"
             "qlmarkdown"
