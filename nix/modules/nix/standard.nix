@@ -12,6 +12,5 @@
         gimp
         obsidian
         remmina
-        # vlc
     ];
 }

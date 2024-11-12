@@ -38,6 +38,7 @@
                 ./modules/nix/standard.nix
                 ./modules/nix/dev.nix
                 ./modules/macos/design.nix
+                ./modules/macos/gaming.nix
                 ./modules/macos/production.nix
                 ./modules/macos/music.nix
             ];
