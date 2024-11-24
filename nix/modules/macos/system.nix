@@ -1,6 +1,5 @@
 {
     config,
-    lib,
     pkgs,
     ...
 }: {
@@ -22,24 +21,23 @@
             }
         ];
         casks = [
-            # "1Password"
-            # "adobe-acrobat-reader"
-            # "aldente"
-            # "alt-tab"
-            # "arc"
+            "1Password"
+            "adobe-acrobat-reader"
+            "aldente"
+            "alt-tab"
+            "arc"
             "balenaetcher"
-            # "betterdisplay"
+            "betterdisplay"
             "cheatsheet"
-            # "daisydisk"
+            "daisydisk"
             "displaperture"
-            # "dropbox"
-            # "hiddenbar"
-            # "keka"
-            "kicad"
-            # "malwarebytes"
-            # "microsoft-office"
+            "dropbox"
+            "hiddenbar"
+            "keka"
+            "malwarebytes"
+            "microsoft-office"
             "onedrive"
-            # "onyx"
+            "onyx"
             "qlcolorcode"
             "qlimagesize"
             "qlmarkdown"
@@ -47,18 +45,16 @@
             "qlvideo"
             "quicklook-json"
             "quicklookase"
-            # "raycast"
+            "raycast"
             "raspberry-pi-imager"
             "rockboxutility"
             "stats"
-            "ukelele"
         ];
         masApps = {
             "Amphetamine" = 937984704;
             "Encrypto" = 935235287;
             "Home Assistant" = 1099568401;
             "Mactracker" = 430255202;
-            "Sonicwall Mobile Connect" = 822514576;
         };
         onActivation.cleanup = "zap";
         taps = [

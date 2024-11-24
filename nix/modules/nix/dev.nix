@@ -1,6 +1,4 @@
 {
-    config,
-    lib,
     pkgs,
     ...
 }: {
@@ -14,7 +12,7 @@
         pnpm
         postman
         python3
-        # rpi-imager
+        rpi-imager
         zed
     ];
 
