@@ -1,33 +1,88 @@
-{ config, pkgs, ... }:
-
 {
+    ...
+}: {
     home = {
         username = "judahfuller";
         homeDirectory = "/Users/judahfuller";
-        stateVersion = "23.05"; # Please read the comment before changing.
-
-        # Makes sense for user specific applications that shouldn't be available system-wide
-        packages = [];
+        stateVersion = "24.05";
 
         # Home Manager is pretty good at managing dotfiles. The primary way to manage
         # plain files is through 'home.file'.
         file = {
-            ".config/fastfetch".source = ~/dotfiles/fastfetch;
-            ".config/nix".source = ~/dotfiles/nix;
-            ".config/nvim".source = ~/dotfiles/nvim;
-            ".config/sketchybar".source = ~/dotfiles/sketchybar;
-            ".config/yabai".source = ~/dotfiles/yabai;
-            ".zprofile".source = ~/dotfiles/zsh/macos/zprofile;
-            ".zshenv".source = ~/dotfiles/zsh/macos/zshenv;
-            ".zshrc".source = ~/dotfiles/zsh/macos/zshrc;
+            ableset_device = {
+                source = "~/dotfiles/ableset/device-settings.json";
+                target = "Library/Application Support/ableset/device-settings.json";
+            };
+            ableset_midi = {
+                source = "~/dotfiles/ableset/midi-mappings.json";
+                target = "Library/Application Support/ableset/midi-mappings.json";
+            };
+            ableset_settings = {
+                source = "~/dotfiles/ableset/settings.json";
+                target = "Library/Application Support/ableset/settings.json";
+            };
+            fastfetch = {
+                source = "~/dotfiles/fastfetch/config.jsonc";
+                target = ".config/fastfetch/config.jsonc";
+            };
+            gitconfig = {
+                source = "~/dotfiles/git/macos";
+                target = ".gitconfig";
+            };
+            nix = {
+                recursive = true;
+                source = "~/dotfiles/nix";
+                target = ".config/nix";
+            };
+            nvim = {
+                recursive = true;
+                source = "~/dotfiles/nvim";
+                target = ".config/nvim";
+            };
+            OnePassword = {
+                source = "~/dotfiles/1Password/ssh/agent.toml";
+                target = ".config/1Password/ssh/agent.toml";
+            };
+            sketchybar = {
+                recursive = true;
+                source = "~/dotfiles/sketchybar";
+                target = ".config/sketchybar";
+            };
+            skhd = {
+                source = "~/dotfiles/skhdrc";
+                target = ".config/skhd/skhdrc";
+            };
+            supermaven = {
+                source = "~/dotfiles/supermavenconf.json";
+                target = ".supermaven/conf.json";
+            };
+            yabai = {
+                source = "~/dotfiles/yabairc";
+                target = ".config/yabai/yabairc";
+            };
+            zed = {
+                source = "~/dotfiles/zedsettings.json";
+                target = ".config/zed/settings.json";
+            };
+            zprofile = {
+                source = "~/dotfiles/zsh/macos/zprofile";
+                target = ".zprofile";
+            };
+            zshenv = {
+                source = "~/dotfiles/zsh/macos/zshenv";
+                target = ".zshenv";
+            };
+            zshrc = {
+                source = "~/dotfiles/zsh/macos/zshrc";
+                target = ".zshrc";
+            };
         };
 
-        sessionVariables = {};
-
         sessionPath = [
-        "/run/current-system/sw/bin"
+            "/run/current-system/sw/bin"
             "$HOME/.nix-profile/bin"
         ];
     };
     programs.home-manager.enable = true;
+    useGlobalPkgs = true;
 }

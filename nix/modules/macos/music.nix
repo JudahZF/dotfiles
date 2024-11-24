@@ -1,6 +1,4 @@
 {
-    config,
-    lib,
     pkgs,
     ...
 }: {
@@ -9,15 +7,13 @@
     ];
     homebrew = {
         casks = [
-          "4k-video-downloader"
           "ableton-live-suite"
           "arturia-software-center"
           "ilok-license-manager"
           "izotope-product-portal"
           "midi-monitor"
-          # "native-access"
-          "propresenter"
-          # "waves-central"
+          "native-access"
+          "waves-central"
         ];
         masApps = {
           "Capo" = 696977615;

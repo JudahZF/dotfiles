@@ -1,10 +1,9 @@
 {
-    config,
-    lib,
     ...
 }: {
     homebrew = {
         casks = [
+            "4k-video-downloader"
             "ableset"
             "handbrake"
             "lightkey"
