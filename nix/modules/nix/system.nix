@@ -4,7 +4,6 @@
 }: {
     environment.systemPackages = with pkgs; [
         btop
-        blender
         cmatrix
         fastfetch
         mkalias

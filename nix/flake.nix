@@ -1,5 +1,5 @@
 {
-    description = "Macbook Air flake";
+    description = "Macbook Pro flake";
 
     inputs = {
         home-manager = {
