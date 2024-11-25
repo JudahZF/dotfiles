@@ -52,10 +52,6 @@
                 source = "~/dotfiles/skhdrc";
                 target = ".config/skhd/skhdrc";
             };
-            supermaven = {
-                source = "~/dotfiles/supermavenconf.json";
-                target = ".supermaven/conf.json";
-            };
             yabai = {
                 source = "~/dotfiles/yabairc";
                 target = ".config/yabai/yabairc";
