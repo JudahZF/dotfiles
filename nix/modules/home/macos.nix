@@ -9,67 +9,55 @@
         # Home Manager is pretty good at managing dotfiles. The primary way to manage
         # plain files is through 'home.file'.
         file = {
-            ableset_device = {
-                source = "~/dotfiles/ableset/device-settings.json";
-                target = "Library/Application Support/ableset/device-settings.json";
-            };
-            ableset_midi = {
-                source = "~/dotfiles/ableset/midi-mappings.json";
-                target = "Library/Application Support/ableset/midi-mappings.json";
-            };
-            ableset_settings = {
-                source = "~/dotfiles/ableset/settings.json";
-                target = "Library/Application Support/ableset/settings.json";
-            };
             fastfetch = {
-                source = "~/dotfiles/fastfetch/config.jsonc";
+                source = ~/dotfiles/fastfetch/config.jsonc;
                 target = ".config/fastfetch/config.jsonc";
             };
             gitconfig = {
-                source = "~/dotfiles/git/macos";
+                source = ~/dotfiles/git/macos;
                 target = ".gitconfig";
             };
             nix = {
                 recursive = true;
-                source = "~/dotfiles/nix";
+                source = ~/dotfiles/nix;
                 target = ".config/nix";
             };
             nvim = {
                 recursive = true;
-                source = "~/dotfiles/nvim";
+                source = ~/dotfiles/nvim;
                 target = ".config/nvim";
             };
             OnePassword = {
-                source = "~/dotfiles/1Password/ssh/agent.toml";
+                source = ~/dotfiles/OnePassword/ssh/agent.toml;
                 target = ".config/1Password/ssh/agent.toml";
             };
             sketchybar = {
                 recursive = true;
-                source = "~/dotfiles/sketchybar";
+                source = ~/dotfiles/sketchybar;
                 target = ".config/sketchybar";
             };
             skhd = {
-                source = "~/dotfiles/skhdrc";
+                source = ~/dotfiles/skhdrc;
                 target = ".config/skhd/skhdrc";
             };
             yabai = {
-                source = "~/dotfiles/yabairc";
+                source = ~/dotfiles/yabairc;
                 target = ".config/yabai/yabairc";
             };
             zed = {
-                source = "~/dotfiles/zedsettings.json";
+                source = ~/dotfiles/zedsettings.json;
                 target = ".config/zed/settings.json";
             };
             zprofile = {
-                source = "~/dotfiles/zsh/macos/zprofile";
+                source = ~/dotfiles/zsh/macos/zprofile;
                 target = ".zprofile";
             };
             zshenv = {
-                source = "~/dotfiles/zsh/macos/zshenv";
+                source = ~/dotfiles/zsh/macos/zshenv;
                 target = ".zshenv";
             };
             zshrc = {
-                source = "~/dotfiles/zsh/macos/zshrc";
+                source = ~/dotfiles/zsh/macos/zshrc;
                 target = ".zshrc";
             };
         };
@@ -80,5 +68,4 @@
         ];
     };
     programs.home-manager.enable = true;
-    useGlobalPkgs = true;
 }

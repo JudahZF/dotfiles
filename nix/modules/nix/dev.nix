@@ -12,7 +12,6 @@
         pnpm
         postman
         python3
-        rpi-imager
         zed
     ];
 
