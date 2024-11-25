@@ -1,0 +1,55 @@
+{
+	"performance": {
+		"showSongInfo": true,
+		"showDescription": true,
+		"showSection": true,
+		"showTags": true,
+		"showSongTags": true,
+		"showNextSection": true,
+		"showTempo": true,
+		"showTimeSignature": true,
+		"showDuration": true,
+		"showRemainingDuration": true,
+		"showSongProgress": true,
+		"showSectionNames": true,
+		"showSectionProgress": true,
+		"showTimecode": true,
+		"showClock": true,
+		"showPosition": true,
+		"showPositionBeat": true,
+		"showQuickPlay": true,
+		"showLyrics": false,
+		"showSetlist": true,
+		"showNext": true,
+		"showRemaining": true,
+		"showAudioInterfaces": true,
+		"showRecordIndicator": false,
+		"showMetronome": true,
+		"sectionColors": true,
+		"fourControls": true
+	},
+	"setlist": {
+		"hideRemovedSongs": false,
+		"scrollToCurrentSong": true,
+		"showSongAndSectionNumbers": true,
+		"showTimeSignature": true,
+		"autoExpandCurrentSong": true,
+		"showRemainingTime": true,
+		"showAudioInterfaces": true,
+		"showRecordIndicator": false
+	},
+	"lyrics": {
+		"showRecordIndicator": false,
+		"showLoopToggle": true,
+		"showPlayButton": true,
+		"showNextSong": true
+	},
+	"position": {
+		"showMetronome": true,
+		"showBeat": true
+	},
+	"timeLeft": {
+		"showSet": true,
+		"showSong": true
+	}
+}
