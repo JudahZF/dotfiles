@@ -36,10 +36,8 @@
             "keka"
             "malwarebytes"
             "microsoft-office"
-            "onedrive"
             "onyx"
             "qlcolorcode"
-            "qlimagesize"
             "qlmarkdown"
             "qlstephen"
             "qlvideo"
@@ -49,6 +47,7 @@
             "raspberry-pi-imager"
             "rockboxutility"
             "stats"
+	    "zed"
         ];
         masApps = {
             "Amphetamine" = 937984704;
