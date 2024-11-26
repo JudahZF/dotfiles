@@ -109,6 +109,7 @@
                 "/System/Applications/Mail.app"
                 "/System/Applications/Calendar.app"
                 "/Applications/1Password.app"
+                "/Applications/Zed.app"
             ];
             persistent-others = [];
             show-process-indicators = true;

@@ -60,7 +60,7 @@
     "project_panel": {
         "dock": "right"
     },
-    "theme": "One Dark Pro",
+    "theme": "efz-dark",
     "tab_size": 4,
     "telemetry": {
         "diagnostics": false,
@@ -68,5 +68,9 @@
     },
     "ui_font_size": 16,
     "buffer_font_size": 16,
-    "buffer_font_family": "JetBrainsMono Nerd Font"
+    "buffer_font_family": "JetBrainsMono Nerd Font",
+    "vim_mode": true,
+    "vim": {
+        "toggle_relative_line_numbers": true
+    }
 }
