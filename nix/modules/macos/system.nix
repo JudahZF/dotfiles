@@ -47,7 +47,8 @@
             "raspberry-pi-imager"
             "rockboxutility"
             "stats"
-	    "zed"
+            "tailscale"
+            "zed"
         ];
         masApps = {
             "Amphetamine" = 937984704;
