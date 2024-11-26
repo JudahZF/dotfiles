@@ -55,6 +55,7 @@
             "Encrypto" = 935235287;
             "Home Assistant" = 1099568401;
             "Mactracker" = 430255202;
+            "Xcode" = 497799835;
         };
         onActivation.cleanup = "zap";
         taps = [
