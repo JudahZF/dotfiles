@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SPACE_SIDS=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20)
+SPACE_SIDS=(1 2 3 4 5 6 7 8)
 
 for sid in "${SPACE_SIDS[@]}"
 do
@@ -14,9 +14,7 @@ do
 done
 
 sketchybar --add item space_separator left                             \
-           --set space_separator icon=""                             \
-                                 icon.padding_left=4                   \
-                                 label.drawing=off                     \
+           --set space_separator label.drawing=off                     \
                                  background.drawing=off                \
                                  script="$PLUGIN_DIR/space_windows.sh" \
            --subscribe space_separator space_windows_change
