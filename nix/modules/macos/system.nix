@@ -142,7 +142,7 @@
             autoLoginUser = null;
             DisableConsoleAccess = true;
             GuestEnabled  = false;
-            LoginwindowText = "Judah Fuller\'s M1 MBA";
+            LoginwindowText = "Judah Fuller\'s M4 Pro MBP";
             PowerOffDisabledWhileLoggedIn = false;
             RestartDisabled = false;
             RestartDisabledWhileLoggedIn = false;
