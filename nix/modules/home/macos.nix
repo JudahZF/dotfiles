@@ -45,8 +45,12 @@
                 target = ".config/yabai/yabairc";
             };
             zed = {
-                source = ~/dotfiles/zedsettings.json;
+                source = ~/dotfiles/zed/settings.json;
                 target = ".config/zed/settings.json";
+            };
+            zed_theme = {
+                source = ~/dotfiles/zed/themes/efz.json;
+                target = ".config/zed/themes/efz.json";
             };
             zprofile = {
                 source = ~/dotfiles/zsh/macos/zprofile;
