@@ -41,10 +41,10 @@ sketchybar --default "${default[@]}"
 source $ITEM_DIR/spaces.sh
 
 ##### Left Items #####
-source $ITEM_DIR/front_app.sh
 
 ##### Center Items #####
-source $ITEM_DIR/media.sh
+source $ITEM_DIR/front_app.sh
+#source $ITEM_DIR/media.sh
 
 ##### Right Items #####
 source $ITEM_DIR/clock.sh
