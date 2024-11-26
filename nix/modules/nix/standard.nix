@@ -10,5 +10,6 @@
         gimp
         obsidian
         remmina
+        tailscale
     ];
 }
