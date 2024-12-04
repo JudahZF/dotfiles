@@ -48,9 +48,9 @@ source $ITEM_DIR/front_app.sh
 
 ##### Right Items #####
 source $ITEM_DIR/clock.sh
-source $ITEM_DIR/volume.sh
-source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
+source $ITEM_DIR/battery.sh
+source $ITEM_DIR/network.sh
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update --hotload true
