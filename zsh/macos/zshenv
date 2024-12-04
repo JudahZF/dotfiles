@@ -1,2 +1,2 @@
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-. "$HOME/.cargo/env"
+#. "$HOME/.cargo/env"
