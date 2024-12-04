@@ -48,6 +48,7 @@
             "rockboxutility"
             "stats"
             "tailscale"
+            "wifiman"
             "zed"
         ];
         masApps = {
