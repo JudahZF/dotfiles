@@ -15,6 +15,11 @@
                 restart_service = true;
             }
             {
+                name = "skhd";
+                start_service = true;
+                restart_service = true;
+            }
+            {
                 name = "yabai";
                 start_service = true;
                 restart_service = true;
