@@ -6,6 +6,7 @@
         btop
         cmatrix
         fastfetch
+        ffmpeg
         mkalias
         nchat
         neovim
