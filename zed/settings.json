@@ -17,6 +17,9 @@
         },
         "version": "2"
     },
+    "inline_completions": {
+        "disabled_globs": [".env", "advent_of_code/**", "2024/**"]
+    },
     "languages": {
         "Ruby": {
             "format_on_save": "off",
