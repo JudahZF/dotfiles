@@ -18,6 +18,4 @@ else
 	LABEL="N/A"
 fi
 
-sketchybar --set $NAME\
-	icon=$ICON \
-	label="$LABEL"
+sketchybar --set $NAME icon="$ICON" label="$LABEL"
