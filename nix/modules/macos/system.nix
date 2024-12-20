@@ -39,6 +39,7 @@
             "dropbox"
             "hiddenbar"
             "keka"
+            "kicad"
             "malwarebytes"
             "microsoft-office"
             "onyx"
@@ -53,6 +54,7 @@
             "rockboxutility"
             "stats"
             "tailscale"
+            "tor-browser"
             "wifiman"
             "zed"
         ];
