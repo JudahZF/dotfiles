@@ -16,17 +16,14 @@
             }
             {
                 name = "skhd";
-                start_service = true;
-                restart_service = true;
             }
             {
                 name = "yabai";
-                start_service = true;
-                restart_service = true;
             }
         ];
         casks = [
             "1Password"
+            "1password-cli"
             "adobe-acrobat-reader"
             "aldente"
             "alt-tab"
@@ -55,6 +52,7 @@
             "stats"
             "tailscale"
             "tor-browser"
+            "whatsapp"
             "wifiman"
             "zed"
         ];
@@ -113,7 +111,7 @@
             orientation = "right";
             persistent-apps = [
                 "/Applications/Arc.app"
-                "${pkgs.alacritty}/Applications/Alacritty.app"
+                "/Applications/Ghostty.app"
                 "${pkgs.obsidian}/Applications/Obsidian.app"
                 "/System/Applications/Mail.app"
                 "/System/Applications/Calendar.app"
