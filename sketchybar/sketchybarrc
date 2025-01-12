@@ -31,8 +31,8 @@ default=(
   background.corner_radius=8
   background.height=30
   icon.padding_left=8
-  icon.padding_right=8
-  label.padding_left=8
+  icon.padding_right=4
+  label.padding_left=4
   label.padding_right=8
 )
 sketchybar --default "${default[@]}"
