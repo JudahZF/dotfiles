@@ -7,73 +7,74 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-    "features": {
-        "inline_completion_provider": "supermaven"
+  "features": {
+    "inline_completion_provider": "supermaven"
+  },
+  "assistant": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-20240620"
     },
-    "assistant": {
-        "default_model": {
-            "provider": "zed.dev",
-            "model": "claude-3-5-sonnet-20240620"
-        },
-        "version": "2"
+    "version": "2"
+  },
+  "show_completions_on_input": false,
+  "inline_completions": {
+    "disabled_globs": [".env", "advent_of_code/**", "2024/**"]
+  },
+  "languages": {
+    "Ruby": {
+      "format_on_save": "off",
+      "tab_size": 2
     },
-    "inline_completions": {
-        "disabled_globs": [".env", "advent_of_code/**", "2024/**"]
-    },
-    "languages": {
-        "Ruby": {
-            "format_on_save": "off",
-            "tab_size": 2
-        },
-        "JSON": {
-            "format_on_save": "on",
-            "formatter": {
-                "external": {
-                    "command": "prettier",
-                    "arguments": ["--stdin-filepath={buffer_path}"]
-                }
-            }
-        },
-        "JavaScript": {
-            "format_on_save": "on",
-            "formatter": {
-                "external": {
-                    "command": "prettier",
-                    "arguments": ["--stdin-filepath={buffer_path}"]
-                }
-            }
-        },
-        "TypeScript": {
-            "format_on_save": "on",
-            "formatter": {
-                "external": {
-                    "command": "prettier",
-                    "arguments": ["--stdin-filepath={buffer_path}"]
-                }
-            }
+    "JSON": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath={buffer_path}"]
         }
+      }
     },
-    "show_inline_completions": true,
-    "collaboration_panel": {
-        "dock": "right"
+    "JavaScript": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath={buffer_path}"]
+        }
+      }
     },
-    "outline_panel": {
-        "dock": "right"
-    },
-    "project_panel": {
-        "dock": "right"
-    },
-    "theme": "efz-dark",
-    "tab_size": 4,
-    "telemetry": {
-        "diagnostics": false,
-        "metrics": false
-    },
-    "ui_font_size": 16,
-    "buffer_font_size": 16,
-    "buffer_font_family": "JetBrainsMono Nerd Font",
-    "vim_mode": true,
-    "vim": {
-        "toggle_relative_line_numbers": true
+    "TypeScript": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath={buffer_path}"]
+        }
+      }
     }
+  },
+  "show_inline_completions": true,
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "theme": "efz-dark",
+  "tab_size": 4,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "vim_mode": true,
+  "vim": {
+    "toggle_relative_line_numbers": true
+  }
 }
