@@ -8,7 +8,7 @@
             "affinity-publisher"
             "autodesk-fusion"
             "pika"
-            "ultimaker-cura"
+            "prusaslicer"
         ];
     };
 }

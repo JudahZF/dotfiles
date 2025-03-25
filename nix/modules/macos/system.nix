@@ -8,6 +8,7 @@
         enable = true;
         brews = [
             "cmatrix"
+            "macmon"
             "mas"
             {
                 name = "sketchybar";
@@ -27,18 +28,19 @@
             "adobe-acrobat-reader"
             "aldente"
             "alt-tab"
-            "arc"
             "balenaetcher"
             "betterdisplay"
-            "cheatsheet"
+            "cursor"
             "daisydisk"
             "displaperture"
             "dropbox"
             "hiddenbar"
             "keka"
             "kicad"
+            "legcord"
             "malwarebytes"
             "microsoft-office"
+            "ollama"
             "onyx"
             "qlcolorcode"
             "qlmarkdown"
@@ -54,15 +56,10 @@
             "tor-browser"
             "whatsapp"
             "wifiman"
+            "xampp"
             "zed"
+            "zen-browser"
         ];
-        masApps = {
-            "Amphetamine" = 937984704;
-            "Encrypto" = 935235287;
-            "Home Assistant" = 1099568401;
-            "Mactracker" = 430255202;
-            "Xcode" = 497799835;
-        };
         onActivation.cleanup = "zap";
         taps = [
             "FelixKratz/formulae"
@@ -110,13 +107,10 @@
             mru-spaces = false;
             orientation = "right";
             persistent-apps = [
-                "/Applications/Arc.app"
+                "/Applications/Zen Browser.app"
                 "/Applications/Ghostty.app"
                 "${pkgs.obsidian}/Applications/Obsidian.app"
-                "/System/Applications/Mail.app"
-                "/System/Applications/Calendar.app"
                 "/Applications/1Password.app"
-                "/Applications/Zed.app"
             ];
             persistent-others = [];
             show-process-indicators = true;

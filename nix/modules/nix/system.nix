@@ -31,6 +31,4 @@
     programs.zsh.enable = true;
 
     home-manager.backupFileExtension = "bck";
-    nix.configureBuildUsers = true;
-    nix.useDaemon = true;
 }
