@@ -19,14 +19,13 @@
     ];
 
     fonts.packages = [
-        (pkgs.nerdfonts.override {
-            fonts = [
-                "FiraCode"
-            ];
-        })
+        pkgs.nerd-fonts.fira-code
     ];
-    services.nix-daemon.enable = true;
-    nix.settings.experimental-features = "nix-command flakes";
+
+    nix = {
+        enable = true;
+        settings.experimental-features = "nix-command flakes";
+    };
 
     programs.zsh.enable = true;
 

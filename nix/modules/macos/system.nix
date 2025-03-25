@@ -97,7 +97,7 @@
             dashboard-in-overlay = false;
             enable-spring-load-actions-on-all-items = false;
             expose-animation-duration = 0.1;
-            expose-group-by-app = false;
+            expose-group-apps = false;
             largesize = 16;
             launchanim = false;
             magnification = false;
