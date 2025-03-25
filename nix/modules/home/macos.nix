@@ -1,4 +1,5 @@
 {
+    configDir,
     ...
 }: {
     home = {
@@ -10,58 +11,58 @@
         # plain files is through 'home.file'.
         file = {
             fastfetch = {
-                source = ${homeDirectory}/dotfiles/fastfetch/config.jsonc;
+                source = "${configDir}/fastfetch/config.jsonc";
                 target = ".config/fastfetch/config.jsonc";
             };
             gitconfig = {
-                source = ${homeDirectory}/dotfiles/git/macos;
+                source = "${configDir}/git/macos";
                 target = ".gitconfig";
             };
             nix = {
                 recursive = true;
-                source = ${homeDirectory}/dotfiles/nix;
+                source = "${configDir}/nix";
                 target = ".config/nix";
             };
             nvim = {
                 recursive = true;
-                source = ${homeDirectory}/dotfiles/nvim;
+                source = "${configDir}/nvim";
                 target = ".config/nvim";
             };
             OnePassword = {
-                source = ${homeDirectory}/dotfiles/OnePassword/ssh/agent.toml;
+                source = "${configDir}/OnePassword/ssh/agent.toml";
                 target = ".config/1Password/ssh/agent.toml";
             };
             sketchybar = {
                 recursive = true;
-                source = ${homeDirectory}/dotfiles/sketchybar;
+                source = "${configDir}/sketchybar";
                 target = ".config/sketchybar";
             };
             skhd = {
-                source = ${homeDirectory}/dotfiles/skhdrc;
+                source = "${configDir}/skhdrc";
                 target = ".config/skhd/skhdrc";
             };
             yabai = {
-                source = ${homeDirectory}/dotfiles/yabairc;
+                source = "${configDir}/yabairc";
                 target = ".config/yabai/yabairc";
             };
             zed = {
-                source = ${homeDirectory}/dotfiles/zed/settings.json;
+                source = "${configDir}/zed/settings.json";
                 target = ".config/zed/settings.json";
             };
             zed_theme = {
-                source = ${homeDirectory}/dotfiles/zed/themes/efz.json;
+                source = "${configDir}/zed/themes/efz.json";
                 target = ".config/zed/themes/efz.json";
             };
             zprofile = {
-                source = ${homeDirectory}/dotfiles/zsh/macos/zprofile;
+                source = "${configDir}/zsh/macos/zprofile";
                 target = ".zprofile";
             };
             zshenv = {
-                source = ${homeDirectory}/dotfiles/zsh/macos/zshenv;
+                source = "${configDir}/zsh/macos/zshenv";
                 target = ".zshenv";
             };
             zshrc = {
-                source = ${homeDirectory}/dotfiles/zsh/macos/zshrc;
+                source = "${configDir}/zsh/macos/zshrc";
                 target = ".zshrc";
             };
         };
