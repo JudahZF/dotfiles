@@ -30,7 +30,7 @@
                         enable = true;
                         enableRosetta = true;
                         user = "Judah Fuller";
-                        autoMigrate = true;
+                        mutableTaps = true;
                     };
                 }
                 ./modules/nix/dev.nix

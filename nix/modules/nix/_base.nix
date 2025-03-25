@@ -21,7 +21,6 @@
           pkgs.angryipscanner
           pkgs.btop
           pkgs.cmatrix
-          pkgs.discord
           pkgs.firefox
           pkgs.gimp
           pkgs.mkalias

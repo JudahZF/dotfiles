@@ -5,7 +5,6 @@
     environment.systemPackages = with pkgs; [
         ansible
         cmake
-        cargo
         gitkraken
         go
         nodejs
