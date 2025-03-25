@@ -23,7 +23,11 @@
                 home-manager.darwinModules.home-manager {
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
-                    home-manager.users.judahfuller = import ./modules/home/macos.nix;
+                    home-manager.users.judahfuller = { ... }: {
+                        imports = [(import ./modules/home/macos.nix {
+                            configDir = "/Users/judahfuller/dotfiles";
+                        })];
+                    };
                 }
                 nix-homebrew.darwinModules.nix-homebrew {
                     nix-homebrew = {
