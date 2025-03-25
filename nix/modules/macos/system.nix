@@ -25,7 +25,6 @@
         casks = [
             "1Password"
             "1password-cli"
-            "adobe-acrobat-reader"
             "aldente"
             "alt-tab"
             "balenaetcher"
@@ -34,6 +33,7 @@
             "daisydisk"
             "displaperture"
             "dropbox"
+            "font-sketchybar-app-font"
             "hiddenbar"
             "keka"
             "kicad"
@@ -57,13 +57,13 @@
             "whatsapp"
             "wifiman"
             "xampp"
-            "zed"
             "zen-browser"
         ];
         onActivation.cleanup = "zap";
+        onActivation.autoUpdate = true;
+        onActivation.upgrade = true;
         taps = [
             "FelixKratz/formulae"
-            "homebrew/homebrew-services"
             "koekeishiya/formulae"
         ];
     };
