@@ -1,1 +1,2 @@
-nix flake update --flake ~/dotfiles/nix#pro
+nix flake update --flake ~/dotfiles/nix
+exit 0
