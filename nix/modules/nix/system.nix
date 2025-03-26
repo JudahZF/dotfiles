@@ -9,7 +9,6 @@
         ffmpeg
         mkalias
         nchat
-        neovim
         nix
         nixd
         starship

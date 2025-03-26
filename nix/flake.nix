@@ -38,6 +38,7 @@
                     };
                 }
                 ./modules/nix/dev.nix
+                ./modules/nix/neovim.nix
                 ./modules/nix/standard.nix
                 ./modules/nix/system.nix
                 ./modules/macos/design.nix

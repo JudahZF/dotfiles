@@ -7,7 +7,9 @@
         cmake
         gitkraken
         go
-        nodejs
+	lua
+	luarocks-nix
+	nodejs
         pnpm
         postman
         python3
