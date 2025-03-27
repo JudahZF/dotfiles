@@ -1,4 +1,4 @@
-require("config.leader")
+require("config.remaps")
 
 require("config.lazy")
 
