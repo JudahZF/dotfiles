@@ -4,11 +4,21 @@ return {
 	cmd = "Trouble",
 	config = function()
 		require("trouble").setup({})
-		builtin = require("trouble")
-		vim.keymap.set("n", "<leader>tt", builtin.toggle, {})
-		vim.keymap.set("n", "<leader>tn", builtin.next({ jump = true, skip_group = true }, {})
-		vim.keymap.set("n", "<leader>tp", builtin.previous({ jump = true, skip_group = true }, {})
-		vim.keymap.set("n", "<leader>tt", builtin.toggle, {})
-		vim.keymap.set("n", "<leader>tt", builtin.toggle, {})
+
+		vim.keymap.set("n", "<leader>tt", function()
+                	require("trouble").toggle({ mode = "diagnostics" })
+            	end)
+
+		vim.keymap.set("n", "<leader>tf", function()
+                	require("trouble").toggle({ mode = "quickfix" })
+            	end)
+
+        	vim.keymap.set("n", "[t", function()
+    	            require("trouble").next({skip_groups = true, jump = true});
+            	end)
+
+            	vim.keymap.set("n", "]t", function()
+                	require("trouble").previous({skip_groups = true, jump = true});
+            	end)
 	end,
 }
