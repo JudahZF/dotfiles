@@ -9,4 +9,6 @@ fi
 
 sudo yabai --load-sa
 
+fastfetch
+
 exit 0

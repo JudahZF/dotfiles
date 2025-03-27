@@ -13,3 +13,7 @@ if [ $? -ne 0 ]; then
 fi
 
 softwareupdate -i -a
+
+fastfetch
+
+exit 0

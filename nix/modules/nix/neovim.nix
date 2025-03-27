@@ -4,9 +4,9 @@
 }: {
     environment.systemPackages = with pkgs; [
         fd
-	    lua
+	    lua5_1
 	    luarocks-nix
         neovim
-        rg
+        ripgrep
     ];
 }

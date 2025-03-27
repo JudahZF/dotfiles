@@ -7,13 +7,11 @@
         cmake
         gitkraken
         go
-	lua
-	luarocks-nix
-	nodejs
+        lazygit
+	    nodejs
         pnpm
         postman
         python3
-        zed
     ];
 
     fonts.packages = [
