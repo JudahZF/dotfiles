@@ -14,6 +14,10 @@
                 source = "${configDir}/fastfetch/config.jsonc";
                 target = ".config/fastfetch/config.jsonc";
             };
+            ghostty = {
+                source = "${configDir}/ghostty/config";
+                target = "/Users/judahfuller/Library/Application Support/com.mitchellh.ghostty/config";
+            };
             gitconfig = {
                 source = "${configDir}/git/macos";
                 target = ".gitconfig";
