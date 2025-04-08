@@ -4,6 +4,7 @@ require("config.lazy")
 
 -- Enable line numbers
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Force transparency
 vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })

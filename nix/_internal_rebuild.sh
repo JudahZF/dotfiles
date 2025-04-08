@@ -1,2 +1,2 @@
-darwin-rebuild switch --flake ~/dotfiles/nix#pro --impure
+darwin-rebuild switch --flake ~/dotfiles/nix#gale --impure
 exit 0

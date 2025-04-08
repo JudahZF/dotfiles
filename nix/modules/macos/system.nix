@@ -30,14 +30,13 @@
             "alt-tab"
             "balenaetcher"
             "betterdisplay"
-            "cursor"
             "daisydisk"
             "displaperture"
             "dropbox"
             "font-sketchybar-app-font"
+	    "ghostty"
             "hiddenbar"
             "keka"
-            "kicad"
             "legcord"
             "malwarebytes"
             "microsoft-office"
@@ -57,7 +56,6 @@
             "tor-browser"
             "whatsapp"
             "wifiman"
-            "xampp"
             "zen-browser"
         ];
         onActivation.cleanup = "zap";
@@ -108,7 +106,7 @@
             mru-spaces = false;
             orientation = "right";
             persistent-apps = [
-                "/Applications/Zen Browser.app"
+                "/Applications/Zen.app"
                 "/Applications/Ghostty.app"
                 "${pkgs.obsidian}/Applications/Obsidian.app"
                 "/Applications/1Password.app"
@@ -145,7 +143,7 @@
             autoLoginUser = null;
             DisableConsoleAccess = true;
             GuestEnabled  = false;
-            LoginwindowText = "Judah Fuller\'s M4 Pro MBP";
+            LoginwindowText = "Gale Of Waterdeep (M4P MBP)";
             PowerOffDisabledWhileLoggedIn = false;
             RestartDisabled = false;
             RestartDisabledWhileLoggedIn = false;

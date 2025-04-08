@@ -22,7 +22,6 @@
     "languages": {
         "Ruby": {
             "format_on_save": "off",
-            "tab_size": 2
         },
         "JSON": {
             "format_on_save": "on",
@@ -35,7 +34,6 @@
         },
         "JavaScript": {
             "format_on_save": "on",
-            "tab_size": 2,
             "formatter": {
                 "external": {
                     "command": "prettier",
@@ -64,7 +62,6 @@
         "dock": "right"
     },
     "theme": "efz-dark",
-    "tab_size": 4,
     "telemetry": {
         "diagnostics": false,
         "metrics": false
