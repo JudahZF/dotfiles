@@ -12,8 +12,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-softwareupdate -i -a
-
 fastfetch
 
 exit 0

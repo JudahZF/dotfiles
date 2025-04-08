@@ -12,7 +12,7 @@
         	pnpm
         	postman
         	python3
-		wkhtmltopdf
+		zed-editor
 	];
 
 	fonts.packages = [

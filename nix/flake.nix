@@ -1,5 +1,5 @@
 {
-    description = "Macbook Pro flake";
+    description = "JF Linux Flake";
 
     inputs = {
         home-manager = {
@@ -18,7 +18,7 @@
     {
         # Build darwin flake using:
         # $ darwin-rebuild build --flake .#simple
-        darwinConfigurations.pro = nix-darwin.lib.darwinSystem {
+        darwinConfigurations.gale = nix-darwin.lib.darwinSystem {
             modules = [
                 home-manager.darwinModules.home-manager {
                     home-manager.useGlobalPkgs = true;
@@ -50,6 +50,6 @@
             ];
         };
         # Expose the package set, including overlays, for convenience.
-        darwinPackages = self.darwinConfigurations.pro.pkgs;
+        darwinPackages = self.darwinConfigurations.gale.pkgs;
     };
 }
