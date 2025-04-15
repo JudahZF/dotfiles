@@ -33,6 +33,7 @@
             "betterdisplay"
             "daisydisk"
             "displaperture"
+            "dropbox"
             "font-sketchybar-app-font"
 	    "ghostty"
 	"google-chrome"
