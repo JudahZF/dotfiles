@@ -7,6 +7,7 @@
     homebrew = {
         enable = true;
         brews = [
+	"chrome-cli"
             "cmatrix"
             "macmon"
             "mas"
@@ -32,11 +33,12 @@
             "betterdisplay"
             "daisydisk"
             "displaperture"
-            "dropbox"
             "font-sketchybar-app-font"
 	    "ghostty"
+	"google-chrome"
             "hiddenbar"
             "keka"
+	    "kicad"
             "legcord"
             "malwarebytes"
             "microsoft-office"
