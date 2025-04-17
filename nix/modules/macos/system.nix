@@ -31,7 +31,8 @@
             "alt-tab"
             "balenaetcher"
             "betterdisplay"
-            "daisydisk"
+            "chromium"
+			"daisydisk"
             "displaperture"
             "dropbox"
             "font-sketchybar-app-font"
@@ -61,6 +62,10 @@
             "wifiman"
             "zen-browser"
         ];
+        masApps = {
+            "Logic Pro" = 634148309;
+        };
+
         onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
         onActivation.upgrade = true;
