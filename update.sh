@@ -5,13 +5,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-bash ~/dotfiles/**/_internal_rebuild.sh
-
-if [ $? -ne 0 ]; then
-    echo "Failed to rebuild"
-    exit 1
-fi
-
-fastfetch
-
+echo "Updated. Please rebuild."
 exit 0
