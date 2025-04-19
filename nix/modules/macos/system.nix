@@ -157,7 +157,7 @@
             RestartDisabledWhileLoggedIn = false;
             SHOWFULLNAME = false;
             ShutDownDisabled = true;
-            ShutDownDisabledWhileLoggedIn = true;
+            ShutDownDisabledWhileLoggedIn = false;
             SleepDisabled = false;
         };
         magicmouse = {
