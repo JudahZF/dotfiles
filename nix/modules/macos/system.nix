@@ -3,7 +3,6 @@
     pkgs,
     ...
 }: {
-    nixpkgs.hostPlatform = "aarch64-darwin";
     homebrew = {
         enable = true;
         brews = [
@@ -76,11 +75,11 @@
     };
 
     system.activationScripts.applications.text = let
-    env = pkgs.buildEnv {
-        name = "system-applications";
-        paths = config.environment.systemPackages;
-        pathsToLink = "/Applications";
-    };
+        env = pkgs.buildEnv {
+            name = "system-applications";
+            paths = config.environment.systemPackages;
+            pathsToLink = "/Applications";
+        };
     in
     pkgs.lib.mkForce ''
         # Set up applications.
@@ -94,126 +93,4 @@
         ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
         done
     '';
-
-    system.defaults = {
-        dock = {
-            appswitcher-all-displays = true;
-            autohide = true;
-            autohide-delay = 0.0;
-            autohide-time-modifier = 0.0;
-            dashboard-in-overlay = false;
-            enable-spring-load-actions-on-all-items = false;
-            expose-animation-duration = 0.1;
-            expose-group-apps = false;
-            largesize = 16;
-            launchanim = false;
-            magnification = false;
-            mineffect = "scale";
-            minimize-to-application = true;
-            mouse-over-hilite-stack = false;
-            mru-spaces = false;
-            orientation = "right";
-            persistent-apps = [
-                "/Applications/Zen.app"
-                "/Applications/Ghostty.app"
-                "${pkgs.obsidian}/Applications/Obsidian.app"
-                "/Applications/1Password.app"
-            ];
-            persistent-others = [];
-            show-process-indicators = true;
-            show-recents = false;
-            showhidden = false;
-            slow-motion-allowed = false;
-            static-only = false;
-            tilesize = 48;
-            wvous-bl-corner = 1;
-            wvous-br-corner = 1;
-            wvous-tl-corner = 1;
-            wvous-tr-corner = 12;
-        };
-        finder = {
-            _FXShowPosixPathInTitle = true;
-            _FXSortFoldersFirst = true;
-            AppleShowAllExtensions = true;
-            AppleShowAllFiles = true;
-            CreateDesktop = false;
-            FXDefaultSearchScope = "SCcf";
-            FXEnableExtensionChangeWarning = false;
-            FXPreferredViewStyle = "clmv";
-            QuitMenuItem = true;
-            ShowPathbar = true;
-            ShowStatusBar = true;
-        };
-        LaunchServices = {
-            LSQuarantine = false;
-        };
-        loginwindow = {
-            autoLoginUser = null;
-            DisableConsoleAccess = true;
-            GuestEnabled  = false;
-            LoginwindowText = "Gale Of Waterdeep (M4P MBP)";
-            PowerOffDisabledWhileLoggedIn = false;
-            RestartDisabled = false;
-            RestartDisabledWhileLoggedIn = false;
-            SHOWFULLNAME = false;
-            ShutDownDisabled = true;
-            ShutDownDisabledWhileLoggedIn = false;
-            SleepDisabled = false;
-        };
-        magicmouse = {
-            MouseButtonMode = "TwoButton";
-        };
-        menuExtraClock = {
-            IsAnalog = false;
-            Show24Hour = true;
-            ShowAMPM = false;
-            ShowDate = 0;
-            ShowDayOfMonth = true;
-            ShowDayOfWeek = true;
-            ShowSeconds = false;
-        };
-        NSGlobalDomain = {
-            AppleICUForce24HourTime = true;
-            AppleInterfaceStyle = "Dark";
-            KeyRepeat = 2;
-        };
-        screencapture = {
-            disable-shadow = false;
-            location = "~/Pictures/Screen Captures/";
-            show-thumbnail = true;
-            type = "png";
-        };
-        screensaver = {
-            askForPassword = true;
-            askForPasswordDelay = 30;
-        };
-        SoftwareUpdate = {
-            AutomaticallyInstallMacOSUpdates = false;
-        };
-        spaces = {
-            spans-displays = false;
-        };
-        trackpad = {
-            ActuationStrength = 1;
-            Clicking = false;
-            Dragging = false;
-            FirstClickThreshold = 1;
-            SecondClickThreshold = 2;
-            TrackpadRightClick = true;
-            TrackpadThreeFingerDrag = true;
-            TrackpadThreeFingerTapGesture = 0;
-        };
-        WindowManager = {
-            AppWindowGroupingBehavior = false;
-            AutoHide = true;
-            EnableStandardClickToShowDesktop = true;
-            GloballyEnabled = false;
-            HideDesktop = false;
-            StageManagerHideWidgets = true;
-            StandardHideDesktopIcons = false;
-            StandardHideWidgets = true;
-        };
-    };
-    system.stateVersion = 5;
-    users.users.judahfuller.home = "/Users/judahfuller";
 }
