@@ -16,24 +16,7 @@
 
       environment.systemPackages =
         [
-          pkgs._1password-gui
-          pkgs.alacritty
-          pkgs.angryipscanner
-          pkgs.btop
-          pkgs.cmatrix
-          pkgs.firefox
-          pkgs.gimp
           pkgs.mkalias
-          pkgs.nchat
-          pkgs.neovim
-          pkgs.obsidian
-          pkgs.oh-my-posh
-          pkgs.remmina
-          pkgs.steam
-          pkgs.stow
-          pkgs.tmux
-          pkgs.vlc
-          pkgs.zoxide
         ];
 
       services.nix-daemon.enable = true;
