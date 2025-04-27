@@ -29,6 +29,7 @@
             "1password-cli"
             "aldente"
             "alt-tab"
+            "altserver"
             "balenaetcher"
             "betterdisplay"
             "chromium"
