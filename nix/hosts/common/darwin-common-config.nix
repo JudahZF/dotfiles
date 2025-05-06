@@ -167,6 +167,31 @@ in
   };
 
   system.defaults.CustomUserPreferences = {
+    "com.apphousekitchen.aldente-pro.plist" = {
+      chargeVal = 80;
+      dataShareConsent = false;
+      exitInhibitCharge = false;
+      heatProtectMode = true;
+      launchAtLogin = true;
+      magsafeBlinkDischarge = true;
+      magsafeControl = true;
+      maxTemperature = 40;
+      menuBarIconStyle = -1;
+      menubarRightClickAction = 2;
+      noMenubarIcon = false;
+      popoverAnimation = false;
+      popoverWidgets = [
+        "highAppUsage"
+        "powerflow"
+      ];
+      sailingMode = true;
+      showDockIcon = false;
+      showGUIonStartup = false;
+      showPercentage = true;
+      showPercentagePopover = true;
+      sleepInhibitCharge = true;
+      useRealPercentage = true;
+    };
     "com.apple.finder" = {
       _FXShowPosixPathInTitle = true;
       _FXSortFoldersFirst = true;
@@ -175,6 +200,14 @@ in
       DisableAllAnimations = true;
       FK_ArrangeBy = "Date Added";
       FK_SidebarWidth = 128;
+      FK_StandardViewOptions.ColumnViewOptions = {
+        ArrangeBy = "dnam";
+        ColumnShowFolderArrow = true;
+        ColumnShowIcons = true;
+        ColumnWidth = 245;
+        ShowIconThumbnails = true;
+        ShowPreview = true;
+      };
       FK_StandardViewOptions2.ColumnViewOptions = {
         ArrangeBy = "dnam";
         ColumnShowFolderArrow = true;
