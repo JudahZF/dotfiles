@@ -14,11 +14,19 @@
         nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     };
 
-    outputs = { self, nix-darwin, nix-homebrew, home-manager, ... }:
+    outputs = { self, nix-darwin, nix-homebrew, home-manager, nixpkgs, ... }:
+    let
+        system = "aarch64-darwin"; # Assuming you're using an M1/M2 Mac. Use "x86_64-darwin" for Intel
+    in
     {
         # Build darwin flake using:
         # $ darwin-rebuild build --flake .#simple
         darwinConfigurations.gale = nix-darwin.lib.darwinSystem {
+            inherit system;
+            pkgs = import nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+            };
             modules = [
                 home-manager.darwinModules.home-manager {
                     home-manager.useGlobalPkgs = true;
