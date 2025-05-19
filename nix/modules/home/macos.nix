@@ -49,14 +49,14 @@
                 source = "${configDir}/yabairc";
                 target = ".config/yabai/yabairc";
             };
-            zed = {
-                source = "${configDir}/zed/settings.json";
-                target = ".config/zed/settings.json";
-            };
-            zed_theme = {
-                source = "${configDir}/zed/themes/efz.json";
-                target = ".config/zed/themes/efz.json";
-            };
+		#zed = {
+			#source = "${configDir}/zed/settings.json";
+			#target = ".config/zed/settings.json";
+		#};
+		#zed_theme = {
+			#source = "${configDir}/zed/themes/efz.json";
+			#target = ".config/zed/themes/efz.json";
+		#};
             zprofile = {
                 source = "${configDir}/zsh/macos/zprofile";
                 target = ".zprofile";
