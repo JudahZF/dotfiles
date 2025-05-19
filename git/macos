@@ -5,16 +5,13 @@
 	process = git-lfs filter-process
 [user]
 	name = Judah Fuller
-	email = judahfuller@icloud.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO
+	email = judah@judahfuller.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO
 [init]
 	defaultBranch = main
-[credential]
-	helper = osxkeychain
 [commit]
 	gpgsign = true
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	allowedSignersFile = /Users/judahfuller/.ssh/allowed_signers
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
