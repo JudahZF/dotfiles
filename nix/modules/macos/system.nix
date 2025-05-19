@@ -3,6 +3,8 @@
     pkgs,
     ...
 }: {
+    nixpkgs.hostPlatform = "aarch64-darwin";
+    system.primaryUser = "judahfuller";
     homebrew = {
         enable = true;
         brews = [
@@ -31,9 +33,11 @@
             "altserver"
             "balenaetcher"
             "betterdisplay"
+		"comfyui"
             "chromium"
 			"daisydisk"
-            "displaperture"
+			"dante-controller"
+			"displaperture"
             "dropbox"
             "font-sketchybar-app-font"
 	    "ghostty"
@@ -58,9 +62,10 @@
             "stats"
             "tailscale"
             "tor-browser"
+	"vivaldi"
             "whatsapp"
             "wifiman"
-            "zen-browser"
+            "zen"
         ];
         masApps = {
             "Logic Pro" = 634148309;

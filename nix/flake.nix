@@ -33,6 +33,9 @@
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#simple
       darwinConfigurations.gale = nix-darwin.lib.darwinSystem {
+            pkgs = import nixpkgs {
+                config.allowUnfree = true;
+            };
         modules = [
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
