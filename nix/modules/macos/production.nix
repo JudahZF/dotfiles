@@ -8,7 +8,7 @@
         casks = [
             "4k-video-downloader"
             "ableset"
-	"companion"
+	"companion@beta"
             "handbrake"
             "lightkey"
             "propresenter"
