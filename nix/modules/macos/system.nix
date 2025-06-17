@@ -10,6 +10,7 @@
         brews = [
 	"chrome-cli"
             "cmatrix"
+            "libpq"
             "macmon"
             "mas"
             {
@@ -32,16 +33,18 @@
             "alt-tab"
             "altserver"
             "balenaetcher"
+            "barrier"
             "betterdisplay"
 		"comfyui"
-            "chromium"
 			"daisydisk"
 			"dante-controller"
 			"displaperture"
             "dropbox"
+            "docker"
             "font-sketchybar-app-font"
 	    "ghostty"
 	"google-chrome"
+	"hammerspoon"
             "hiddenbar"
             "keka"
 	    "kicad"
@@ -68,6 +71,7 @@
             "zen"
         ];
         masApps = {
+          "Amphetamine" = 937984704;
             "Logic Pro" = 634148309;
         };
 

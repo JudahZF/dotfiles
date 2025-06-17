@@ -9,5 +9,6 @@
         obsidian
         remmina
         tailscale
+        temurin-bin
     ];
 }
