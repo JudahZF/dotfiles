@@ -22,6 +22,10 @@
                 source = "${configDir}/git/macos";
                 target = ".gitconfig";
             };
+            hammerspoon = {
+                source = "${configDir}/hammerspoon/";
+                target = ".hammerspoon/";
+            };
             nix = {
                 recursive = true;
                 source = "${configDir}/nix";
@@ -31,10 +35,6 @@
                 recursive = true;
                 source = "${configDir}/nvim";
                 target = ".config/nvim";
-            };
-            OnePassword = {
-                source = "${configDir}/OnePassword/ssh/agent.toml";
-                target = ".config/1Password/ssh/agent.toml";
             };
             sketchybar = {
                 recursive = true;

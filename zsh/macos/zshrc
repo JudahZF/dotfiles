@@ -1,6 +1,8 @@
 #export GOPATH=$HOME/go
 #export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
+export SSH_AUTH_SOCK="~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PNPM_HOME="$HOME/.pnpm/"
 export PATH="$HOME/.pnpm/:$PATH"
