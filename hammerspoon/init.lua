@@ -35,7 +35,7 @@ end
 -- POLL LOOP
 
 hs.timer.doEvery(pollInterval, function()
-    local pos = hs.mouse.getAbsolutePosition()
+    local pos = hs.mouse.absolutePosition()
     local now = hs.timer.secondsSinceEpoch()
 
     if pos.y <= threshold then
