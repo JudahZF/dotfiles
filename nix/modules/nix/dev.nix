@@ -2,7 +2,6 @@
     environment.systemPackages = with pkgs; [
       claude-code
       cmake
-      ghidra
       gitkraken
 	git-lfs
 		go

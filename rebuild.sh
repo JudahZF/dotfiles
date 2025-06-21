@@ -1,4 +1,4 @@
-bash ~/dotfiles/**/_internal_rebuild.sh
+sudo bash ~/dotfiles/**/_internal_rebuild.sh
 
 if [ $? -ne 0 ]; then
     echo "Failed to rebuild"
@@ -8,6 +8,7 @@ fi
 ## Other commands
 
 sudo yabai --load-sa
+yabai --restart-service
 
 fastfetch
 

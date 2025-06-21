@@ -10,6 +10,7 @@
         brews = [
 	"chrome-cli"
             "cmatrix"
+			"FiloSottile/musl-cross/musl-cross"
             "libpq"
             "macmon"
             "mas"
@@ -44,6 +45,7 @@
             "font-sketchybar-app-font"
 	    "ghostty"
 	"google-chrome"
+	"google-earth-pro"
 	"hammerspoon"
             "hiddenbar"
             "keka"
@@ -62,6 +64,7 @@
             "raycast"
             "raspberry-pi-imager"
             "rockboxutility"
+            "sketch"
             "stats"
             "tailscale"
             "tor-browser"
@@ -80,6 +83,7 @@
         onActivation.upgrade = true;
         taps = [
             "FelixKratz/formulae"
+			"filosottile/musl-cross"
             "koekeishiya/formulae"
         ];
     };
