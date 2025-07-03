@@ -32,10 +32,6 @@
                 source = "${configDir}/nvim";
                 target = ".config/nvim";
             };
-            OnePassword = {
-                source = "${configDir}/OnePassword/ssh/agent.toml";
-                target = ".config/1Password/ssh/agent.toml";
-            };
             sketchybar = {
                 recursive = true;
                 source = "${configDir}/sketchybar";
