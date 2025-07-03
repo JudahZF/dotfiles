@@ -27,11 +27,13 @@ in
     mosh            # ssh
     neovim
     nerdfonts
+	nixfmt-rfc-style
     nmap
     obsidian
     oh-my-posh
     ripgrep         # grep
-    tailscale
+	rellij		# tmux
+	tailscale
     telescope
     unzip
     vlc
