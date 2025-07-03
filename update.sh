@@ -1,9 +1,25 @@
-bash ~/dotfiles/**/_internal_update.sh
+#!/bin/bash
+set -euo pipefail
 
-if [ $? -ne 0 ]; then
-    echo "Failed to update"
-    exit 1
+# Logging functions
+log_info() {
+  echo "$(date +'%Y-%m-%d %H:%M:%S') [INFO] $1"
+}
+
+log_error() {
+  echo "$(date +'%Y-%m-%d %H:%M:%S') [ERROR] $1" >&2
+}
+
+log_info "Starting update process..."
+
+# Run internal update script
+if sudo bash ~/dotfiles/*/_internal_update.sh; then
+  log_info "Internal update completed successfully."
+else
+  log_error "Internal update failed."
+  exit 1
 fi
 
-echo "Updated. Please rebuild."
+log_info "Update process completed successfully. Please rebuild."
+
 exit 0

@@ -46,7 +46,6 @@
 	    "ghostty"
 	"google-chrome"
 	"google-earth-pro"
-	"hammerspoon"
             "hiddenbar"
             "keka"
 	    "kicad"
