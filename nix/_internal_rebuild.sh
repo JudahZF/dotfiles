@@ -1,1 +1,1 @@
-darwin-rebuild switch --flake ~/dotfiles/nix#gale --impure
+sudo darwin-rebuild switch --flake ~/dotfiles/nix#gale --impure

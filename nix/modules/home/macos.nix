@@ -22,10 +22,6 @@
                 source = "${configDir}/git/macos";
                 target = ".gitconfig";
             };
-            hammerspoon = {
-                source = "${configDir}/hammerspoon/";
-                target = ".hammerspoon/";
-            };
             nix = {
                 recursive = true;
                 source = "${configDir}/nix";
