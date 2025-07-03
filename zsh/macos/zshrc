@@ -1,10 +1,12 @@
 #export GOPATH=$HOME/go
 #export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
+export SSH_AUTH_SOCK=/Users/judahfuller/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PNPM_HOME="$HOME/.pnpm/"
 export PATH="$HOME/.pnpm/:$PATH"
-export PATH="/Applications/Ghostty.app/Contents/MacOS:$PATH"
+export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/judahfuller/Library/Python/3.9/bin:$PATH"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

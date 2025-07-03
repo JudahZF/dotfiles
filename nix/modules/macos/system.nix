@@ -10,6 +10,8 @@
         brews = [
 	"chrome-cli"
             "cmatrix"
+			"FiloSottile/musl-cross/musl-cross"
+            "libpq"
             "macmon"
             "mas"
             {
@@ -30,18 +32,18 @@
             "1password-cli"
             "aldente"
             "alt-tab"
-            "altserver"
             "balenaetcher"
             "betterdisplay"
 		"comfyui"
-            "chromium"
 			"daisydisk"
 			"dante-controller"
 			"displaperture"
             "dropbox"
+            "docker"
             "font-sketchybar-app-font"
 	    "ghostty"
 	"google-chrome"
+	"google-earth-pro"
             "hiddenbar"
             "keka"
 	    "kicad"
@@ -59,15 +61,16 @@
             "raycast"
             "raspberry-pi-imager"
             "rockboxutility"
+            "sketch"
             "stats"
             "tailscale"
             "tor-browser"
-	"vivaldi"
             "whatsapp"
             "wifiman"
             "zen"
         ];
         masApps = {
+          "Amphetamine" = 937984704;
             "Logic Pro" = 634148309;
         };
 
@@ -76,6 +79,7 @@
         onActivation.upgrade = true;
         taps = [
             "FelixKratz/formulae"
+			"filosottile/musl-cross"
             "koekeishiya/formulae"
         ];
     };
