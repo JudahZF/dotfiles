@@ -2,7 +2,6 @@
     environment.systemPackages = with pkgs; [
       claude-code
       cmake
-      gitkraken
 	git-lfs
 		go
       lazygit
