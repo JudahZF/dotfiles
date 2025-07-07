@@ -5,13 +5,14 @@ in
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-    ## stable
     _1password-gui
     _1password-cli
     angryipscanner
     beszel
     btop
     cmatrix
+    colmena
+    comma
     coreutils
     difftastic      # diff
     dua             # du
@@ -19,26 +20,48 @@ in
     fastfetch
     fd              # find
     ffmpeg
-    firefox
-    gimp
+    ghostty
+    git
+    git-lfs
+    google-chrome
+    handbrake
     iperf3
-    jetbrains-mono # font
-    jq
+    jetbrains-mono  # font
+    just
     mosh            # ssh
     neovim
     nerdfonts
-	nixfmt-rfc-style
+    nix
+    nixd
+    nix-index
     nmap
     obsidian
-    oh-my-posh
+    rellij          # tmux
+    remmina
     ripgrep         # grep
-	rellij		# tmux
-	tailscale
+    sketchybar-app-font
+    starship
+    tailscale
     telescope
+    temurin-bin
+    tree-sitter
     unzip
     vlc
     wget
     wireguard-tools
+    yt-dlp
     zoxide          # cd
+    zsh
   ];
+
+  fonts.packages = [
+    pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts.fira-fira-mono
+    pkgs.nerd-fonts.hack
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
+
+  programs.zsh = {
+    enableCompletion = true;
+  };
 }
