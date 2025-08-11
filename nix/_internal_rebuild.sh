@@ -1,1 +1,1 @@
-sudo darwin-rebuild switch --flake ~/dotfiles/nix#gale --impure
+sudo darwin-rebuild switch --flake ~/dotfiles/nix#gale --max-jobs auto --cores 0

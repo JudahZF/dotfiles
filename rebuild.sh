@@ -26,7 +26,6 @@ if sudo yabai --load-sa; then
   log_info "yabai system administration loaded."
 else
   log_error "Failed to load yabai system administration."
-  exit 1
 fi
 
 log_info "Restarting yabai service..."
@@ -34,7 +33,6 @@ if yabai --restart-service; then
   log_info "yabai service restarted successfully."
 else
   log_error "Failed to restart yabai service."
-  exit 1
 fi
 
 log_info "Running fastfetch..."
