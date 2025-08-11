@@ -7,9 +7,8 @@
     environment.systemPackages = with pkgs; [
       bootdev-cli
         gimp
+        nil
         obsidian
-        remmina
-        tailscale
         temurin-bin
     ];
 }

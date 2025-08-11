@@ -23,6 +23,7 @@
                 name = "skhd";
             }
             "samtay/tui/tetris"
+            # "sst/tap/opencode"
             {
                 name = "yabai";
             }
@@ -39,7 +40,7 @@
             "dante-controller"
             "displaperture"
             "dropbox"
-            "docker"
+            "docker-desktop"
             "font-sketchybar-app-font"
             "ghostty"
             "google-chrome"
@@ -51,7 +52,7 @@
             "malwarebytes"
             "microsoft-office"
             "ollama"
-            "onyx"
+			# "onyx"
             "qlcolorcode"
             "qlmarkdown"
             "qlstephen"
@@ -81,6 +82,7 @@
             "FelixKratz/formulae"
 			"filosottile/musl-cross"
             "koekeishiya/formulae"
+            "sst/tap"
         ];
     };
 
