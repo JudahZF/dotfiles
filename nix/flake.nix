@@ -1,63 +1,82 @@
 {
-    description = "JF Linux Flake";
+  description = "JF Linux Flake";
 
-    inputs = {
-        home-manager = {
-            url = "github:nix-community/home-manager";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        nixpkgs.url = "github:NixOS/nixpkgs/master";
-        nix-darwin = {
-            url = "github:LnL7/nix-darwin";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+  inputs = {
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    dotfiles = {
+      url = "path:..";
+      flake = false;
+    };
+  };
 
-    outputs = { self, nix-darwin, nix-homebrew, home-manager, nixpkgs, ... }:
+  outputs =
+    {
+      self,
+      nix-darwin,
+      nix-homebrew,
+      home-manager,
+      nixpkgs,
+      dotfiles,
+      ...
+    }:
     let
-        system = "aarch64-darwin"; # Assuming you're using an M1/M2 Mac. Use "x86_64-darwin" for Intel
+      system = "aarch64-darwin"; # Assuming you're using an M1/M2 Mac. Use "x86_64-darwin" for Intel
     in
     {
-        # Build darwin flake using:
-        # $ darwin-rebuild build --flake .#simple
-        darwinConfigurations.gale = nix-darwin.lib.darwinSystem {
-            inherit system;
-            pkgs = import nixpkgs {
-                inherit system;
-                config.allowUnfree = true;
-            };
-            modules = [
-                home-manager.darwinModules.home-manager {
-                    home-manager.useGlobalPkgs = true;
-                    home-manager.useUserPackages = true;
-                    home-manager.users.judahfuller = { ... }: {
-                        imports = [(import ./modules/home/macos.nix {
-                            configDir = "/Users/judahfuller/dotfiles";
-                        })];
-                    };
-                }
-                nix-homebrew.darwinModules.nix-homebrew {
-                    nix-homebrew = {
-                        enable = true;
-                        enableRosetta = true;
-                        user = "Judah Fuller";
-                        mutableTaps = true;
-                    };
-                }
-                ./modules/nix/dev.nix
-                ./modules/nix/neovim.nix
-                ./modules/nix/standard.nix
-                ./modules/nix/system.nix
-                ./modules/macos/design.nix
-                ./modules/macos/gaming.nix
-                ./modules/macos/music.nix
-                ./modules/macos/production.nix
-                ./modules/macos/system.nix
-                ./modules/macos/work.nix
-            ];
+      # Build darwin flake using:
+      # $ darwin-rebuild build --flake .#simple
+      darwinConfigurations.gale = nix-darwin.lib.darwinSystem {
+        inherit system;
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
         };
-        # Expose the package set, including overlays, for convenience.
-        darwinPackages = self.darwinConfigurations.gale.pkgs;
+        modules = [
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.judahfuller =
+              { ... }:
+              {
+                imports = [
+                  (import ./modules/home/macos.nix {
+                    configDir = dotfiles;
+                  })
+                ];
+              };
+          }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "Judah Fuller";
+              mutableTaps = true;
+            };
+          }
+          ./modules/nix/dev.nix
+          ./modules/nix/neovim.nix
+          ./modules/nix/standard.nix
+          ./modules/nix/system.nix
+          ./modules/macos/design.nix
+          ./modules/macos/gaming.nix
+          ./modules/macos/music.nix
+          ./modules/macos/production.nix
+          ./modules/macos/system.nix
+          ./modules/macos/work.nix
+        ];
+      };
+      # Expose the package set, including overlays, for convenience.
+      darwinPackages = self.darwinConfigurations.gale.pkgs;
     };
 }

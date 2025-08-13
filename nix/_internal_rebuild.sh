@@ -1,1 +1,1 @@
-sudo darwin-rebuild switch --flake ~/dotfiles/nix#gale --max-jobs auto --cores 0
+sudo --preserve-env=HOME darwin-rebuild switch --flake /Users/judahfuller/dotfiles/nix#gale --show-trace --max-jobs auto --cores 0

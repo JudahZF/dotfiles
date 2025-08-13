@@ -1,32 +1,34 @@
 {
-    pkgs,
-    ...
-}: {
-    environment.systemPackages = with pkgs; [
-        btop
-        cmatrix
-        fastfetch
-        ffmpeg
-        mkalias
-        nchat
-        nix
-        nixd
-        starship
-        tmux
-	tree-sitter
-	zoxide
-    ];
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    btop
+    cmatrix
+    fastfetch
+    ffmpeg
+    home-manager
+    mkalias
+    nchat
+    nix
+    nixd
+    starship
+    tmux
+    tree-sitter
+    zoxide
+  ];
 
-    fonts.packages = [
-        pkgs.nerd-fonts.fira-code
-    ];
+  fonts.packages = [
+    pkgs.nerd-fonts.fira-code
+  ];
 
-    nix = {
-        enable = true;
-        settings.experimental-features = "nix-command flakes";
-    };
+  nix = {
+    enable = true;
+    settings.experimental-features = "nix-command flakes";
+  };
 
-    programs.zsh.enable = true;
+  programs.zsh.enable = true;
 
-    home-manager.backupFileExtension = "bck";
+  home-manager.backupFileExtension = "bck";
 }
