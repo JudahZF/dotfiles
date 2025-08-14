@@ -1,5 +1,12 @@
 {
+  description = "JF Flake";
+
   inputs = {
+    dotfiles = {
+      url = "path:..";
+      flake = false;
+    };
+    
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,7 +49,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.judahfuller = { ... }: {
               imports = [(import ./modules/home/macos.nix {
-                configDir = "/Users/judahfuller/dotfiles";
+                configDir = dotfiles;
               })];
             };
           }
