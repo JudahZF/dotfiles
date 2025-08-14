@@ -16,7 +16,7 @@
             };
             ghostty = {
                 source = "${configDir}/ghostty/config";
-                target = "/Users/judahfuller/Library/Application Support/com.mitchellh.ghostty/config";
+                target = "Library/Application Support/com.mitchellh.ghostty/config";
             };
             gitconfig = {
                 source = "${configDir}/git/macos";

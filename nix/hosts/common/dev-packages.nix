@@ -18,7 +18,8 @@ in
     nodejs
     ollama
     phpactor
-  	pnpm
+    pnpm
+    prettier
     postman
     python3
     ruff

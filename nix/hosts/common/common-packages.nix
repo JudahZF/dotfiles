@@ -14,34 +14,35 @@ in
     colmena
     comma
     coreutils
-    difftastic      # diff
-    dua             # du
-    entr            # watch
+    difftastic # diff
+    dua # du
+    entr # watch
     fastfetch
-    fd              # find
+    fd # find
     ffmpeg
     ghostty
     git
     git-lfs
     google-chrome
     handbrake
+    home-manager
     iperf3
-    jetbrains-mono  # font
+    jetbrains-mono # font
     just
-    mosh            # ssh
+    mosh # ssh
     neovim
     nerdfonts
+    nil
     nix
     nixd
     nix-index
     nmap
     obsidian
-    rellij          # tmux
+    rellij # tmux
     remmina
-    ripgrep         # grep
+    ripgrep # grep
     sketchybar-app-font
     starship
-    tailscale
     telescope
     temurin-bin
     tree-sitter
@@ -50,7 +51,7 @@ in
     wget
     wireguard-tools
     yt-dlp
-    zoxide          # cd
+    zoxide # cd
     zsh
   ];
 
