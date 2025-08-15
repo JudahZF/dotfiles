@@ -1,7 +1,5 @@
 {
   inputs,
-  outputs,
-  stateVersion,
   ...
 }:
 {
@@ -12,10 +10,9 @@
       system ? "aarch64-darwin",
     }:
     let
-      inherit (inputs.nixpkgs) lib;
       customConfPath = ./../hosts/darwin/${hostname};
       customConf =
-        if builtins.pathExists (customConfPath) then
+        if builtins.pathExists customConfPath then
           (customConfPath + "/default.nix")
         else
           ./../hosts/common/darwin/default-dock.nix;
