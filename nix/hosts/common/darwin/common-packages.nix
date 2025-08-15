@@ -34,7 +34,7 @@
       "microsoft-office"
       "microsoft-teams"
       "nomachine"
-      "onyx"
+      # "onyx"
       "qlcolorcode"
       "qlmarkdown"
       "qlstephen"
@@ -55,7 +55,7 @@
     masApps = {
       "Amphetamine" = 937984704;
       "Home Assistant Companion" = 1099568401;
-      "Microsoft Remote Desktop" = 1295203466;
+      "Windows App" = 1295203466;
       "Logic Pro" = 634148309;
     };
     taps = [
