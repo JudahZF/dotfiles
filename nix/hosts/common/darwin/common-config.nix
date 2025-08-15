@@ -1,30 +1,11 @@
 {
   config,
-  dotfiles,
+
   username,
   pkgs,
   ...
 }:
 {
-  home = {
-    homeDirectory = "/Users/${username}";
-
-    file = {
-      sketchybar = {
-        recursive = true;
-        source = "${dotfiles}/sketchybar";
-        target = ".config/sketchybar";
-      };
-      skhd = {
-        source = "${dotfiles}/skhdrc";
-        target = ".config/skhd/skhdrc";
-      };
-      yabai = {
-        source = "${dotfiles}/yabairc";
-        target = ".config/yabai/yabairc";
-      };
-    };
-  };
 
   homebrew = {
     enable = true;
@@ -51,7 +32,7 @@
   #   promptInit = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
   # };
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   system = {
     activationScripts = {
@@ -75,15 +56,15 @@
           ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
           done
         '';
-      postUserActivation.text = ''
-        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+      activateSettings.text = ''
+        sudo -u ${username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
     };
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToEscape = true;
     };
-    stateVersion = 5;
+    stateVersion = 6;
   };
 
   users.users.${username}.home = "/Users/${username}";

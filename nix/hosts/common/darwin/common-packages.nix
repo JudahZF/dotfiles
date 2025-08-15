@@ -18,6 +18,7 @@
     casks = [
       "aldente"
       "alt-tab"
+      "angry-ip-scanner"
       "balenaetcher"
       "betterdisplay"
       "comfyui"
@@ -26,6 +27,7 @@
       "displaperture"
       "dropbox"
       "docker-desktop"
+      "ghostty"
       "hiddenbar"
       "keka"
       "malwarebytes"

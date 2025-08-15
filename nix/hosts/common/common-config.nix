@@ -2,6 +2,7 @@
   lib,
   pkgs,
   system,
+  username,
   ...
 }:
 {
@@ -26,9 +27,5 @@
     hostPlatform = lib.mkDefault "${system}";
   };
 
-  services.nix-daemon.enable = true;
-
-  system = {
-    stateVersion = "25.05";
-  };
+  system.primaryUser = username;
 }
