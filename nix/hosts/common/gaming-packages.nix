@@ -1,10 +1,4 @@
-{ inputs, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ pkgs, ... }:
 {
-  nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with pkgs; [
-    discord
-  ];
+  environment.systemPackages = with pkgs; [ discord ];
 }

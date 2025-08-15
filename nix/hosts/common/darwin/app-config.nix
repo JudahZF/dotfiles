@@ -1,11 +1,11 @@
-{ inputs, outputs, config, lib, hostname, system, username, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ ... }:
 {
   system.defaults.CustomUserPreferences = {
     "com.apphousekitchen.aldente-pro.plist" = {
+      automaticDischarge = false;
       chargeVal = 80;
+      clamshellDischargeMessage = false;
+      continueCalibrationBehavior = 1;
       dataShareConsent = false;
       exitInhibitCharge = false;
       heatProtectMode = true;
@@ -17,17 +17,38 @@ in
       menubarRightClickAction = 2;
       noMenubarIcon = false;
       popoverAnimation = false;
+      popoverBatteryInfoList = [
+        "temperature"
+        "designCapacity"
+        "adapterPower"
+        "maxCapacity"
+        "timeToFull"
+        "batteryCurrent"
+        "adapterVoltage"
+        "adapterManufacturer"
+        "macosCondition"
+        "batteryVoltage"
+        "lowPowerMode"
+        "macosCapacity"
+        "systemLoad"
+        "cycleCount"
+        "batteryPower"
+        "adapterCurrent"
+        "adapterName"
+      ];
       popoverWidgets = [
         "highAppUsage"
         "powerflow"
+        "stats"
       ];
       sailingMode = true;
+      sailingLevel = 5;
       showDockIcon = false;
       showGUIonStartup = false;
       showPercentage = true;
       showPercentagePopover = true;
       sleepInhibitCharge = true;
-      useRealPercentage = true;
+      useRealPercentage = false;
     };
     "com.apple.finder" = {
       _FXShowPosixPathInTitle = true;
@@ -68,56 +89,70 @@ in
       SidebarWidth = 170;
       WarnOnEmptyTrash = false;
     };
-      "com.apple.desktopservices" = {
-        # Avoid creating .DS_Store files on network or USB volumes
-        DSDontWriteNetworkStores = true;
-        DSDontWriteUSBStores = true;
-      };
-      "com.apple.dock" = {
-        autohide = false;
-        launchanim = false;
-        static-only = false;
-        show-recents = false;
-        show-process-indicators = true;
-        orientation = "left";
-        tilesize = 36;
-        minimize-to-application = true;
-        mineffect = "scale";
-        enable-window-tool = false;
-      };
-      "com.apple.ActivityMonitor" = {
-        OpenMainWindow = true;
-        IconType = 5;
-        SortColumn = "CPUUsage";
-        SortDirection = 0;
-      };
-      "com.apple.Safari" = {
-        # Privacy: don’t send search queries to Apple
-        UniversalSearchEnabled = false;
-        SuppressSearchSuggestions = true;
-      };
-      "com.apple.AdLib" = {
-        allowApplePersonalizedAdvertising = false;
-      };
-      "com.apple.SoftwareUpdate" = {
-        AutomaticCheckEnabled = true;
-        # Check for software updates daily, not just once per week
-        ScheduleFrequency = 1;
-        # Download newly available updates in background
-        AutomaticDownload = 1;
-        # Install System data files & security updates
-        CriticalUpdateInstall = 1;
-      };
-      "com.apple.TimeMachine".DoNotOfferNewDisksForBackup = true;
-      # Prevent Photos from opening automatically when devices are plugged in
-      "com.apple.ImageCapture".disableHotPlug = true;
-      # Turn on app auto-update
-      "com.apple.commerce".AutoUpdate = true;
-      "com.googlecode.iterm2".PromptOnQuit = false;
-      "com.google.Chrome" = {
-        AppleEnableSwipeNavigateWithScrolls = true;
-        DisablePrintPreview = true;
-        PMPrintingExpandedStateForPrint2 = true;
-      };
+    "com.apple.desktopservices" = {
+      # Avoid creating .DS_Store files on network or USB volumes
+      DSDontWriteNetworkStores = true;
+      DSDontWriteUSBStores = true;
+    };
+    "com.apple.dock" = {
+      autohide = true;
+      autohide-delay = 0;
+      autohide-time-modifier = 0;
+      appswitcher-all-displays = true;
+      enable-window-tool = false;
+      expose-animation-duration = 0.1;
+      launchanim = false;
+      magnification = false;
+      minimize-to-application = true;
+      mineffect = "scale";
+      orientation = "right";
+      static-only = false;
+      show-recents = false;
+      show-process-indicators = true;
+      tilesize = 48;
+    };
+    "com.apple.screencapture" = {
+      disable-shadow = true;
+      show-thumbnail = true;
+      type = "png";
+    };
+    "com.apple.ActivityMonitor" = {
+      OpenMainWindow = true;
+      UpdatePeriod = 2;
+    };
+    "com.apple.AdLib" = {
+      allowIdentifierForAdvertising = false;
+      allowApplePersonalizedAdvertising = false;
+    };
+    "com.apple.Music" = {
+      losslessEnabled = true;
+      optimizeSongVolume = false;
+      preferredStreamPlaybackAudioQuality = 20;
+    };
+    "com.apple.Safari" = {
+      # Privacy: don’t send search queries to Apple
+      UniversalSearchEnabled = false;
+      SuppressSearchSuggestions = true;
+    };
+    "com.apple.SoftwareUpdate" = {
+      AutomaticCheckEnabled = true;
+      # Check for software updates daily, not just once per week
+      ScheduleFrequency = 1;
+      # Download newly available updates in background
+      AutomaticDownload = 1;
+      # Install System data files & security updates
+      CriticalUpdateInstall = 1;
+    };
+    "com.apple.TimeMachine".DoNotOfferNewDisksForBackup = true;
+    # Prevent Photos from opening automatically when devices are plugged in
+    "com.apple.ImageCapture".disableHotPlug = true;
+    # Turn on app auto-update
+    "com.apple.commerce".AutoUpdate = true;
+    "com.googlecode.iterm2".PromptOnQuit = false;
+    "com.google.Chrome" = {
+      AppleEnableSwipeNavigateWithScrolls = true;
+      DisablePrintPreview = true;
+      PMPrintingExpandedStateForPrint2 = true;
+    };
   };
 }

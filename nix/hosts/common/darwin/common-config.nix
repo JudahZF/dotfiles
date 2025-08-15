@@ -1,8 +1,31 @@
-{ inputs, outputs, config, lib, hostname, system, username, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
 {
+  config,
+  dotfiles,
+  username,
+  pkgs,
+  ...
+}:
+{
+  home = {
+    homeDirectory = "/Users/${username}";
+
+    file = {
+      sketchybar = {
+        recursive = true;
+        source = "${dotfiles}/sketchybar";
+        target = ".config/sketchybar";
+      };
+      skhd = {
+        source = "${dotfiles}/skhdrc";
+        target = ".config/skhd/skhdrc";
+      };
+      yabai = {
+        source = "${dotfiles}/yabairc";
+        target = ".config/yabai/yabairc";
+      };
+    };
+  };
+
   homebrew = {
     enable = true;
     global.autoUpdate = true;
@@ -15,22 +38,30 @@ in
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       warn-dirty = false;
     };
     channel.enable = false;
   };
 
+  # programs.zsh = {
+  #   promptInit = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
+  # };
+
   security.pam.enableSudoTouchIdAuth = true;
 
   system = {
     activationScripts = {
-      activationScripts.applications.text = let
-        env = pkgs.buildEnv {
-          name = "system-applications";
-          paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
-        };
+      activationScripts.applications.text =
+        let
+          env = pkgs.buildEnv {
+            name = "system-applications";
+            paths = config.environment.systemPackages;
+            pathsToLink = "/Applications";
+          };
         in
         pkgs.lib.mkForce ''
           # Set up applications.
@@ -45,16 +76,15 @@ in
           done
         '';
       postUserActivation.text = ''
-        # Following line should allow us to avoid a logout/login cycle
         /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
     };
     keyboard = {
       enableKeyMapping = true;
-      remapCapsLockToEscape = false;
+      remapCapsLockToEscape = true;
     };
     stateVersion = 5;
   };
 
-  users.users.judahfuller.home = "/Users/judahfuller";
+  users.users.${username}.home = "/Users/${username}";
 }

@@ -1,7 +1,4 @@
-{ inputs, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ ... }:
 {
   homebrew = {
     casks = [
@@ -13,8 +10,6 @@ in
       "midi-monitor"
       "propresenter"
     ];
-    taps = [
-	    "bevanjkay/homebrew-tap"
-    ];
+    taps = [ "bevanjkay/homebrew-tap" ];
   };
 }
