@@ -148,6 +148,9 @@
         enableAsDifftool = true;
         enable = true;
       };
+      extraConfig = {
+        gpg."ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      };
       lfs = {
         enable = true;
       };
@@ -167,7 +170,9 @@
       options = [ "--cmd cd" ];
     };
     zsh = {
+      enable = true;
       enableCompletion = true;
+      initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
     };
   };
 }
