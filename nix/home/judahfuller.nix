@@ -1,36 +1,42 @@
 {
   dotfiles,
+  pkgs,
   ...
 }:
 {
   home = {
     stateVersion = "24.05";
 
-    file = {
-      nix = {
-        recursive = true;
-        source = "${dotfiles}/nix";
-        target = ".config/nix";
-      };
-      nvim = {
-        recursive = true;
-        source = "${dotfiles}/nvim";
-        target = ".config/nvim";
-      };
-      sketchybar = {
-        recursive = true;
-        source = "${dotfiles}/sketchybar";
-        target = ".config/sketchybar";
-      };
-      skhd = {
-        source = "${dotfiles}/skhdrc";
-        target = ".config/skhd/skhdrc";
-      };
-      yabai = {
-        source = "${dotfiles}/yabairc";
-        target = ".config/yabai/yabairc";
-      };
-    };
+    file = pkgs.lib.mkMerge [
+      {
+        nix = {
+          recursive = true;
+          source = "${dotfiles}/nix";
+          target = ".config/nix";
+        };
+        nvim = {
+          recursive = true;
+          source = "${dotfiles}/nvim";
+          target = ".config/nvim";
+        };
+        sketchybar = {
+          recursive = true;
+          source = "${dotfiles}/sketchybar";
+          target = ".config/sketchybar";
+        };
+        skhd = {
+          source = "${dotfiles}/skhdrc";
+          target = ".config/skhd/skhdrc";
+        };
+        yabai = {
+          source = "${dotfiles}/yabairc";
+          target = ".config/yabai/yabairc";
+        };
+      }
+      (pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+        ".gitconfig".source = "${dotfiles}/git/macos";
+      })
+    ];
 
     sessionPath = [
       "/run/current-system/sw/bin"
@@ -145,7 +151,7 @@
       };
     };
     git = {
-      enable = true;
+      enable = false;
       difftastic = {
         color = "always";
         enableAsDifftool = true;
