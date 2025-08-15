@@ -33,9 +33,9 @@
           target = ".config/yabai/yabairc";
         };
       }
-      (pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-        ".gitconfig".source = "${dotfiles}/git/macos";
-      })
+      # (pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+      #   ".gitconfig".source = "${dotfiles}/git/macos";
+      # })
     ];
 
     sessionPath = [
@@ -151,15 +151,19 @@
       };
     };
     git = {
-      enable = false;
+      enable = true;
       difftastic = {
         color = "always";
         enableAsDifftool = true;
         enable = true;
       };
-      extraConfig = {
-        gpg."ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-      };
+      extraConfig =
+        if pkgs.stdenv.isDarwin then
+          {
+            gpg."ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          }
+        else
+          { };
       lfs = {
         enable = true;
       };
