@@ -177,7 +177,7 @@
     zsh = {
       enable = true;
       enableCompletion = true;
-      #initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
+      initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
     };
   };
 }
