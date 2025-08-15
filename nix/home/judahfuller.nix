@@ -135,14 +135,17 @@
       ignores = [ ".git/" ];
     };
     fzf = {
+      enable = true;
       enableZshIntegration = true;
     };
     ghostty = {
+      # enable = true;
       settings = {
         background-opacity = 0.8;
       };
     };
     git = {
+      enable = true;
       difftastic = {
         color = "always";
         enableAsDifftool = true;
@@ -163,16 +166,18 @@
       userName = "Judah Fuller";
     };
     starship = {
+      enable = true;
       enableZshIntegration = true;
     };
     zoxide = {
+      enable = true;
       enableZshIntegration = true;
       options = [ "--cmd cd" ];
     };
     zsh = {
       enable = true;
       enableCompletion = true;
-      initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
+      #initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
     };
   };
 }
