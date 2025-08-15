@@ -33,9 +33,6 @@
           target = ".config/yabai/yabairc";
         };
       }
-      # (pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-      #   ".gitconfig".source = "${dotfiles}/git/macos";
-      # })
     ];
 
     sessionPath = [
