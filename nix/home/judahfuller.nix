@@ -168,6 +168,7 @@
       signing = {
         format = "ssh";
         key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO";
+        signByDefault = true;
       };
       userEmail = "judah@judahfuller.com";
       userName = "Judah Fuller";
