@@ -7,7 +7,7 @@
     {
       hostname,
       username ? "judahfuller",
-      system ? "aarch64-darwin",
+      system ? builtins.currentSystem,
     }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
@@ -18,7 +18,10 @@
           ./../hosts/common/darwin/default-dock.nix;
     in
     inputs.nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit system inputs username; };
+      specialArgs = {
+        inherit system inputs username;
+        dotfiles = inputs.dotfiles;
+      };
       modules = [
         ../hosts/common/default.nix
         ../hosts/common/darwin/default.nix
@@ -28,7 +31,10 @@
           networking.hostName = hostname;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            dotfiles = inputs.dotfiles;
+          };
           home-manager.users.${username} = {
             imports = [ ./../home/${username}.nix ];
           };

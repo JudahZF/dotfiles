@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     _1password-gui
     _1password-cli
-    angryipscanner
     beszel # server monitoring
     btop # top
     cmatrix
@@ -18,18 +17,16 @@
     fd # find
     ffmpeg
     fzf
-    ghostty
+    # ghostty
     git
     git-cliff
     git-lfs
     google-chrome
-    handbrake
     home-manager
     iperf3
     jetbrains-mono # font
     just
     neovim
-    nerdfonts
     nil
     nix
     nixd
@@ -43,7 +40,6 @@
     temurin-bin
     tree-sitter
     unzip
-    vlc
     wget
     zellij # tmux
     zoxide # cd
@@ -52,7 +48,7 @@
 
   fonts.packages = [
     pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.fira-fira-mono
+    pkgs.nerd-fonts.fira-mono
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.jetbrains-mono
   ];

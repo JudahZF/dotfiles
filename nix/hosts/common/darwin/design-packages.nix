@@ -7,6 +7,8 @@
       "affinity-publisher"
       "autodesk-fusion"
       "pika"
+      "kicad"
+      "prusaslicer"
     ];
   };
 }
