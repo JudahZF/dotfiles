@@ -16,6 +16,7 @@
       { name = "yabai"; }
     ];
     casks = [
+      "1password"
       "aldente"
       "alt-tab"
       "angry-ip-scanner"
