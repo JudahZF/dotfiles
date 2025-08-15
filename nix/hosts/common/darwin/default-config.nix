@@ -1,7 +1,4 @@
-{ inputs, outputs, config, lib, hostname, system, username, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ ... }:
 {
   system.defaults = {
     dock = {
@@ -21,13 +18,7 @@ in
       mouse-over-hilite-stack = false;
       mru-spaces = false;
       orientation = "right";
-      persistent-apps = [
-        "/Applications/Zen.app"
-        "/Applications/Ghostty.app"
-        "/Applications/Obsidian.app"
-        "/Applications/1Password.app"
-      ];
-      persistent-others = [];
+      persistent-others = [ ];
       show-process-indicators = true;
       show-recents = false;
       showhidden = false;
@@ -55,7 +46,7 @@ in
     loginwindow = {
       autoLoginUser = null;
       DisableConsoleAccess = true;
-      GuestEnabled  = false;
+      GuestEnabled = false;
       LoginwindowText = "Property of Judah Fuller";
       PowerOffDisabledWhileLoggedIn = false;
       RestartDisabled = false;
@@ -113,6 +104,7 @@ in
       NSDocumentSaveNewDocumentsToCloud = false;
       NSWindowShouldDragOnGesture = true;
       NSAutomaticSpellingCorrectionEnabled = false;
+      "com.apple.mouse.tapBehavior" = 1;
     };
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
     WindowManager = {

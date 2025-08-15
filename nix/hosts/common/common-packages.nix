@@ -1,18 +1,15 @@
-{ inputs, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     _1password-gui
     _1password-cli
     angryipscanner
-    beszel
-    btop
+    beszel # server monitoring
+    btop # top
     cmatrix
-    colmena
-    comma
+    colmena # nix server deployment
+    comma # nix commands
     coreutils
     difftastic # diff
     dua # du
@@ -20,8 +17,10 @@ in
     fastfetch
     fd # find
     ffmpeg
+    fzf
     ghostty
     git
+    git-cliff
     git-lfs
     google-chrome
     handbrake
@@ -29,7 +28,6 @@ in
     iperf3
     jetbrains-mono # font
     just
-    mosh # ssh
     neovim
     nerdfonts
     nil
@@ -37,20 +35,17 @@ in
     nixd
     nix-index
     nmap
-    obsidian
-    rellij # tmux
+    obsidian # Not configured
     remmina
     ripgrep # grep
     sketchybar-app-font
     starship
-    telescope
     temurin-bin
     tree-sitter
     unzip
     vlc
     wget
-    wireguard-tools
-    yt-dlp
+    zellij # tmux
     zoxide # cd
     zsh
   ];
@@ -61,8 +56,4 @@ in
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.jetbrains-mono
   ];
-
-  programs.zsh = {
-    enableCompletion = true;
-  };
 }

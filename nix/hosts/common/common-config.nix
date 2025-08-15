@@ -1,11 +1,12 @@
-{ inputs, outputs, config, lib, hostname, system, username, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
 {
-  environment.systemPackages = [
-    pkgs.mkalias
-  ];
+  dotfiles,
+  lib,
+  pkgs,
+  system,
+  ...
+}:
+{
+  environment.systemPackages = [ pkgs.mkalias ];
 
   home-manager.backupFileExtension = "bck";
 
@@ -13,7 +14,10 @@ in
     channel.enable = false;
     enable = true;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       warn-dirty = false;
     };
   };

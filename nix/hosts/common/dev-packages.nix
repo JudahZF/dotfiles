@@ -1,22 +1,21 @@
-{ inputs, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
     cmake
-    datagrip
+    jetbrains.datagrip
     jq
     lazygit
     libpq
     lua5_1
     luarocks-nix
+    nixfmt
     nixfmt-rfc-style
     nodejs
     ollama
+    opencode
     phpactor
     pnpm
     prettier

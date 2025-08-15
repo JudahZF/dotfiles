@@ -1,12 +1,9 @@
-{ inputs, pkgs, ... }:
-let
-  inherit (inputs) nixpkgs;
-in
+{ pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     gimp
     kicad
-    prusaslicer
+    prusa-slicer
   ];
 }
