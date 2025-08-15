@@ -7,7 +7,7 @@
     {
       hostname,
       username ? "judahfuller",
-      system ? builtins.currentSystem,
+      system ? "aarch64-darwin",
     }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
