@@ -1,0 +1,6 @@
+{ ... }:
+{
+  environment.shellAliases = {
+    lg = "lazygit";
+  };
+}
