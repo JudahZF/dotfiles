@@ -35,7 +35,6 @@
     obsidian # Not configured
     remmina
     ripgrep # grep
-    sketchybar-app-font
     starship
     temurin-bin
     tree-sitter
@@ -51,5 +50,6 @@
     pkgs.nerd-fonts.fira-mono
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.jetbrains-mono
+    pkgs.sketchybar-app-font
   ];
 }
