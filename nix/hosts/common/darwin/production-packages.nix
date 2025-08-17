@@ -8,6 +8,7 @@
       "companion@beta"
       "lightkey"
       "midi-monitor"
+      "ndi-tools"
       "propresenter"
     ];
     taps = [ "bevanjkay/homebrew-tap" ];
