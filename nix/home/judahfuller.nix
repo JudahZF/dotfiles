@@ -173,6 +173,12 @@
       userEmail = "judah@judahfuller.com";
       userName = "Judah Fuller";
     };
+    ssh = {
+      matchBlocks.all = {
+        match = "*";
+        setEnv = "TERM=xterm-256color";
+      };
+    };
     starship = {
       enable = true;
       enableZshIntegration = true;
