@@ -5,6 +5,7 @@
     ## stable
     bootdev-cli
     cmake
+    iperf
     jetbrains.datagrip
     jq
     lazygit

@@ -4,6 +4,7 @@
     ./custom-dock.nix
     ../../common/design-packages.nix
     ../../common/dev-packages.nix
+    ../../common/uni-packages.nix
     ../../common/dev-packages-config.nix
     ../../common/gaming-packages.nix
     ../../common/darwin/design-packages.nix
