@@ -3,6 +3,7 @@
   pkgs,
   system,
   username,
+  inputs,
   ...
 }:
 {
