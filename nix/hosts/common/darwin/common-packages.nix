@@ -3,18 +3,23 @@
   homebrew = {
     brews = [
       "chrome-cli"
+      "cocoapods"
       "FiloSottile/musl-cross/musl-cross"
       "macmon"
       "mas"
-      "python-tk"
       {
         name = "sketchybar";
         start_service = true;
         restart_service = true;
       }
-      { name = "skhd"; }
+      {
+        name = "jackielii/tap/skhd-zig";
+      }
       "samtay/tui/tetris"
-      { name = "yabai"; }
+      {
+        name = "yabai";
+        args = [ "--HEAD" ];
+      }
     ];
     casks = [
       "1password"
@@ -25,6 +30,7 @@
       "barrier"
       "betterdisplay"
       "comfyui"
+      "cursor"
       "daisydisk"
       "dante-controller"
       "datagrip"
@@ -34,6 +40,7 @@
       "ghostty"
       "google-chrome"
       "hiddenbar"
+      "hyperkey"
       "keka"
       "malwarebytes"
       "microsoft-office"
@@ -65,6 +72,7 @@
       "Home Assistant Companion" = 1099568401;
       "Windows App" = 1295203466;
       "Logic Pro" = 634148309;
+      "Xcode" = 497799835;
     };
     taps = [
       "FelixKratz/formulae"
