@@ -22,7 +22,7 @@
     # opencode
     phpactor
     pnpm
-    prettier
+    # prettier
     protobuf
     postman
     (python313.withPackages (
