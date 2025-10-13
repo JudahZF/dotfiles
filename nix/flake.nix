@@ -56,7 +56,7 @@
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit inputs system;
+          inherit inputs;
           name = "popper";
         };
         modules = [ ./hosts/nixos/popper ];
