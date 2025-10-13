@@ -116,6 +116,7 @@
     useUserPackages = true;
     users.judahf = {
       imports = [ ./../../../home/judahfuller.nix ];
+      extraSpecialArgs = { inherit dotfiles; };
     };
   };
   users.users.judahf = {
