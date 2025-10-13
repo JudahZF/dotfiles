@@ -35,10 +35,10 @@
       }
     ];
 
-    sessionPath = [
-      "/run/current-system/sw/bin"
-      "$HOME/.nix-profile/bin"
-    ];
+    # sessionPath = [
+    #   "/run/current-system/sw/bin"
+    #   "$HOME/.nix-profile/bin"
+    # ];
   };
 
   programs = {
