@@ -25,7 +25,10 @@
       flake = false;
     };
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,10 +36,15 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-    omnixy.url = "github:JudahZF/omnixy";
+    omnixy = {
+      url = "github:JudahZF/omnixy";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
