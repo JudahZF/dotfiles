@@ -1,6 +1,5 @@
 {
   config,
-
   username,
   pkgs,
   ...
@@ -65,6 +64,7 @@
       remapCapsLockToEscape = true;
     };
     stateVersion = 6;
+    primaryUser = username;
   };
 
   users.users.${username}.home = "/Users/${username}";

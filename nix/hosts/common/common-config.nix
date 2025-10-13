@@ -2,7 +2,6 @@
   lib,
   pkgs,
   system,
-  username,
   inputs,
   ...
 }:
@@ -27,6 +26,4 @@
     config.allowUnfree = true;
     hostPlatform = lib.mkDefault "${system}";
   };
-
-  system.primaryUser = username;
 }
