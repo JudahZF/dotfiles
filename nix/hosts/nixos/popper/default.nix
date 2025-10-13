@@ -1,12 +1,14 @@
 {
   config,
+  inputs,
+  name,
   pkgs,
   ...
 }:
 {
   imports = [
     ./hardware-configuration.nix
-    omnixy.nixosModules.default
+    inputs.omnixy.nixosModules.default
     {
       omnixy.enable = true;
       omnixy.username = "judahf";
