@@ -86,7 +86,6 @@
       "1.1.1.1"
       "8.8.8.8"
     ];
-    wireless.enable = true;
   };
 
   # LOCALISATION
@@ -140,6 +139,7 @@
     git
     neovim
     wget
+    zsh
   ];
   nixpkgs.config.allowUnfree = true;
 
