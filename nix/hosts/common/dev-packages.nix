@@ -22,7 +22,7 @@
     # opencode
     phpactor
     pnpm
-    inputs.nixpkgs-unstable.prettier
+    prettier
     protobuf
     postman
     (python313.withPackages (
@@ -34,6 +34,6 @@
     ))
     ruff
     watchman
-    inputs.nixpkgs-unstable.zed-editor
+    zed-editor
   ];
 }
