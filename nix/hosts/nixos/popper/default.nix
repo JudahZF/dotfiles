@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  home-manager,
   ...
 }:
 {
@@ -110,7 +111,7 @@
   time.timeZone = "Europe/London";
 
   # USER
-  inputs.home-manager = {
+  home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     users.judahf = {
