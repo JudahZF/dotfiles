@@ -59,6 +59,8 @@
           inherit inputs;
           name = "popper";
           system = "x86_64-linux";
+          username = "judaf";
+          dotfiles = inputs.dotfiles;
         };
         modules = [ ./hosts/nixos/popper ];
       };
