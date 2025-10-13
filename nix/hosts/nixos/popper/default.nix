@@ -6,6 +6,7 @@
   ...
 }:
 {
+  _module_args.username = "judahf";
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -15,9 +16,6 @@
       omnixy.username = "judahf";
     }
     ./../../common
-    {
-      username = "judahf";
-    }
     ./../../common/common-neovim.nix
     ./../../common/dev-packages.nix
     ./../../common/dev-packages-config.nix
