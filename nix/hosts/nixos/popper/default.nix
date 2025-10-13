@@ -17,7 +17,7 @@
     }
     ./../../common
     ./../../common/common-neovim.nix
-    ./../../common/dev-packages.nix
+    (import ./../../common/dev-packages.nix { inherit inputs pkgs; })
     ./../../common/dev-packages-config.nix
   ];
 
@@ -133,7 +133,6 @@
     ];
   };
   users.defaultUserShell = pkgs.zsh;
-  security.sudo.enable = true;
 
   # PACKAGES
   environment.systemPackages = with pkgs; [

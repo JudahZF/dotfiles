@@ -7,7 +7,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # Nix
-export PATH=/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH
+export PATH=$PATH:/run/current-system/sw/bin:$HOME/.nix-profile/bin
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
