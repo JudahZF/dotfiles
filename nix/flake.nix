@@ -59,7 +59,7 @@
           inherit inputs;
           name = "popper";
           system = "x86_64-linux";
-          username = "judaf";
+          username = "judahf";
           dotfiles = inputs.dotfiles;
         };
         modules = [ ./hosts/nixos/popper ];
