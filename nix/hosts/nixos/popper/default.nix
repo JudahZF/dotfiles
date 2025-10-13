@@ -1,17 +1,11 @@
 {
-  inputs,
+  config,
   pkgs,
-  name,
   ...
 }:
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.omnixy.nixosModules.default
-    {
-      omnixy.enable = true;
-      omnixy.username = "judahf";
-    }
     ./../../common
     ./../../common/common-neovim.nix
     ./../../common/dev-packages.nix
@@ -20,7 +14,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = name;
+    targetHost = config.networking.hostName;
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
