@@ -53,6 +53,8 @@
       darwinConfigurations = {
         gale = libx.mkDarwin { hostname = "gale"; };
       };
-      popper = import ./hosts/nixos/popper;
+      nixosConfigurations = {
+        popper = import ./hosts/nixos/popper;
+      };
     };
 }
