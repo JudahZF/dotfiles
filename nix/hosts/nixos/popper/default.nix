@@ -114,9 +114,9 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    extraSpecialArgs = { inherit dotfiles; };
     users.judahf = {
       imports = [ ./../../../home/judahfuller.nix ];
-      extraSpecialArgs = { inherit dotfiles; };
     };
   };
   users.users.judahf = {
