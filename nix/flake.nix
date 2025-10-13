@@ -58,6 +58,7 @@
         specialArgs = {
           inherit inputs;
           name = "popper";
+          system = "x86_64-linux";
         };
         modules = [ ./hosts/nixos/popper ];
       };
