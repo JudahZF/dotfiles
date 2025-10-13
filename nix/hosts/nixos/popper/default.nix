@@ -6,7 +6,6 @@
   ...
 }:
 {
-  _module.args.username = "judahf";
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -47,7 +46,7 @@
       # OpenCL and compute support
       intel-compute-runtime
       intel-gmmlib
-      onevpl-intel-gpu
+      vpl-gpu-rt
 
       # VA-API utilities and libraries
       libva
@@ -168,4 +167,5 @@
       warn-dirty = false;
     };
   };
+  system.stateVersion = 25.05;
 }
