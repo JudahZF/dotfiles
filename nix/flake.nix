@@ -33,6 +33,8 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
+    omnixy.url = "github:JudahZF/omnixy";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -51,5 +53,6 @@
       darwinConfigurations = {
         gale = libx.mkDarwin { hostname = "gale"; };
       };
+      popper = import ./hosts/nixos/popper;
     };
 }
