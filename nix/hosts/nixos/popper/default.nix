@@ -15,6 +15,9 @@
       omnixy.username = "judahf";
     }
     ./../../common
+    {
+      username = "judahf";
+    }
     ./../../common/common-neovim.nix
     ./../../common/dev-packages.nix
     ./../../common/dev-packages-config.nix
