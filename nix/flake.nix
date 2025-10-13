@@ -40,7 +40,7 @@
   };
 
   outputs =
-    { ... }@inputs:
+    { nixpkgs, ... }@inputs:
     with inputs;
     let
       inherit (self) outputs;
@@ -56,7 +56,7 @@
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit inputs outputs;
+          inherit inputs;
           name = "popper";
         };
         modules = [ ./hosts/nixos/popper ];
