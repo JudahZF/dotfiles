@@ -9,6 +9,8 @@
 {
   environment.systemPackages = [ pkgs.mkalias ];
 
+  home-manager.backupFileExtension = "bck";
+
   nix = {
     channel.enable = false;
     enable = true;
