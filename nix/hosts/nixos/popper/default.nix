@@ -6,7 +6,7 @@
   ...
 }:
 {
-  _module_args.username = "judahf";
+  _module.args.username = "judahf";
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
