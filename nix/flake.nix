@@ -54,14 +54,11 @@
         gale = libx.mkDarwin { hostname = "gale"; };
       };
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/nixos/popper
-          omnixy.nixosModules.default
-          {
-            omnixy.enable = true;
-            omnixy.username = "judahf";
-          }
-        ];
+        specialArgs = {
+          inherit inputs outputs pkgs;
+          name = "popper";
+        };
+        modules = [ ./hosts/nixos/popper ];
       };
     };
 }
