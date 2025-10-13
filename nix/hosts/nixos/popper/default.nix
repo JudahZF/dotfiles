@@ -36,7 +36,7 @@
   # HARDWARE
   ## quicksync
   hardware.firmware = [ pkgs.linux-firmware ];
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       # VA-API drivers

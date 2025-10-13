@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   homebrew = {
     brews = [
@@ -80,4 +80,5 @@
       "koekeishiya/formulae"
     ];
   };
+  environment.systemPackages = [ pkgs.mkalias ];
 }
