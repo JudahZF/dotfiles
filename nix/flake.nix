@@ -26,8 +26,7 @@
     };
 
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:NixOS/nixpkgs/master";
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
