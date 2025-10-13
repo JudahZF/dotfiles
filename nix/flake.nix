@@ -54,7 +54,7 @@
         gale = libx.mkDarwin { hostname = "gale"; };
       };
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {
           inherit inputs;
           name = "popper";
