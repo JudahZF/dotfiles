@@ -6,6 +6,11 @@
 {
   imports = [
     ./hardware-configuration.nix
+    omnixy.nixosModules.default
+    {
+      omnixy.enable = true;
+      omnixy.username = "judahf";
+    }
     ./../../common
     ./../../common/common-neovim.nix
     ./../../common/dev-packages.nix
@@ -14,7 +19,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = config.networking.hostName;
+    targetHost = name;
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
