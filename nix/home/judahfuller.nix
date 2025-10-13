@@ -191,7 +191,11 @@
     zsh = {
       enable = true;
       enableCompletion = true;
-      initContent = builtins.readFile "${dotfiles}/zsh/macos/zshrc";
+      initContent =
+        if pkgs.stdenv.isDarwin then
+          builtins.readFile "${dotfiles}/zsh/macos/zshrc"
+        else
+          builtins.readFile "${dotfiles}/zsh/linux/zshrc";
     };
   };
 }
