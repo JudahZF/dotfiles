@@ -19,7 +19,7 @@
     nixfmt-rfc-style
     nodejs
     ollama
-    opencode
+    # opencode
     phpactor
     pnpm
     prettier
