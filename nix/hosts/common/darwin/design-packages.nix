@@ -2,13 +2,14 @@
 {
   homebrew = {
     casks = [
-      "affinity-designer"
-      "affinity-photo"
-      "affinity-publisher"
+      #"affinity-designer"
+      #"affinity-photo"
+      #"affinity-publisher"
       "autodesk-fusion"
-      "pika"
+      "gimp"
       "kicad"
-      "prusaslicer"
+      "pika"
+      "orcaslicer"
     ];
   };
 }

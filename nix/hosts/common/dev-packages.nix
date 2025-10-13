@@ -4,7 +4,10 @@
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
+    bun
     cmake
+    ghidra
+    go
     iperf
     jetbrains.datagrip
     jq
@@ -20,9 +23,17 @@
     phpactor
     pnpm
     prettier
+    protobuf
     postman
-    python3
+    (python313.withPackages (
+      ps: with ps; [
+        pip
+        requests
+        mcp
+      ]
+    ))
     ruff
+    watchman
     zed-editor
   ];
 }

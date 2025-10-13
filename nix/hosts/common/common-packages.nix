@@ -15,6 +15,7 @@
     entr # watch
     fastfetch
     fd # find
+    #firefox
     ffmpeg
     fzf
     # ghostty

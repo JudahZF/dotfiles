@@ -150,7 +150,7 @@
     git = {
       enable = true;
       difftastic = {
-        color = "always";
+        options.color = "always";
         enableAsDifftool = true;
         enable = true;
       };

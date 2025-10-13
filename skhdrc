@@ -1,63 +1,63 @@
 # -- Changing Window Focus --
 
 # change window focus within space
-rctrl + ralt + rcmd - j : yabai -m window --focus south
-rctrl + ralt + rcmd - k : yabai -m window --focus north
-rctrl + ralt + rcmd - h : yabai -m window --focus west
-rctrl + ralt + rcmd - l : yabai -m window --focus east
+ctrl + alt + cmd - j : yabai -m window --focus south
+ctrl + alt + cmd - k : yabai -m window --focus north
+ctrl + alt + cmd - h : yabai -m window --focus west
+ctrl + alt + cmd - l : yabai -m window --focus east
 
 #change focus between external displays (left and right)
-rctrl + ralt + rcmd - s: yabai -m display --focus west
-rctrl + ralt + rcmd - e: yabai -m display --focus east
+ctrl + alt + cmd - s: yabai -m display --focus west
+ctrl + alt + cmd - e: yabai -m display --focus east
 
 # -- Modifying the Layout --
 
 # rotate layout clockwise
-rctrl + ralt + rcmd - r : yabai -m space --rotate 270
+ctrl + alt + cmd - r : yabai -m space --rotate 270
 
 # toggle window float
-rctrl + ralt + rcmd - v : yabai -m window --toggle float --grid 4:4:1:1:2:2
+ctrl + alt + cmd - v : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # -- Modifying Window Size --
 
 # maximize a window
-rctrl + ralt + rcmd - m : yabai -m window --toggle zoom-fullscreen
+ctrl + alt + cmd - m : yabai -m window --toggle zoom-fullscreen
 
 # balance out tree of windows (resize to occupy same area)
-rctrl + ralt + rcmd - g : yabai -m space --balance
+ctrl + alt + cmd - g : yabai -m space --balance
 
 # -- Moving Windows Around --
 
 # swap windows
-shift + rctrl + ralt + rcmd - j : yabai -m window --swap south
-shift + rctrl + ralt + rcmd - k : yabai -m window --swap north
-shift + rctrl + ralt + rcmd - h : yabai -m window --swap west
-shift + rctrl + ralt + rcmd - l : yabai -m window --swap east
+shift + ctrl + alt + cmd - j : yabai -m window --swap south
+shift + ctrl + alt + cmd - k : yabai -m window --swap north
+shift + ctrl + alt + cmd - h : yabai -m window --swap west
+shift + ctrl + alt + cmd - l : yabai -m window --swap east
 
 # move window to display left and right
-shift + rctrl + ralt + rcmd - s : yabai -m window --display west; yabai -m display --focus west;
-shift + rctrl + ralt + rcmd - g : yabai -m window --display east; yabai -m display --focus east;
+shift + ctrl + alt + cmd - s : yabai -m window --display west; yabai -m display --focus west;
+shift + ctrl + alt + cmd - g : yabai -m window --display east; yabai -m display --focus east;
 
 # move window to prev and next space
-shift + rctrl + ralt + rcmd - p : yabai -m window --space prev;
-shift + rctrl + ralt + rcmd - n : yabai -m window --space next;
+shift + ctrl + alt + cmd - p : yabai -m window --space prev --focus;
+shift + ctrl + alt + cmd - n : yabai -m window --space next --focus;
 
 # move window to space #
-shift + rctrl + ralt + rcmd - 1 : yabai -m window --space 1;
-shift + rctrl + ralt + rcmd - 2 : yabai -m window --space 2;
-shift + rctrl + ralt + rcmd - 3 : yabai -m window --space 3;
-shift + rctrl + ralt + rcmd - 4 : yabai -m window --space 4;
-shift + rctrl + ralt + rcmd - 5 : yabai -m window --space 5;
-shift + rctrl + ralt + rcmd - 6 : yabai -m window --space 6;
-shift + rctrl + ralt + rcmd - 7 : yabai -m window --space 7;
-shift + rctrl + ralt + rcmd - 8 : yabai -m window --space 8;
+shift + ctrl + alt + cmd - 1 : yabai -m window --space 1 --focus;
+shift + ctrl + alt + cmd - 2 : yabai -m window --space 2 --focus;
+shift + ctrl + alt + cmd - 3 : yabai -m window --space 3 --focus;
+shift + ctrl + alt + cmd - 4 : yabai -m window --space 4 --focus;
+shift + ctrl + alt + cmd - 5 : yabai -m window --space 5 --focus;
+shift + ctrl + alt + cmd - 6 : yabai -m window --space 6 --focus;
+shift + ctrl + alt + cmd - 7 : yabai -m window --space 7 --focus;
+shift + ctrl + alt + cmd - 8 : yabai -m window --space 8 --focus;
 
 # move to space #
-rctrl + ralt + rcmd - 1 : yabai -m space --focus 1;
-rctrl + ralt + rcmd - 2 : yabai -m space --focus 2;
-rctrl + ralt + rcmd - 3 : yabai -m space --focus 3;
-rctrl + ralt + rcmd - 4 : yabai -m space --focus 4;
-rctrl + ralt + rcmd - 5 : yabai -m space --focus 5;
-rctrl + ralt + rcmd - 6 : yabai -m space --focus 6;
-rctrl + ralt + rcmd - 7 : yabai -m space --focus 7;
-rctrl + ralt + rcmd - 8 : yabai -m space --focus 8;
+ctrl + alt + cmd - 1 : yabai -m space --focus 1;
+ctrl + alt + cmd - 2 : yabai -m space --focus 2;
+ctrl + alt + cmd - 3 : yabai -m space --focus 3;
+ctrl + alt + cmd - 4 : yabai -m space --focus 4;
+ctrl + alt + cmd - 5 : yabai -m space --focus 5;
+ctrl + alt + cmd - 6 : yabai -m space --focus 6;
+ctrl + alt + cmd - 7 : yabai -m space --focus 7;
+ctrl + alt + cmd - 8 : yabai -m space --focus 8;
