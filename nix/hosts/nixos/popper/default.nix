@@ -142,6 +142,7 @@
     zsh
   ];
   nixpkgs.config.allowUnfree = true;
+  programs.zsh.enable = true;
 
   # SERVICES
   services.fstrim.enable = true;
