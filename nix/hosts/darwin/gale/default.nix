@@ -1,9 +1,9 @@
-{ ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     ./custom-dock.nix
     ../../common/design-packages.nix
-    ../../common/dev-packages.nix
+    (import ../../common/dev-packages.nix { inherit inputs pkgs; })
     ../../common/uni-packages.nix
     ../../common/dev-packages-config.nix
     ../../common/gaming-packages.nix

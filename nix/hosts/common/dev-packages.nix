@@ -19,10 +19,10 @@
     nixfmt-rfc-style
     nodejs
     ollama
-    # opencode
+    opencode
     phpactor
     pnpm
-    # prettier
+    (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.prettier)
     protobuf
     postman
     (python313.withPackages (
@@ -34,6 +34,6 @@
     ))
     ruff
     watchman
-    zed-editor
+    (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.zed-editor)
   ];
 }
