@@ -90,11 +90,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1760351699,
-        "narHash": "sha256-2pd1PFqvLOqTAj6qgTgHQqfkq/JDJJuO/3FCVetJCQA=",
+        "lastModified": 1760361418,
+        "narHash": "sha256-sBbF9m7zmuOzXlAaS76pXsfkzfVijw0V3X0vvP7A+/M=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "19b77f2fc501ba300be1d8a870e6196b7056778c",
+        "rev": "5c0f322c404cea30e302d7890b8057b15421460f",
         "type": "github"
       },
       "original": {
@@ -106,11 +106,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1760354481,
-        "narHash": "sha256-WHWZ0xKkkIG3TH8fsY5MADrYmPV5lVC0pSOutUuC4P4=",
+        "lastModified": 1760358198,
+        "narHash": "sha256-/OCH1mdJs3LozqV1uHpr2Ucgp9VKJ9mdgcmsLV0dnhM=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "a0b3209bb13370478e4e277fe308b09f0ea7e141",
+        "rev": "c3c2346cfdb22350919bffe8ced58016d66a69de",
         "type": "github"
       },
       "original": {
@@ -159,16 +159,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1760355415,
-        "narHash": "sha256-2bOeaT8OL38oNy97XpemBYBph+7JbiXHhcvrUAvHZEo=",
+        "lastModified": 1760256791,
+        "narHash": "sha256-uTpzDHRASEDeFUuToWSQ46Re8beXyG9dx4W36FQa0/c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "11e9ef3e81c5794fc22ad523a81c926480f1c254",
+        "rev": "832e3b6db48508ae436c2c7bfc0cf914eac6938e",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "master",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -199,11 +199,11 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1760355565,
-        "narHash": "sha256-u5gMXCCeWS2qzc0kO477Enct0qIiXgxcCfSkxN4h9eQ=",
+        "lastModified": 1760357176,
+        "narHash": "sha256-d/2bbp7jnt5KkV55MHI9ZeLZSPq+Xge+4PcMT/aWUWs=",
         "owner": "JudahZF",
         "repo": "omnixy",
-        "rev": "e8a146b3b4eda6ee75020acc186aeb01711503a2",
+        "rev": "3458cda0c3d9337cc140107394fce62007c7d36b",
         "type": "github"
       },
       "original": {
