@@ -8,6 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
     inputs.omnixy.nixosModules.default
     {
       omnixy.enable = true;
