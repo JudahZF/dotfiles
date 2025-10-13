@@ -19,14 +19,6 @@
     ./../../common/dev-packages-config.nix
   ];
 
-  ## DEPLOYMENT
-  deployment = {
-    targetHost = "popper";
-    targetUser = "root";
-    buildOnTarget = true;
-    allowLocalDeployment = true;
-  };
-
   # BOOTLOADER
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
