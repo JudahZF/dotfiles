@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
@@ -34,6 +34,6 @@
     ))
     ruff
     watchman
-    zed-editor
+    inputs.nixpkgs-unstable.zed-editor
   ];
 }
