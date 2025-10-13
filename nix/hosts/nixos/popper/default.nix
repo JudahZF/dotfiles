@@ -110,11 +110,12 @@
   time.timeZone = "Europe/London";
 
   # USER
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  #home-manager.backupFileExtension = "bak";
-  home-manager.users.judahf = {
-    imports = [ ./../../../home/judahfuller.nix ];
+  inputs.home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.judahf = {
+      imports = [ ./../../../home/judahfuller.nix ];
+    };
   };
   users.users.judahf = {
     isNormalUser = true;
