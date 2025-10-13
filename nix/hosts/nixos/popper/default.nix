@@ -1,9 +1,7 @@
 {
-  config,
+  pkgs,
   lib,
   inputs,
-  name,
-  pkgs,
   ...
 }:
 {
@@ -22,7 +20,7 @@
 
   ## DEPLOYMENT
   deployment = {
-    targetHost = name;
+    targetHost = "popper";
     targetUser = "root";
     buildOnTarget = true;
     allowLocalDeployment = true;
