@@ -133,6 +133,7 @@
     ];
   };
   users.defaultUserShell = pkgs.zsh;
+  security.sudo.enable = true;
 
   # PACKAGES
   environment.systemPackages = with pkgs; [
