@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
@@ -27,7 +27,10 @@
     iperf3
     jetbrains-mono # font
     just
-    neovim
+    (inputs.nvf.lib.neovimConfiguration {
+      pkgs = pkgs;
+      modules = [ "${inputs.dotfiles}/nvim/config.nix" ];
+    }).neovim
     nil
     nix
     nixd
