@@ -21,6 +21,10 @@
       specialArgs = {
         inherit system inputs username;
         dotfiles = inputs.dotfiles;
+        pkgs = import inputs.nixpkgs-darwin {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
       modules = [
         ../hosts/common/default.nix

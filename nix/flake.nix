@@ -27,14 +27,19 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     omnixy = {
       url = "github:JudahZF/omnixy";
@@ -59,7 +64,9 @@
     in
     {
       darwinConfigurations = {
-        gale = libx.mkDarwin { hostname = "gale"; };
+        gale = libx.mkDarwin {
+          hostname = "gale";
+        };
       };
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
