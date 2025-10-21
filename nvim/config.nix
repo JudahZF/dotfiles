@@ -1,8 +1,11 @@
 { pkgs, lib, ... }:
 {
-  vim.theme.enabled = true;
-  vim.theme.name = "tokyonight";
-  vim.theme.style = "night";
-
-  vim.languages.nix.enable = true;
+  config.vim = {
+    theme = {
+      enabled = true;
+      theme.name = "tokyonight";
+      theme.style = "night";
+    };
+    languages.nix.enable = true;
+  };
 }
