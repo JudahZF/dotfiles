@@ -14,11 +14,6 @@
           source = "${dotfiles}/nix";
           target = ".config/nix";
         };
-        nvim = {
-          recursive = true;
-          source = "${dotfiles}/nvim";
-          target = ".config/nvim";
-        };
         sketchybar = {
           recursive = true;
           source = "${dotfiles}/sketchybar";
