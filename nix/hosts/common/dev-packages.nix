@@ -8,7 +8,6 @@
     cmake
     ghidra
     go
-    iperf
     jetbrains.datagrip
     jq
     lazygit
@@ -19,7 +18,7 @@
     nixfmt-rfc-style
     nodejs
     ollama
-    opencode
+    (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.opencode)
     phpactor
     pnpm
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.prettier)
