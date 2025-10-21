@@ -61,6 +61,7 @@
       "stats"
       "tailscale-app"
       "tor-browser"
+      "utm"
       "vlc"
       "whatsapp"
       "wireshark"
@@ -69,6 +70,7 @@
     ];
     masApps = {
       "Amphetamine" = 937984704;
+      "Capo" = 696977615;
       "Home Assistant Companion" = 1099568401;
       "Windows App" = 1295203466;
       "Logic Pro" = 634148309;
