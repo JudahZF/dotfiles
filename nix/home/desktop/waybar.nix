@@ -16,6 +16,8 @@
       ];
       modules-right = [
         "group/tray-expander"
+        "custom/expand-icon"
+        "tray"
         "bluetooth"
         "network"
         "pulseaudio"
@@ -146,7 +148,6 @@
           transition-duration = 600;
           children-class = "tray-group-item";
         };
-        modules = [ "custom/expand-icon" "tray" ];
       };
 
       tray = {
