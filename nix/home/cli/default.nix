@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./btop.nix
+     ./btop.nix
     ./fastfetch.nix
     ./fd.nix
     ./fzf.nix
