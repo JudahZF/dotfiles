@@ -1,0 +1,5 @@
+{ ... }: {
+  services.walker = {
+    enable = true;
+  };
+}
