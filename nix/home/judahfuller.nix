@@ -1,5 +1,5 @@
 { dotfiles, pkgs, ... }: {
-  imports = [ ./cli ];
+  imports = [ ./cli ./desktop ];
   home = {
     stateVersion = "24.05";
 
