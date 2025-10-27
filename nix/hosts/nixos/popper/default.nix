@@ -10,7 +10,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
-    inputs.omnixy.nixosModules.default
     ./../../common
     (import ./../../common/dev-packages.nix { inherit inputs pkgs; })
     ./../../common/dev-packages-config.nix
@@ -128,9 +127,6 @@
     ];
   };
   users.defaultUserShell = pkgs.zsh;
-  omnixy.enable = true;
-  omnixy.username = "judahf";
-  omnixy.login.greetd.enabled = true;
 
   # PACKAGES
   environment.systemPackages = with pkgs; [
