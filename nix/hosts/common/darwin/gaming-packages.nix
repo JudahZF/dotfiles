@@ -1,10 +1,1 @@
-{ ... }:
-{
-  homebrew = {
-    casks = [
-      "curseforge"
-      "minecraft"
-      "steam"
-    ];
-  };
-}
+{ ... }: { homebrew = { casks = [ "curseforge" "minecraft" "steam" ]; }; }

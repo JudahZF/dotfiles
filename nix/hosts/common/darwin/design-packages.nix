@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   homebrew = {
     casks = [
       #"affinity-designer"

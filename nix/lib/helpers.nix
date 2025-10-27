@@ -1,23 +1,12 @@
-{
-  inputs,
-  ...
-}:
-{
-  mkDarwin =
-    {
-      hostname,
-      username ? "judahfuller",
-      system ? "aarch64-darwin",
-    }:
+{ inputs, ... }: {
+  mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
-      customConf =
-        if builtins.pathExists customConfPath then
-          (customConfPath + "/default.nix")
-        else
-          ./../hosts/common/darwin/default-dock.nix;
-    in
-    inputs.nix-darwin.lib.darwinSystem {
+      customConf = if builtins.pathExists customConfPath then
+        (customConfPath + "/default.nix")
+      else
+        ./../hosts/common/darwin/default-dock.nix;
+    in inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit system inputs username;
         dotfiles = inputs.dotfiles;

@@ -1,9 +1,9 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with pkgs; [
-    # gimp
-    # kicad
-    # prusa-slicer
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      # gimp
+      # kicad
+      # prusa-slicer
+    ];
 }

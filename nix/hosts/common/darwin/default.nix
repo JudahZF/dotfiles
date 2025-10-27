@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   imports = [
     ./app-config.nix
     ./common-config.nix

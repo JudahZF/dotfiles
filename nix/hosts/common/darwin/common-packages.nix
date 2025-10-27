@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   homebrew = {
     brews = [
       "chrome-cli"
@@ -12,9 +11,7 @@
         start_service = true;
         restart_service = true;
       }
-      {
-        name = "jackielii/tap/skhd-zig";
-      }
+      { name = "jackielii/tap/skhd-zig"; }
       "samtay/tui/tetris"
       {
         name = "yabai";

@@ -1,6 +1,3 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [
-    jetbrains.idea-ultimate
-  ];
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs; [ jetbrains.idea-ultimate ];
 }

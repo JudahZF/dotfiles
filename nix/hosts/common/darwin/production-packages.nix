@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   homebrew = {
     casks = [
       "4k-video-downloader"
@@ -12,9 +11,7 @@
       "ndi-tools"
       "propresenter"
     ];
-    masApps = {
-      "Final Cut Pro" = 424389933;
-    };
+    masApps = { "Final Cut Pro" = 424389933; };
     taps = [ "bevanjkay/homebrew-tap" ];
   };
 }

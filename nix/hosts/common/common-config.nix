@@ -1,11 +1,4 @@
-{
-  lib,
-  pkgs,
-  system,
-  inputs,
-  ...
-}:
-{
+{ lib, pkgs, system, inputs, ... }: {
 
   home-manager.backupFileExtension = "bck";
 
@@ -13,10 +6,7 @@
     channel.enable = false;
     enable = true;
     settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = [ "nix-command" "flakes" ];
       warn-dirty = false;
     };
   };

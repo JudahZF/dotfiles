@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   system.defaults = {
     dock = {
       appswitcher-all-displays = true;

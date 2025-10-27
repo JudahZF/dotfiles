@@ -1,7 +1,1 @@
-{ pkgs, ...}:
-{
-  environment.systemPackages = with pkgs; [
-    grim
-    slurp
-  ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ grim slurp ]; }

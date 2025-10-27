@@ -1,7 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./grim.nix
-    ./hyprland.nix
-  ];
-}
+{ ... }: { imports = [ ./grim.nix ./hyprland.nix ]; }
