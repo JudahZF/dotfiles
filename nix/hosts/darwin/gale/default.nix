@@ -1,5 +1,4 @@
-{ inputs, pkgs, ... }:
-{
+{ inputs, pkgs, ... }: {
   imports = [
     ./custom-dock.nix
     ../../common/design-packages.nix

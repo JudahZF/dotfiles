@@ -1,5 +1,4 @@
-{ inputs, pkgs, ... }:
-{
+{ inputs, pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ## stable
@@ -24,13 +23,7 @@
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.prettier)
     protobuf
     postman
-    (python313.withPackages (
-      ps: with ps; [
-        pip
-        requests
-        mcp
-      ]
-    ))
+    (python313.withPackages (ps: with ps; [ pip requests mcp ]))
     ruff
     watchman
     (inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.zed-editor)

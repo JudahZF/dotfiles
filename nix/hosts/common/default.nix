@@ -1,8 +1,4 @@
-{ inputs, ... }:
-{
-  imports = [
-    ./common-config.nix
-    ./common-packages.nix
-    ./common-packages-config.nix
-  ];
+{ inputs, ... }: {
+  imports =
+    [ ./common-config.nix ./common-packages.nix ./common-packages-config.nix ];
 }

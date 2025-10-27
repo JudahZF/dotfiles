@@ -1,6 +1,1 @@
-{ ... }:
-{
-  environment.shellAliases = {
-    lg = "lazygit";
-  };
-}
+{ ... }: { environment.shellAliases = { lg = "lazygit"; }; }

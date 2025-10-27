@@ -1,12 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  dotfiles,
-  ...
-}:
-{
+{ config, lib, pkgs, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -23,10 +15,7 @@
   # KERNEL
   boot.kernelModules = [ "drivetemp" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  boot.kernelParams = [
-    "i915.fastboot=1"
-    "i915.enable_guc=3"
-  ];
+  boot.kernelParams = [ "i915.fastboot=1" "i915.enable_guc=3" ];
 
   # HARDWARE
   ## Thunderbolt
@@ -69,20 +58,14 @@
     interfaces = {
       eno1 = {
         useDHCP = false;
-        ipv4.addresses = [
-          {
-            address = "192.168.1.33";
-            prefixLength = 24;
-          }
-        ];
+        ipv4.addresses = [{
+          address = "192.168.1.33";
+          prefixLength = 24;
+        }];
       };
     };
     defaultGateway = "192.168.1.1";
-    nameservers = [
-      "192.168.1.2"
-      "1.1.1.1"
-      "8.8.8.8"
-    ];
+    nameservers = [ "192.168.1.2" "1.1.1.1" "8.8.8.8" ];
   };
 
   # LOCALISATION
@@ -112,32 +95,17 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit dotfiles; };
-    users.judahf = {
-      imports = [ ./../../../home/judahfuller.nix ];
-    };
+    users.judahf = { imports = [ ./../../../home/judahfuller.nix ]; };
   };
   users.users.judahf = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "docker"
-      "networkmanager"
-      "render"
-      "video"
-    ];
-    packages = with pkgs; [
-      home-manager
-    ];
+    extraGroups = [ "wheel" "docker" "networkmanager" "render" "video" ];
+    packages = with pkgs; [ home-manager ];
   };
   users.defaultUserShell = pkgs.zsh;
 
   # PACKAGES
-  environment.systemPackages = with pkgs; [
-    btrfs-progs
-    git
-    wget
-    zsh
-  ];
+  environment.systemPackages = with pkgs; [ btrfs-progs git wget zsh ];
   nixpkgs.config.allowUnfree = true;
   programs.zsh.enable = true;
 
@@ -162,10 +130,7 @@
 
   nix = {
     settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = [ "nix-command" "flakes" ];
       warn-dirty = false;
     };
   };

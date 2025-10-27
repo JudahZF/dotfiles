@@ -1,13 +1,8 @@
-{ ... }:
-{
+{ ... }: {
   programs.fastfetch = {
     enable = true;
     settings = {
-      logo = {
-        padding = {
-          top = 2;
-        };
-      };
+      logo = { padding = { top = 2; }; };
       modules = [
         "title"
         "separator"

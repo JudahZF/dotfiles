@@ -1,7 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./login.nix
-    ./desktop
-  ];
-}
+{ ... }: { imports = [ ./login.nix ./desktop ]; }
