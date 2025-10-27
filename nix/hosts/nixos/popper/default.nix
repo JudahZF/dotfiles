@@ -95,7 +95,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit dotfiles; };
-    users.judahf = { imports = [ ./../../../home/judahfuller.nix ]; };
+    users.judahf = { imports = [ ./../../../home/judahf.nix ]; };
   };
   users.users.judahf = {
     isNormalUser = true;
