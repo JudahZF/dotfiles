@@ -1,6 +1,6 @@
 { ... }: {
   wayland.windowManager.hyprland = {
-    enabled = true;
+    enable = true;
     settings = {
       "$hyprMod" = "SUPER CTRL ALT";
       "$terminal" = "ghostty";
