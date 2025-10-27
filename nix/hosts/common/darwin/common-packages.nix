@@ -38,7 +38,7 @@
       "dropbox"
       "docker-desktop"
       "ghostty"
-      "google-chrome"
+      "helium-browser"
       "hiddenbar"
       "hyperkey"
       "keka"
@@ -77,6 +77,7 @@
       "Xcode" = 497799835;
     };
     taps = [
+      "homebrew/cask"
       "FelixKratz/formulae"
       "filosottile/musl-cross"
       "koekeishiya/formulae"
