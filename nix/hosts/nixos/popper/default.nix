@@ -29,6 +29,8 @@
   ];
 
   # HARDWARE
+  ## Thunderbolt
+  services.hardware.bolt.enable = true;
   ## quicksync
   hardware.firmware = [ pkgs.linux-firmware ];
   hardware.graphics = {
