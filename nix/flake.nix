@@ -37,7 +37,7 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
     nvf = {
-      url = "github:notashelf/nvf";
+      url = "github:JudahZF/nvf/telescope_gitFiles";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
