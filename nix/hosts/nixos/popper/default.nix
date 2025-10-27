@@ -13,7 +13,7 @@
     ./../../common
     (import ./../../common/dev-packages.nix { inherit inputs pkgs; })
     ./../../common/dev-packages-config.nix
-    ./../../nix/login.nix
+    ./../../nix
   ];
 
   # BOOTLOADER
