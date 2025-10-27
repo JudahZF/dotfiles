@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   system.defaults.CustomUserPreferences = {
     "com.apphousekitchen.aldente-pro.plist" = {
       automaticDischarge = false;
@@ -36,11 +35,7 @@
         "adapterCurrent"
         "adapterName"
       ];
-      popoverWidgets = [
-        "highAppUsage"
-        "powerflow"
-        "stats"
-      ];
+      popoverWidgets = [ "highAppUsage" "powerflow" "stats" ];
       sailingMode = true;
       sailingLevel = 5;
       showDockIcon = false;
@@ -77,7 +72,7 @@
       FXDefaultSearchScope = "SCcf";
       FXEnableExtensionChangeWarning = false;
       NewWindowTarget = "PfDe";
-      NewWindowTargetPath = "file://$\{HOME\}/";
+      NewWindowTargetPath = "file://\${HOME}/";
       PreviewPaneGalleryWidth = 250;
       ShowExternalHardDrivesOnDesktop = true;
       ShowHardDrivesOnDesktop = false;

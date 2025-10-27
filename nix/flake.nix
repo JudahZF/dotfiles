@@ -47,8 +47,7 @@
     };
   };
 
-  outputs =
-    { nixpkgs, ... }@inputs:
+  outputs = { nixpkgs, ... }@inputs:
     with inputs;
     let
       inherit (self) outputs;
@@ -56,13 +55,8 @@
       stateVersion = "24.05";
       libx = import ./lib { inherit inputs outputs stateVersion; };
 
-    in
-    {
-      darwinConfigurations = {
-        gale = libx.mkDarwin {
-          hostname = "gale";
-        };
-      };
+    in {
+      darwinConfigurations = { gale = libx.mkDarwin { hostname = "gale"; }; };
       nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {

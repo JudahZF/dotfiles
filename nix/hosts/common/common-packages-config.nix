@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   environment.shellAliases = {
     cd = "z";
     diff = "difftastic";
