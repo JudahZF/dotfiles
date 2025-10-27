@@ -1,8 +1,8 @@
 { config, pkgs, ...}:
 {
-  environment.systemPackages = with pkgs; [
-    tuigreet
-  ];
+  #environment.systemPackages = with pkgs; [
+  #  tuigreet
+  #];
   services.greetd = {
     enable = true;
     settings = {
