@@ -12,6 +12,9 @@ log_error() {
 
 log_info "Starting rebuild process..."
 
+# Detect OS
+OS=$(uname -s)
+
 # Attempt to run the internal rebuild script without sudo first.
 if bash ~/dotfiles/*/_internal_rebuild.sh; then
   log_info "Internal rebuild executed successfully."
@@ -20,19 +23,21 @@ else
   exit 1
 fi
 
-# Execute additional commands that require sudo explicitly.
-log_info "Loading yabai system administration..."
-if sudo yabai --load-sa; then
-  log_info "yabai system administration loaded."
-else
-  log_error "Failed to load yabai system administration."
-fi
+# Execute macOS-specific commands
+if [[ "$OS" == "Darwin" ]]; then
+  log_info "Loading yabai system administration..."
+  if sudo yabai --load-sa; then
+    log_info "yabai system administration loaded."
+  else
+    log_error "Failed to load yabai system administration."
+  fi
 
-log_info "Restarting yabai service..."
-if yabai --restart-service; then
-  log_info "yabai service restarted successfully."
-else
-  log_error "Failed to restart yabai service."
+  log_info "Restarting yabai service..."
+  if yabai --restart-service; then
+    log_info "yabai service restarted successfully."
+  else
+    log_error "Failed to restart yabai service."
+  fi
 fi
 
 log_info "Running fastfetch..."
