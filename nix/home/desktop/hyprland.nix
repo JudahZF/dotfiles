@@ -60,16 +60,16 @@
         "$hyprMod, 0, workspace, 10"
 
         ## move window to workspace
-        "$hyprMod SHIFT, 1, workspace, 1"
-        "$hyprMod SHIFT, 2, workspace, 2"
-        "$hyprMod SHIFT, 3, workspace, 3"
-        "$hyprMod SHIFT, 4, workspace, 4"
-        "$hyprMod SHIFT, 5, workspace, 5"
-        "$hyprMod SHIFT, 6, workspace, 6"
-        "$hyprMod SHIFT, 7, workspace, 7"
-        "$hyprMod SHIFT, 8, workspace, 8"
-        "$hyprMod SHIFT, 9, workspace, 9"
-        "$hyprMod SHIFT, 0, workspace, 10"
+        "$hyprMod SHIFT, 1, movetoworkspace, 1"
+        "$hyprMod SHIFT, 2, movetoworkspace, 2"
+        "$hyprMod SHIFT, 3, movetoworkspace, 3"
+        "$hyprMod SHIFT, 4, movetoworkspace, 4"
+        "$hyprMod SHIFT, 5, movetoworkspace, 5"
+        "$hyprMod SHIFT, 6, movetoworkspace, 6"
+        "$hyprMod SHIFT, 7, movetoworkspace, 7"
+        "$hyprMod SHIFT, 8, movetoworkspace, 8"
+        "$hyprMod SHIFT, 9, movetoworkspace, 9"
+        "$hyprMod SHIFT, 0, movetoworkspace, 10"
 
         ## scroll through workspaces
         "$hyprMod, mouse_down, workspace, e+1"
