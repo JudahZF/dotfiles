@@ -3,6 +3,7 @@
     enable = true;
     settings = {
       "$hyprMod" = "SUPER CTRL ALT";
+      "$cmdMod" = "SUPER CTRL ALT";
       "$terminal" = "ghostty";
       "$fileManager" = "files";
       "$menu" = "walker";
@@ -29,10 +30,10 @@
         # application launchers
         "$hyprMod, RETURN, exec, $terminal"
         "$hyprMod, E, exec, $fileManager"
-        "$hyprMod, SPACE, exec, $menu"
+        "$cmdMod, SPACE, exec, $menu"
 
         # window management
-        "$hyprMod, Q, killactive"
+        "$cmdMod, Q, killactive"
         "$hyprMod, V, togglefloating"
         "$hyprMod, W, fullscreen"
         "$hyprMod, J, togglesplit"
