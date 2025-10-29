@@ -8,11 +8,14 @@
       spacing = 0;
       "height" = 26;
 
-      modules-left = [ "custom/omarchy" "hyprland/workspaces" ];
+      modules-left = [ 
+        # "custom/omarchy"
+        "hyprland/workspaces"
+      ];
       modules-center = [
         "clock"
         # "custom/update"
-        "custom/screenrecording-indicator"
+        # "custom/screenrecording-indicator"
       ];
       modules-right = [
         "group/tray-expander"
@@ -54,21 +57,21 @@
         format = "";
         tooltip = false;
       };
-      "custom/omarchy" = {
-        format = "<span font='omarchy'>ue900</span>";
-        on-click = "omarchy-menu";
-        on-click-right = "omarchy-launch-terminal";
-        tooltip-format = ''
-          Omarchy Menu
-
-          Super + Alt + Space'';
-      };
-      "custom/screenrecording-indicator" = {
-        on-click = "omarchy-cmd-screenrecord";
-        exec = "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh";
-        signal = 8;
-        return-type = "json";
-      };
+                        # "custom/omarchy" = {
+                        # format = "<span font='omarchy'>ue900</span>";
+                        # on-click = "omarchy-menu";
+                        # on-click-right = "omarchy-launch-terminal";
+                        # tooltip-format = ''
+                        # Omarchy Menu
+                        # 
+                        # Super + Alt + Space'';
+                        # };
+                        # "custom/screenrecording-indicator" = {
+                        # on-click = "omarchy-cmd-screenrecord";
+                        # exec = "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh";
+                        # signal = 8;
+                        # return-type = "json";
+                        # };
       "custom/update" = {
         format = "";
         exec = "omarchy-update-available";
