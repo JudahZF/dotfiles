@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
+    inputs.walker.homeManagerModules.default 
     ./../../common
     (import ./../../common/dev-packages.nix { inherit inputs pkgs; })
     ./../../common/dev-packages-config.nix
