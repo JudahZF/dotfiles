@@ -4,7 +4,7 @@
     runAsService = true;
 
     config = {
-      keybinds.quick_activate = ["1" "2" "3" "4" "5" "6" "7" "8"];
+      keybinds.quick_activate = ["F1" "F2" "F3" "F4"];
     };
   };
 }
