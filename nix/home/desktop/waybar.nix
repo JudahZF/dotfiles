@@ -18,8 +18,6 @@
         # "custom/screenrecording-indicator"
       ];
       modules-right = [
-        "group/tray-expander"
-        "custom/expand-icon"
         "tray"
         "bluetooth"
         "network"
@@ -53,10 +51,6 @@
         };
       };
 
-      "custom/expand-icon" = {
-        format = "";
-        tooltip = false;
-      };
                         # "custom/omarchy" = {
                         # format = "<span font='omarchy'>ue900</span>";
                         # on-click = "omarchy-menu";
@@ -72,15 +66,6 @@
                         # signal = 8;
                         # return-type = "json";
                         # };
-      "custom/update" = {
-        format = "";
-        exec = "omarchy-update-available";
-        on-click =
-          "omarchy-launch-floating-terminal-with-presentation omarchy-update";
-        tooltip-format = "Omarchy update available";
-        signal = 7;
-        interval = 3600;
-      };
 
       cpu = {
         interval = 5;
@@ -91,8 +76,6 @@
         format = "{:L%A %H:%M}";
         format-alt = "{:L%d %B W%V %Y}";
         tooltip = false;
-        on-click-right =
-          "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select";
       };
       network = {
         format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
@@ -107,7 +90,6 @@
         tooltip-format-disconnected = "Disconnected";
         interval = 3;
         spacing = 1;
-        on-click = "omarchy-launch-wifi";
       };
       battery = {
         format = "{capacity}% {icon}";
@@ -122,7 +104,6 @@
         tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
         tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
         interval = 5;
-        on-click = "omarchy-menu power";
         states = {
           warning = 20;
           critical = 10;
@@ -143,14 +124,6 @@
         scroll-step = 5;
         format-muted = "";
         format-icons = { default = [ "" "" "" ]; };
-      };
-
-      "group/tray-expander" = {
-        orientation = "inherit";
-        drawer = {
-          transition-duration = 600;
-          children-class = "tray-group-item";
-        };
       };
 
       tray = {
