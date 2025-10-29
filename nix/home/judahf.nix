@@ -1,5 +1,9 @@
-{ dotfiles, pkgs, ... }: {
-  imports = [ ./cli ./desktop ];
+{ inputs, dotfiles, pkgs, ... }: {
+  imports = [
+    inputs.walker.homeManagerModules.default 
+                ./cli
+                ./desktop
+        ];
   home = {
     stateVersion = "24.05";
   };
