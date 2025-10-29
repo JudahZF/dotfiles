@@ -89,7 +89,10 @@
         rounding = 10;
       };
 
-      exec-once = "waybar & hyprpaper";
+      exec-once = [
+        "waybar"
+        "hyprpaper"
+      ];
 
       general = {
         gaps_in = 2;
