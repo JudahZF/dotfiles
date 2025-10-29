@@ -1,12 +1,12 @@
 { ... }: {
   programs.waybar = {
     enable = true;
-    height = 26;
-    settings = {
+    settings.main = {
       reload_style_on_change = true;
       layer = "top";
       position = "top";
       spacing = 0;
+      "height" = 26;
 
       modules-left = [ "custom/omarchy" "hyprland/workspaces" ];
       modules-center = [
