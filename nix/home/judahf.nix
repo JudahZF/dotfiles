@@ -1,6 +1,5 @@
-{ inputs, dotfiles, pkgs, ... }: {
+{ dotfiles, pkgs, ... }: {
   imports = [
-    inputs.walker.homeManagerModules.default 
                 ./cli
                 ./desktop
         ];

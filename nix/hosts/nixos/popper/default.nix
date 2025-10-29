@@ -95,7 +95,10 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit dotfiles; };
-    users.judahf = { imports = [ ./../../../home/judahf.nix ]; };
+    users.judahf = { imports = [ 
+                        inputs.walker.homeManagerModules.default
+                        ./../../../home/judahf.nix 
+                ]; };
   };
   users.users.judahf = {
     isNormalUser = true;
