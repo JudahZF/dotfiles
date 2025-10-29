@@ -27,9 +27,9 @@
         ''SUPER, S, exec, grim -g "$(slurp)"''
 
         # application launchers
-        "$hyprMod, RETURN, exec:$terminal"
-        "$hyprMod, E, exec:$fileManager"
-        "$hyprMod, SPACE, exec:$menu"
+        "$hyprMod, RETURN, exec, $terminal"
+        "$hyprMod, E, exec, $fileManager"
+        "$hyprMod, SPACE, exec, $menu"
 
         # window management
         "$hyprMod, Q, killactive"
