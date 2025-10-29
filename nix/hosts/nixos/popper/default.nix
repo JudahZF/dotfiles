@@ -114,10 +114,6 @@
   services.fwupd.enable = true;
   services.openssh.enable = true;
   services.tailscale.enable = true;
-  services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
   virtualisation = {
     docker = {
       enable = true;
