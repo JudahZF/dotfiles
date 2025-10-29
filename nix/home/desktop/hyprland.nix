@@ -42,8 +42,8 @@
         "$hyprMod, RIGHT, movefocus, r"
         "$hyprMod, UP, movefocus, u"
         "$hyprMod, DOWN, movefocus, d"
-        "$hyprMod SHIFT, LEFT, movetoworkspaceprev"
-        "$hyprMod SHIFT, RIGHT, movetoworkspacenext"
+        "$hyprMod SHIFT, LEFT, movetoworkspace, r-1"
+        "$hyprMod SHIFT, RIGHT, movetoworkspace, r+1"
 
         # workspace management
         ## switch to workspace
@@ -98,8 +98,8 @@
         gaps_in = 2;
         gaps_out = 4;
         border_size = 2;
-        col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        col.inactive_border = "rgba(595959aa)";
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
         layout = "dwindle";
         allow_tearing = false;
       };
