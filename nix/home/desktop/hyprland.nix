@@ -22,7 +22,7 @@
 
       bind = [
         # session management
-        "$hyprMod SHIFT, r, reload"
+        "$hyprMod SHIFT, r, exec, hyprctl, reload"
         "$hyprMod SHIFT, q, exit"
         ''SUPER, S, exec, grim -g "$(slurp)"''
 
@@ -42,8 +42,8 @@
         "$hyprMod, RIGHT, movefocus, r"
         "$hyprMod, UP, movefocus, u"
         "$hyprMod, DOWN, movefocus, d"
-        "$hyprMod, SHIFT, LEFT, movetoworkspaceprev"
-        "$hyprMod, SHIFT, RIGHT, movetoworkspacenext"
+        "$hyprMod SHIFT, LEFT, movetoworkspaceprev"
+        "$hyprMod SHIFT, RIGHT, movetoworkspacenext"
 
         # workspace management
         ## switch to workspace
