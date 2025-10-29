@@ -22,7 +22,6 @@
     git-cliff
     git-lfs
     google-chrome
-    gtk3
     home-manager
     iperf3
     jetbrains-mono # font
