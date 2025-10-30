@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, dotfiles, ... }: {
+{ pkgs, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -95,9 +95,9 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit dotfiles; };
-    users.judahf = { imports = [ 
+    users.judahf = { imports = [
                         inputs.walker.homeManagerModules.default
-                        ./../../../home/judahf.nix 
+                        ./../../../home/judahf.nix
                 ]; };
   };
   users.users.judahf = {

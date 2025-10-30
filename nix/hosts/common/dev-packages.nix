@@ -5,6 +5,7 @@
     bootdev-cli
     bun
     cmake
+    (inputs.cursor-pkg.legacyPackages.${pkgs.system}.code-cursor)
     ghidra
     go
     jetbrains.datagrip

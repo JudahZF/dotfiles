@@ -1,4 +1,4 @@
-{ lib, pkgs, system, inputs, ... }: {
+{ lib, system, ... }: {
 
   home-manager.backupFileExtension = "bck";
 
