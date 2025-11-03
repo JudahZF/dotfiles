@@ -98,6 +98,7 @@
     users.judahf = {
       imports = [
         inputs.walker.homeManagerModules.default
+        inputs.zen-browser.homeModules.beta
         ./../../../home/judahf.nix
         ./hyprland.nix
       ];
