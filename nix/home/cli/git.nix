@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   programs.git = {
     enable = true;
     difftastic = {
@@ -10,7 +10,7 @@
       gpg."ssh".program =
         "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
     } else {
-      gpg."ssh".program = "/opt/1Password/op-ssh-sign";
+      gpg."ssh".program = "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
     };
     lfs = { enable = true; };
     ignores = [ ".env" ];
