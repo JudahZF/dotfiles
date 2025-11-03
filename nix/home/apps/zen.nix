@@ -1,15 +1,5 @@
 { inputs, pkgs, config, ... }: {
   programs.zen-browser = {
-    extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-      darkreader
-      enhancer-for-nebula
-      enhancer-for-youtube
-      facebook-container
-      languagetool
-      onepassword-password-manager
-      return-youtube-dislikes
-      ublock-origin
-    ];
     profiles = {
       "default" = {
           containersForce = true;
@@ -35,6 +25,16 @@
               id = 4;
             };
           };
+          extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+            darkreader
+            enhancer-for-nebula
+            enhancer-for-youtube
+            facebook-container
+            languagetool
+            onepassword-password-manager
+            return-youtube-dislikes
+            ublock-origin
+          ];
           spacesForce = true;
           spaces = let
             containers = config.programs.zen-browser.profiles."default".containers;
@@ -81,7 +81,7 @@
         Cryptomining = true;
         Fingerprinting = true;
       };
-      Homepage = "inpressplastics.sharepoint.com";
+      Homepage = "https://inpressplastics.sharepoint.com";
       NoDefaultBookmarks = true;
       OfferToSaveLogins = false;
       PasswordManagerEnabled = false;
