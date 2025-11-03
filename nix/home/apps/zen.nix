@@ -61,7 +61,7 @@
             };
           };
       };
-  };
+    };
     policies = {
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;
