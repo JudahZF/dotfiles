@@ -94,7 +94,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit dotfiles; };
+    extraSpecialArgs = { inherit inputs dotfiles; };
     users.judahf = {
       imports = [
         inputs.walker.homeManagerModules.default
