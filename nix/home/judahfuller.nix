@@ -26,10 +26,10 @@
   };
 
   programs = {
-    ghostty = {
-      enable = true;
-      settings = { background-opacity = 0.8; };
-    };
+    # ghostty = {
+    #   enable = true;
+    #   settings = { background-opacity = 0.8; };
+    # };
     zsh = {
       enable = true;
       enableCompletion = true;

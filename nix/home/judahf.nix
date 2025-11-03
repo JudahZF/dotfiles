@@ -1,11 +1,6 @@
 { dotfiles, pkgs, ... }: {
-  imports = [
-                ./cli
-                ./desktop
-        ];
-  home = {
-    stateVersion = "24.05";
-  };
+  imports = [ ./cli ./desktop ];
+  home = { stateVersion = "24.05"; };
 
   programs = {
     ghostty = {

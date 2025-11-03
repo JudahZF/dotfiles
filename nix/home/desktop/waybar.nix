@@ -8,7 +8,7 @@
       spacing = 0;
       "height" = 26;
 
-      modules-left = [ 
+      modules-left = [
         # "custom/omarchy"
         "hyprland/workspaces"
       ];
@@ -17,14 +17,8 @@
         # "custom/update"
         # "custom/screenrecording-indicator"
       ];
-      modules-right = [
-        "tray"
-        "bluetooth"
-        "network"
-        "pulseaudio"
-        "cpu"
-        "battery"
-      ];
+      modules-right =
+        [ "tray" "bluetooth" "network" "pulseaudio" "cpu" "battery" ];
 
       "hyprland/workspaces" = {
         on-click = "activate";
@@ -51,21 +45,21 @@
         };
       };
 
-                        # "custom/omarchy" = {
-                        # format = "<span font='omarchy'>ue900</span>";
-                        # on-click = "omarchy-menu";
-                        # on-click-right = "omarchy-launch-terminal";
-                        # tooltip-format = ''
-                        # Omarchy Menu
-                        # 
-                        # Super + Alt + Space'';
-                        # };
-                        # "custom/screenrecording-indicator" = {
-                        # on-click = "omarchy-cmd-screenrecord";
-                        # exec = "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh";
-                        # signal = 8;
-                        # return-type = "json";
-                        # };
+      # "custom/omarchy" = {
+      # format = "<span font='omarchy'>ue900</span>";
+      # on-click = "omarchy-menu";
+      # on-click-right = "omarchy-launch-terminal";
+      # tooltip-format = ''
+      # Omarchy Menu
+      # 
+      # Super + Alt + Space'';
+      # };
+      # "custom/screenrecording-indicator" = {
+      # on-click = "omarchy-cmd-screenrecord";
+      # exec = "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh";
+      # signal = 8;
+      # return-type = "json";
+      # };
 
       cpu = {
         interval = 5;

@@ -95,10 +95,13 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit dotfiles; };
-    users.judahf = { imports = [
-                        inputs.walker.homeManagerModules.default
-                        ./../../../home/judahf.nix
-                ]; };
+    users.judahf = {
+      imports = [
+        inputs.walker.homeManagerModules.default
+        ./../../../home/judahf.nix
+        ./hyprland.nix
+      ];
+    };
   };
   users.users.judahf = {
     isNormalUser = true;
