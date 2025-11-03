@@ -47,6 +47,7 @@
     zellij # tmux
     zoxide # cd
     zsh
+    (inputs.zen-browser.packages.${pkgs.system}.default)
   ];
 
   fonts.packages = [
