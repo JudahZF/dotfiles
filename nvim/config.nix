@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   config.vim = {
     theme = {
       enable = true;
@@ -24,13 +23,11 @@
 
     telescope = {
       enable = true;
-      extensions = [
-        {
-          name = "fzf";
-          packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
-          setup = {fzf = {fuzzy = true;};};
-        }
-      ];
+      extensions = [{
+        name = "fzf";
+        packages = [ pkgs.vimPlugins.telescope-fzf-native-nvim ];
+        setup = { fzf = { fuzzy = true; }; };
+      }];
       mappings = {
         buffers = "<leader>pb";
         diagnostics = "<leader>pd";
@@ -67,7 +64,8 @@
       {
         mode = "n";
         key = "<leader>hm";
-        action = "<Cmd>lua local conf = require(\"telescope.config\").values; local files = {}; for _, item in ipairs(require(\"harpoon\"):list().items) do table.insert(files, item.value) end; require(\"telescope.pickers\").new({}, {prompt_title = \"Harpoon\", finder = require(\"telescope.finders\").new_table({results = files}), previewer = conf.file_previewer({}), sorter = conf.generic_sorter({})}):find()<CR>";
+        action = ''
+          <Cmd>lua local conf = require("telescope.config").values; local files = {}; for _, item in ipairs(require("harpoon"):list().items) do table.insert(files, item.value) end; require("telescope.pickers").new({}, {prompt_title = "Harpoon", finder = require("telescope.finders").new_table({results = files}), previewer = conf.file_previewer({}), sorter = conf.generic_sorter({})}):find()<CR>'';
       }
       {
         mode = "n";
@@ -102,9 +100,7 @@
       };
     };
 
-    filetree.neo-tree = {
-      enable = true;
-    };
+    filetree.neo-tree = { enable = true; };
 
     lsp = {
       enable = true;
@@ -132,24 +128,20 @@
         setupOpts = {
           cloak_character = "✱";
           highlight_group = "Comment";
-					patterns = {
-  					file_pattern = [
-  						".env*"
-  						"wrangler.toml"
-  						".dev.vars"
-  					];
-  					cloak_pattern = "=.+";
-					};
-				};
-				keys = [
+          patterns = {
+            file_pattern = [ ".env*" "wrangler.toml" ".dev.vars" ];
+            cloak_pattern = "=.+";
+          };
+        };
+        keys = [
 
-				{
-        mode = "n";
-        key = "<leader>c";
-        action = ":CloakToggle<CR>";
-      }
-				];
-				lazy = true;
+          {
+            mode = "n";
+            key = "<leader>c";
+            action = ":CloakToggle<CR>";
+          }
+        ];
+        lazy = true;
       };
     };
   };

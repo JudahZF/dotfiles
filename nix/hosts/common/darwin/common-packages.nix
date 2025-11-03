@@ -27,7 +27,6 @@
       "barrier"
       "betterdisplay"
       "comfyui"
-      "cursor"
       "daisydisk"
       "dante-controller"
       "datagrip"

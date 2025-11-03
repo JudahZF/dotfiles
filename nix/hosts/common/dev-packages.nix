@@ -1,11 +1,17 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+let
+  cursor-pkgs = import inputs.cursor-pkgs {
+    system = pkgs.system;
+    config.allowUnfree = true;
+  };
+in {
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
     bun
     cmake
-    (inputs.cursor-pkg.legacyPackages.${pkgs.system}.code-cursor)
+    cursor-pkgs.code-cursor
     ghidra
     go
     jetbrains.datagrip
