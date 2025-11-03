@@ -1,5 +1,6 @@
 { ... }: {
   imports = [
+    ./1password.nix
     ./btop.nix
     ./fastfetch.nix
     ./fd.nix
