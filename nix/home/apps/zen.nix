@@ -1,4 +1,12 @@
 { inputs, pkgs, config, ... }: {
+  environment.etc = {
+    "1password/custom_allowed_browsers" = {
+      text = ''
+        .zen-wrapped
+      ''; # or just "zen" if you use unwrapped package
+      mode = "0755";
+    };
+  };
   programs.zen-browser = {
     extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
       darkreader
@@ -65,20 +73,39 @@
     policies = {
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;
+      BlockAboutProfiles = true;
       DisableAppUpdate = true;
       DisableFeedbackCommands = true;
+      DisableFirefoxAccounts = true;
       DisableFirefoxStudies = true;
       DisablePocket = true;
+      DisableProfileImport = true;
+      DisableSetDesktopBackground = true;
       DisableTelemetry = true;
       DontCheckDefaultBrowser = true;
-      NoDefaultBookmarks = true;
-      OfferToSaveLogins = false;
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
         Cryptomining = true;
         Fingerprinting = true;
       };
+      Homepage = "inpressplastics.sharepoint.com";
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      PasswordManagerEnabled = false;
+      SearchEngines = {
+        Default = "DuckDuckGo";
+        Custom = [
+          {
+            Name = "DuckDuckGo";
+            Template = "https://duckduckgo.com/?q={searchTerms}";
+            IconURL = "https://duckduckgo.com/favicon.ico";
+            IsDefault = true;
+          }
+        ];
+      };
+      SkipTermsOfUse = true;
+      TranslateEnabled = true;
     };
   };
 }
