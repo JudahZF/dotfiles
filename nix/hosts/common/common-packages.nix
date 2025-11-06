@@ -37,6 +37,7 @@
     nix-index
     nmap
     obsidian # Not configured
+    openssl
     remmina
     ripgrep # grep
     starship
