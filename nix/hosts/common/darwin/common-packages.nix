@@ -41,6 +41,7 @@
       "malwarebytes"
       "microsoft-office"
       "microsoft-teams"
+      "mqttx"
       "nomachine"
       # "onyx"
       "qlcolorcode"
