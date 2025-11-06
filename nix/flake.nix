@@ -44,6 +44,9 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
     nvf = {
       url = "github:JudahZF/nvf/telescope_gitFiles";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -62,7 +65,7 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs = { nixpkgs, ... }@inputs:
+  outputs = { nixpkgs, nix-index-database, ... }@inputs:
     with inputs;
     let
       inherit (self) outputs;
@@ -81,7 +84,10 @@
           username = "judahf";
           dotfiles = inputs.dotfiles;
         };
-        modules = [ ./hosts/nixos/popper ];
+        modules = [ 
+          ./hosts/nixos/popper                        
+          nix-index-database.nixosModules.nix-index
+        ];
       };
     };
 }
