@@ -34,6 +34,7 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     cursor-pkgs.url = "github:jetpham/nixpkgs/update-cursor-2.0.38";
+    helium-pkgs.url = "github:AsterisMono/nixpkgs/helium";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
 

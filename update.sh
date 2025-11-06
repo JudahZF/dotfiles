@@ -13,7 +13,7 @@ log_error() {
 log_info "Starting update process..."
 
 # Run internal update script
-if sudo bash ~/dotfiles/*/_internal_update.sh; then
+if sh ~/dotfiles/*/_internal_update.sh; then
   log_info "Internal update completed successfully."
 else
   log_error "Internal update failed."
