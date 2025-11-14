@@ -1,22 +1,34 @@
 { inputs, ... }: {
-  mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
-    let
-      customConfPath = ./../hosts/darwin/${hostname};
-      customConf = if builtins.pathExists customConfPath then
-        (customConfPath + "/default.nix")
-      else
-        ./../hosts/common/darwin/default-dock.nix;
-    in inputs.nix-darwin.lib.darwinSystem {
-      specialArgs = {
-        inherit system inputs username;
-        dotfiles = inputs.dotfiles;
-        pkgs = import inputs.nixpkgs-darwin {
-          inherit system;
-          config = {
-            allowUnfree = true;
+   mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
+     let
+       customConfPath = ./../hosts/darwin/${hostname};
+       customConf = if builtins.pathExists customConfPath then
+         (customConfPath + "/default.nix")
+       else
+         ./../hosts/common/darwin/default-dock.nix;
+      in inputs.nix-darwin.lib.darwinSystem {
+        specialArgs = {
+          inherit system inputs username;
+          dotfiles = inputs.dotfiles;
+          pkgs = import inputs.nixpkgs-darwin {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs-darwin.lib.getName pkg) [
+                "cursor"
+              ];
+            };
+          };
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs-darwin.lib.getName pkg) [
+                "cursor"
+              ];
+            };
           };
         };
-      };
       modules = [
         ../hosts/common/default.nix
         ../hosts/common/darwin/default.nix
@@ -24,12 +36,21 @@
         inputs.home-manager.darwinModules.home-manager
         {
           networking.hostName = hostname;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {
-            inherit inputs;
-            dotfiles = inputs.dotfiles;
-          };
+           home-manager.useGlobalPkgs = true;
+           home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              dotfiles = inputs.dotfiles;
+              pkgs-unstable = import inputs.nixpkgs-unstable {
+                inherit system;
+                config = {
+                  allowUnfree = true;
+                  allowUnfreePredicate = pkg: builtins.elem (inputs.nixpkgs-unstable.lib.getName pkg) [
+                    "cursor"
+                  ];
+                };
+              };
+            };
           home-manager.users.${username} = {
             imports = [ ./../home/${username}.nix ];
           };

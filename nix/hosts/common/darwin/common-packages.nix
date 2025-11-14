@@ -33,6 +33,7 @@
       "displaperture"
       "dropbox"
       "docker-desktop"
+      "game-porting-toolkit"
       "ghostty"
       "helium-browser"
       "hiddenbar"
@@ -44,6 +45,7 @@
       "mqttx"
       "nomachine"
       # "onyx"
+      "private-internet-access"
       "qlcolorcode"
       "qlmarkdown"
       "qlstephen"
@@ -77,6 +79,7 @@
       "homebrew/cask"
       "FelixKratz/formulae"
       "filosottile/musl-cross"
+      "Gcenx/homebrew-wine"
       "koekeishiya/formulae"
     ];
   };
