@@ -2,14 +2,10 @@
   # 1Password SSH Agent configuration for home-manager
 
   # Set environment variable for 1Password SSH agent socket
-  home.sessionVariables = {
-    SSH_AUTH_SOCK = "$HOME/.1password/agent.sock";
-  };
+  home.sessionVariables = { SSH_AUTH_SOCK = "$HOME/.1password/agent.sock"; };
 
   # Ensure 1Password CLI is available in the user environment
-  home.packages = with pkgs; [
-    _1password-cli
-  ];
+  home.packages = with pkgs; [ _1password-cli ];
 
   # Configure systemd user service to run 1Password SSH agent on NixOS
   systemd.user.services._1password-agent = lib.mkIf pkgs.stdenv.isLinux {
@@ -28,8 +24,6 @@
       StandardError = "journal";
     };
 
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
 }
