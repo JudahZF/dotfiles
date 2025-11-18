@@ -84,10 +84,8 @@
           username = "judahf";
           dotfiles = inputs.dotfiles;
         };
-        modules = [ 
-          ./hosts/nixos/popper                        
-          nix-index-database.nixosModules.nix-index
-        ];
+        modules =
+          [ ./hosts/nixos/popper nix-index-database.nixosModules.nix-index ];
       };
     };
 }

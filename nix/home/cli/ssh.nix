@@ -11,14 +11,14 @@
         hostName = "github.com";
         user = "git";
         IdentityFile = "~/.ssh/personal.pub";
-	IdentitiesOnly = "yes";
+        IdentitiesOnly = "yes";
       };
       workgit = {
         host = "work";
         hostName = "github.com";
         user = "git";
         IdentityFile = "~/.ssh/work.pub";
-	IdentitiesOnly = "yes";
+        IdentitiesOnly = "yes";
       };
     };
   };
