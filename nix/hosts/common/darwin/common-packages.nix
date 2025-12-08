@@ -20,6 +20,7 @@
     ];
     casks = [
       "1password"
+      "adobe-acrobat-reader"
       "aldente"
       "alt-tab"
       "angry-ip-scanner"
@@ -40,6 +41,7 @@
       "hyperkey"
       "keka"
       "malwarebytes"
+      "microsoft-edge"
       "microsoft-office"
       "microsoft-teams"
       "mqttx"
