@@ -8,22 +8,18 @@ let
       config = {
         allowUnfree = true;
         allowUnfreePredicate = pkg:
-          builtins.elem (inputs.nixpkgs-unstable.lib.getName pkg) [
-            "cursor"
-            "code-cursor"
-          ];
+          builtins.elem (inputs.nixpkgs-unstable.lib.getName pkg) [ ];
       };
     };
 in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [ "cursor" "code-cursor" ];
+    builtins.elem (pkgs.lib.getName pkg) [ ];
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
     bun
     cmake
-    unstable.code-cursor
     ghidra
     go
     jetbrains.datagrip
