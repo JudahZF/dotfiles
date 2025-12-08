@@ -83,6 +83,20 @@
           system = "x86_64-linux";
           username = "judahf";
           dotfiles = inputs.dotfiles;
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: false;
+            };
+          };
+          pkgs-unstable = import nixpkgs-unstable {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: false;
+            };
+          };
         };
         modules =
           [ ./hosts/nixos/popper nix-index-database.nixosModules.nix-index ];
