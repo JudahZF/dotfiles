@@ -2,6 +2,7 @@
   imports = [ ./cli ];
   home = {
     stateVersion = "24.05";
+    enableNixpkgsReleaseCheck = false;
 
     file = pkgs.lib.mkMerge [{
       nix = {

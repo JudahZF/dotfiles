@@ -32,11 +32,11 @@ in {
     libpq
     lua5_1
     luarocks-nix
-    nixfmt
+    nixfmt-classic
     nixfmt-rfc-style
     nodejs
     ollama
-    unstable.opencode
+    opencode
     phpactor
     pnpm
     unstable.prettier

@@ -18,6 +18,20 @@
   boot.kernelParams = [ "i915.fastboot=1" "i915.enable_guc=3" ];
 
   # HARDWARE
+  ## Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+        FastConnectable = true;
+      };
+      Policy = {
+        AutoEnable = true;
+      };
+    };
+  };
   ## Thunderbolt
   services.hardware.bolt.enable = true;
   ## quicksync
@@ -117,6 +131,7 @@
   programs.zsh.enable = true;
 
   # SERVICES
+  services.blueman.enable = true;
   services.fstrim.enable = true;
   services.fwupd.enable = true;
   services.openssh.enable = true;

@@ -1,9 +1,7 @@
 { ... }: {
   homebrew = {
     casks = [
-      #"affinity-designer"
-      #"affinity-photo"
-      #"affinity-publisher"
+      "affinity"
       "autodesk-fusion"
       "gimp"
       "kicad"
