@@ -1,5 +1,7 @@
-{ inputs, pkgs, pkgs-unstable ? null, system ? "aarch64-darwin", ... }:
+{ inputs, pkgs, pkgs-unstable ? null, ... }:
 let
+  # Detect system from pkgs instead of requiring it as a parameter
+  system = pkgs.stdenv.system;
   unstable = if pkgs-unstable != null then
     pkgs-unstable
   else
