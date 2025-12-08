@@ -14,18 +14,14 @@
           inherit system;
           config = {
             allowUnfree = true;
-            allowUnfreePredicate = pkg:
-              builtins.elem (inputs.nixpkgs-darwin.lib.getName pkg)
-              [ "cursor" ];
+            allowUnfreePredicate = pkg: false;
           };
         };
         pkgs-unstable = import inputs.nixpkgs-unstable {
           inherit system;
           config = {
             allowUnfree = true;
-            allowUnfreePredicate = pkg:
-              builtins.elem (inputs.nixpkgs-darwin.lib.getName pkg)
-              [ "cursor" ];
+            allowUnfreePredicate = pkg: false;
           };
         };
       };
@@ -45,9 +41,7 @@
               inherit system;
               config = {
                 allowUnfree = true;
-                allowUnfreePredicate = pkg:
-                  builtins.elem (inputs.nixpkgs-unstable.lib.getName pkg)
-                  [ "cursor" ];
+                allowUnfreePredicate = pkg: false;
               };
             };
           };
