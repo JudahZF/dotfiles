@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     ./../../common
-    (import ./../../common/dev-packages.nix { inherit inputs pkgs; })
+    (import ./../../common/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })
     ./../../common/dev-packages-config.nix
     ./../../common/nixOS
   ];
