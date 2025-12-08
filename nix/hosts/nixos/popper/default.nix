@@ -126,7 +126,16 @@
   users.defaultUserShell = pkgs.zsh;
 
   # PACKAGES
-  environment.systemPackages = with pkgs; [ btrfs-progs git wget zsh ];
+  environment.systemPackages = with pkgs; [
+    btrfs-progs
+    git
+    wget
+    zsh
+    pavucontrol # PulseAudio Volume Control
+    pamixer # Command-line mixer for PulseAudio
+    bluez # Bluetooth support
+    bluez-tools # Bluetooth tools
+  ];
   nixpkgs.config.allowUnfree = true;
   programs.zsh.enable = true;
 
@@ -144,6 +153,20 @@
         dates = "weekly";
       };
     };
+  };
+
+  #
+  # Audio
+  #
+  hardware.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
+
+  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 
   environment.etc = {
