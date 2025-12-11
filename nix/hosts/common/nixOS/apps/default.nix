@@ -1,3 +1,6 @@
 { ... }: {
-  imports = [ ./one_password.nix ];
+  imports = [
+    ./cider.nix
+    ./one_password.nix
+  ];
 }
