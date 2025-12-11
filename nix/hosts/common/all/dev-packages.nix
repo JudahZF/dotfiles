@@ -9,10 +9,12 @@ let
       inherit system;
       config = {
         allowUnfree = true;
+        allowUnfreePredicate = _: true;
       };
     };
 in {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = _: true;
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
