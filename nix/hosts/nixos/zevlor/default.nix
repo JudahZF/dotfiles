@@ -24,6 +24,8 @@
     clinfo
   ];
 
+  programs.coolercontrol.enable = true;
+
   # NETWORK
   networking = {
     hostName = "zevlor";
