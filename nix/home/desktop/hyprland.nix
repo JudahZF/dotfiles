@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       "$hyprMod" = "SUPER CTRL ALT";
-      "$cmdMod" = "SUPER CTRL ALT";
+      "$cmdMod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "files";
       "$menu" = "walker";

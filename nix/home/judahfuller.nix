@@ -10,11 +10,11 @@
         source = "${dotfiles}/nix";
         target = ".config/nix";
       };
-      sketchybar = {
-        recursive = true;
-        source = "${dotfiles}/sketchybar";
-        target = ".config/sketchybar";
-      };
+      # sketchybar = {
+      #   recursive = true;
+      #   source = "${dotfiles}/sketchybar";
+      #   target = ".config/sketchybar";
+      # };
       skhd = {
         source = "${dotfiles}/skhdrc";
         target = ".config/skhd/skhdrc";

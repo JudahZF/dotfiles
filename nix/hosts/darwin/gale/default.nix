@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, pkgs-unstable, ... }: {
   imports = [
     ./custom-dock.nix
     (import ../../common/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })

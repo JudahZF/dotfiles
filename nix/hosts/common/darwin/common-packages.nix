@@ -6,11 +6,6 @@
       "FiloSottile/musl-cross/musl-cross"
       "macmon"
       "mas"
-      {
-        name = "sketchybar";
-        start_service = true;
-        restart_service = true;
-      }
       { name = "jackielii/tap/skhd-zig"; }
       "samtay/tui/tetris"
       {
@@ -26,6 +21,7 @@
       "angry-ip-scanner"
       "balenaetcher"
       "barrier"
+      "bartender"
       "betterdisplay"
       "comfyui"
       "daisydisk"

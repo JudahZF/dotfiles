@@ -12,7 +12,10 @@
       "propresenter"
       "resolume-arena"
     ];
-    masApps = { "Final Cut Pro" = 424389933; };
+    masApps = {
+      "Final Cut Pro" = 424389933;
+      #"Compressor" = 424390742;
+    };
     taps = [ "bevanjkay/homebrew-tap" ];
   };
 }
