@@ -1,4 +1,4 @@
-{ pkgs, inputs, dotfiles, ... }: {
+{ pkgs, inputs, dotfiles, cider, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./../../common/all
@@ -50,6 +50,7 @@
       imports = [
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
+        cider.homeManagerModules.${pkgs.system}.default
         ./../../../home/judahf.nix
         ./hyprland.nix
       ];

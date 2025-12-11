@@ -1,10 +1,9 @@
-{ dotfiles, pkgs, cider, ... }: {
+{ dotfiles, pkgs, ... }: {
   imports = [
     ./apps
     ./apps/cider.nix
     ./cli
     ./desktop
-    cider.homeManagerModules.${pkgs.system}.default
   ];
   home = { stateVersion = "24.05"; };
 
