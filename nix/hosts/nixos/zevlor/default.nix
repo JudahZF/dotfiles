@@ -8,6 +8,22 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  # GPU
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+  hardware.graphics.extraPackages = with pkgs; [
+    amdvlk
+    rocmPackages.clr.icd
+  ];
+  hardware.graphics.extraPackages32 = with pkgs; [
+    driversi686Linux.amdvlk
+  ];
+  environment.systemPackages = with pkgs; [
+    clinfo
+  ];
+
   # NETWORK
   networking = {
     hostName = "zevlor";
