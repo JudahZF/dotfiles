@@ -1,7 +1,7 @@
 { ... }: {
   imports = [
-    ./system
     ./apps
-    ./desktop
+    ./system
+    ./common-packages.nix
   ];
 }
