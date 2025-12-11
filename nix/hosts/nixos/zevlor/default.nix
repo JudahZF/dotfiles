@@ -24,7 +24,7 @@
     clinfo
   ];
 
-  programs.coolercontrol.enable = true;
+  programs.openrgb.enable = true;
 
   # NETWORK
   networking = {
