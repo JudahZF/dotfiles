@@ -65,5 +65,8 @@
 
   users.defaultUserShell = pkgs.zsh;
 
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = _: true;
+
   system.stateVersion = "25.05";
 }
