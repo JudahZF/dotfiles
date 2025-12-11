@@ -50,7 +50,6 @@
       imports = [
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
-        inputs.cider.homeManagerModules.${pkgs.system}.default
         ./../../../home/judahf.nix
         ./hyprland.nix
       ];
