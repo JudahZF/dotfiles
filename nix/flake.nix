@@ -75,11 +75,38 @@
 
     in {
       darwinConfigurations = { gale = libx.mkDarwin { hostname = "gale"; }; };
-      nixosConfigurations.popper = nixpkgs.lib.nixosSystem {
+      nixosConfigurations = {
+        popper = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+            name = "popper";
+            system = "x86_64-linux";
+            username = "judahf";
+            dotfiles = inputs.dotfiles;
+            pkgs = import nixpkgs {
+              system = "x86_64-linux";
+              config = {
+                allowUnfree = true;
+                allowUnfreePredicate = pkg: false;
+              };
+            };
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config = {
+                allowUnfree = true;
+                allowUnfreePredicate = pkg: false;
+              };
+            };
+          };
+          modules =
+            [ ./hosts/nixos/popper nix-index-database.nixosModules.nix-index ];
+        };
+      zevlor = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          name = "popper";
+          name = "zevlor";
           system = "x86_64-linux";
           username = "judahf";
           dotfiles = inputs.dotfiles;
@@ -99,7 +126,8 @@
           };
         };
         modules =
-          [ ./hosts/nixos/popper nix-index-database.nixosModules.nix-index ];
+          [ ./hosts/nixos/zevlor nix-index-database.nixosModules.nix-index ];
+      };
       };
     };
 }
