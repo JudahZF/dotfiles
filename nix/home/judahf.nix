@@ -1,5 +1,5 @@
 { dotfiles, pkgs, ... }: {
-  imports = [ ./apps ./cli ./desktop ];
+  imports = [ ./apps ./apps/cider.nix ./cli ./desktop ];
   home = { stateVersion = "24.05"; };
 
   programs = {
