@@ -1,4 +1,4 @@
-{ pkgs, inputs, dotfiles, ... }: {
+{ pkgs, inputs, dotfiles, pkgs-unstable, ... }: {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
