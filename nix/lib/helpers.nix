@@ -14,14 +14,12 @@
           inherit system;
           config = {
             allowUnfree = true;
-            allowUnfreePredicate = pkg: false;
           };
         };
         pkgs-unstable = import inputs.nixpkgs-unstable {
           inherit system;
           config = {
             allowUnfree = true;
-            allowUnfreePredicate = pkg: false;
           };
         };
       };
@@ -41,7 +39,6 @@
               inherit system;
               config = {
                 allowUnfree = true;
-                allowUnfreePredicate = pkg: false;
               };
             };
           };

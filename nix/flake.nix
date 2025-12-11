@@ -92,14 +92,12 @@
               system = "x86_64-linux";
               config = {
                 allowUnfree = true;
-                allowUnfreePredicate = pkg: false;
               };
             };
             pkgs-unstable = import nixpkgs-unstable {
               system = "x86_64-linux";
               config = {
                 allowUnfree = true;
-                allowUnfreePredicate = pkg: false;
               };
             };
           };
@@ -118,14 +116,12 @@
             system = "x86_64-linux";
             config = {
               allowUnfree = true;
-              allowUnfreePredicate = pkg: false;
             };
           };
           pkgs-unstable = import nixpkgs-unstable {
             system = "x86_64-linux";
             config = {
               allowUnfree = true;
-              allowUnfreePredicate = pkg: false;
             };
           };
         };

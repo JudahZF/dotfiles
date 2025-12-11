@@ -9,14 +9,10 @@ let
       inherit system;
       config = {
         allowUnfree = true;
-        allowUnfreePredicate = pkg:
-          builtins.elem (inputs.nixpkgs-unstable.lib.getName pkg) [ ];
       };
     };
 in {
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [ ];
   environment.systemPackages = with pkgs; [
     ## stable
     bootdev-cli
