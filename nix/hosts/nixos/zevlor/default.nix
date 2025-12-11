@@ -25,6 +25,8 @@
     openrgb
   ];
 
+  services.hardware.openrgb.enable = true;
+
 
   # NETWORK
   networking = {
