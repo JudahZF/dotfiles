@@ -1,3 +1,3 @@
 { ... }: {
-  programs.cider.enable = true;
+  # programs.cider.enable = true;
 }
