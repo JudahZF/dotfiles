@@ -22,9 +22,9 @@
   ];
   environment.systemPackages = with pkgs; [
     clinfo
+    openrgb
   ];
 
-  programs.openrgb.enable = true;
 
   # NETWORK
   networking = {
