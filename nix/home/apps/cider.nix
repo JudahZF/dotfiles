@@ -5,7 +5,8 @@ in
 {
   home.packages = [
     (pkgs.appimageTools.wrapType2 {
-      name = "cider";
+      pname = "cider";
+      version = "3.1.8";
       src = ciderAppImage;
 
       meta = with lib; {
