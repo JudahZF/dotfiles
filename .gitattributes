@@ -1,0 +1,1 @@
+nix/home/apps/cider-v3.1.8-linux-x64.AppImage filter=lfs diff=lfs merge=lfs -text

@@ -2,6 +2,11 @@
   description = "JF Flake";
 
   inputs = {
+    cider = {
+      url = "github:Fuwn/cider.nix";
+      inputs.nixpkgs.follows = "nixpkgs"; # Recommended
+    };
+
     dotfiles = {
       url = "path:..";
       flake = false;
