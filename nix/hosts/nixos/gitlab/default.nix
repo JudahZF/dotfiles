@@ -52,15 +52,13 @@
   # NETWORK
   networking = {
     hostName = "gitlab";
-    # Configure with static IP or DHCP as needed
-    # Uncomment and modify for static IP:
-    # interfaces.ens18 = {
-    #   useDHCP = false;
-    #   ipv4.addresses = [{
-    #     address = "192.168.10.30";
-    #     prefixLength = 24;
-    #   }];
-    # };
+    interfaces.ens18 = {
+      useDHCP = false;
+      ipv4.addresses = [{
+        address = "192.168.10.30";
+        prefixLength = 24;
+      }];
+    };
     defaultGateway = "192.168.10.1";
     nameservers = [ "192.168.10.1" "1.1.1.1" "8.8.8.8" ];
   };
