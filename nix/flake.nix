@@ -85,6 +85,43 @@
       nixosConfigurations = {
         popper = libx.mkNixos { hostname = "popper"; };
         zevlor = libx.mkNixos { hostname = "zevlor"; };
+        gitlab = libx.mkNixos { hostname = "gitlab"; };
+      };
+
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = _: true;
+            };
+          };
+          specialArgs = {
+            inherit inputs;
+            dotfiles = inputs.dotfiles;
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              system = "x86_64-linux";
+              config = {
+                allowUnfree = true;
+                allowUnfreePredicate = _: true;
+              };
+            };
+          };
+        };
+
+        gitlab = {
+          deployment = {
+            targetHost = "192.168.10.119";
+            targetUser = "root";
+            buildOnTarget = false;
+          };
+          imports = [
+            ./hosts/nixos/gitlab
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.sops-nix.nixosModules.sops
+          ];
+        };
       };
     };
 }
