@@ -6,5 +6,6 @@
     ./nix.nix
     ./nixpkgs.nix
     ./shell.nix
+    ./sops.nix
   ];
 }
