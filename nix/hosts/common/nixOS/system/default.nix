@@ -3,6 +3,7 @@
     ./audio.nix
     ./bluetooth.nix
     ./bootloader.nix
+    ./docker.nix
     ./kernel.nix
     ./localisation.nix
     ./network.nix

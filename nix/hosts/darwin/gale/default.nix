@@ -1,13 +1,11 @@
 { inputs, pkgs, pkgs-unstable, ... }: {
   imports = [
     ./custom-dock.nix
-    (import ../../common/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })
-    ../../common/uni-packages.nix
-    ../../common/dev-packages-config.nix
-    ../../common/gaming-packages.nix
-    ../../common/darwin/design-packages.nix
-    ../../common/darwin/gaming-packages.nix
-    ../../common/darwin/music-packages.nix
-    ../../common/darwin/production-packages.nix
+    (import ../../common/all/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })
+    ../../common
+    ../../common/darwin/packages/design.nix
+    ../../common/darwin/packages/gaming.nix
+    ../../common/darwin/packages/music.nix
+    ../../common/darwin/packages/production.nix
   ];
 }
