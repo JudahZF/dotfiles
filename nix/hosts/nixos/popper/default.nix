@@ -1,41 +1,17 @@
-{ pkgs, inputs, dotfiles, pkgs-unstable, ... }: {
+{ pkgs, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
-    ./../../common
-    (import ./../../common/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })
-    ./../../common/dev-packages-config.nix
+    ./../../common/all
     ./../../common/nixOS
+    ./../../common/all/apps/discord.nix
+    ./../../common/all/apps/steam.nix
+    ./../../common/all/dev-packages.nix
+    ./../../common/all/uni-packages.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 
-  # BOOTLOADER
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # KERNEL
-  boot.kernelModules = [ "drivetemp" ];
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  # GPU (Intel QuickSync)
   boot.kernelParams = [ "i915.fastboot=1" "i915.enable_guc=3" ];
-
-  # HARDWARE
-  ## Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = true;
-        FastConnectable = true;
-      };
-      Policy = {
-        AutoEnable = true;
-      };
-    };
-  };
-  ## Thunderbolt
-  services.hardware.bolt.enable = true;
-  ## quicksync
-  hardware.firmware = [ pkgs.linux-firmware ];
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -65,9 +41,12 @@
     GST_VAAPI_ALL_DRIVERS = "1";
   };
 
+  # HARDWARE
+  ## Thunderbolt
+  services.hardware.bolt.enable = true;
+
   # NETWORK
   networking = {
-    firewall.enable = false;
     hostName = "popper";
     interfaces = {
       eno1 = {
@@ -81,28 +60,6 @@
     defaultGateway = "192.168.1.1";
     nameservers = [ "192.168.1.2" "1.1.1.1" "8.8.8.8" ];
   };
-
-  # LOCALISATION
-  console.keyMap = "uk";
-  i18n.defaultLocale = "en_GB.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
-
-  services.xserver.xkb = {
-    layout = "gb";
-    variant = "";
-  };
-
-  time.timeZone = "Europe/London";
 
   # USER
   home-manager = {
@@ -118,72 +75,17 @@
       ];
     };
   };
+
   users.users.judahf = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" "render" "video" ];
     packages = with pkgs; [ home-manager ];
   };
+
   users.defaultUserShell = pkgs.zsh;
 
-  # PACKAGES
-  environment.systemPackages = with pkgs; [
-    btrfs-progs
-    git
-    wget
-    zsh
-    pavucontrol # PulseAudio Volume Control
-    pamixer # Command-line mixer for PulseAudio
-    bluez # Bluetooth support
-    bluez-tools # Bluetooth tools
-  ];
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _: true;
-  programs.zsh.enable = true;
 
-  # SERVICES
-  services.blueman.enable = true;
-  services.fstrim.enable = true;
-  services.fwupd.enable = true;
-  services.openssh.enable = true;
-  services.tailscale.enable = true;
-  virtualisation = {
-    docker = {
-      enable = true;
-      autoPrune = {
-        enable = true;
-        dates = "weekly";
-      };
-    };
-  };
-
-  #
-  # Audio
-  #
-  hardware.pulseaudio.enable = false; # Use Pipewire, the modern sound subsystem
-
-  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  environment.etc = {
-    "1password/custom_allowed_browsers" = {
-      text = ''
-        .zen-wrapped
-      ''; # or just "zen" if you use unwrapped package
-      mode = "0755";
-    };
-  };
-
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      warn-dirty = false;
-    };
-  };
   system.stateVersion = "25.05";
 }
