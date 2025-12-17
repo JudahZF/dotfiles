@@ -1,4 +1,4 @@
-{ inputs, ... }: {
+{ inputs, sops-nix, ... }: {
   mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
@@ -64,6 +64,7 @@
             };
           };
         }
+        sops-nix.darwinModules.sops
       ];
     };
 }
