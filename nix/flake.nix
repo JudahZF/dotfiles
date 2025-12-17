@@ -4,7 +4,7 @@
   inputs = {
     cider = {
       url = "github:Fuwn/cider.nix";
-      inputs.nixpkgs.follows = "nixpkgs"; # Recommended
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     dotfiles = {
