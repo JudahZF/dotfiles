@@ -69,7 +69,7 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs = { nixpkgs, nix-index-database, ... }@inputs:
+  outputs = { ... }@inputs:
     with inputs;
     let
       inherit (self) outputs;
@@ -78,67 +78,13 @@
       libx = import ./lib { inherit inputs outputs stateVersion; };
 
     in {
-      darwinConfigurations = { gale = libx.mkDarwin { hostname = "gale"; }; };
-      nixosConfigurations = {
-        popper = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-            name = "popper";
-            system = "x86_64-linux";
-            username = "judahf";
-            dotfiles = inputs.dotfiles;
-            pkgs = import nixpkgs {
-              system = "x86_64-linux";
-              config = {
-                allowUnfree = true;
-                allowUnfreePredicate = _: true;
-              };
-            };
-            pkgs-unstable = import nixpkgs-unstable {
-              system = "x86_64-linux";
-              config = {
-                allowUnfree = true;
-                allowUnfreePredicate = _: true;
-              };
-            };
-          };
-          modules = [
-            ./hosts/nixos/popper
-            nix-index-database.nixosModules.nix-index
-            sops-nix.nixosModules.sops
-          ];
-        };
-      zevlor = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-          name = "zevlor";
-          system = "x86_64-linux";
-          username = "judahf";
-          dotfiles = inputs.dotfiles;
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-            };
-          };
-          pkgs-unstable = import nixpkgs-unstable {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-            };
-          };
-        };
-        modules = [
-          ./hosts/nixos/zevlor
-          nix-index-database.nixosModules.nix-index
-          sops-nix.nixosModules.sops
+      darwinConfigurations = {
+        gale = libx.mkDarwin { hostname = "gale"; };
+      };
 
-        ];
+      nixosConfigurations = {
+        popper = libx.mkNixos { hostname = "popper"; };
+        zevlor = libx.mkNixos { hostname = "zevlor"; };
       };
     };
-  };
 }

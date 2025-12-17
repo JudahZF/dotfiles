@@ -1,4 +1,4 @@
-{ inputs, sops-nix, ... }: {
+{ inputs, outputs, stateVersion, ... }: {
   mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
@@ -64,7 +64,36 @@
             };
           };
         }
-        sops-nix.darwinModules.sops
+        inputs.sops-nix.darwinModules.sops
+      ];
+    };
+
+  mkNixos = { hostname, username ? "judahf", system ? "x86_64-linux", }:
+    inputs.nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = {
+        inherit inputs username system;
+        name = hostname;
+        dotfiles = inputs.dotfiles;
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
+          };
+        };
+        pkgs-unstable = import inputs.nixpkgs-unstable {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
+          };
+        };
+      };
+      modules = [
+        ../hosts/nixos/${hostname}
+        inputs.nix-index-database.nixosModules.nix-index
+        inputs.sops-nix.nixosModules.sops
       ];
     };
 }

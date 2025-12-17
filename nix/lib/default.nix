@@ -3,6 +3,6 @@ let helpers = import ./helpers.nix { inherit inputs outputs stateVersion; };
 in {
   inherit (helpers)
     mkDarwin
-    #mkNixos
+    mkNixos
   ;
 }
