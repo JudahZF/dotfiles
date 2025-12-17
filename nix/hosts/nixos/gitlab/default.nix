@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, ... }: {
+{ pkgs, inputs, config, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./../../common/nixOS/system/bootloader.nix
@@ -7,7 +7,47 @@
     ./../../common/nixOS/system/network.nix
     ./../../common/all/system/nix.nix
     ./../../common/all/system/nixpkgs.nix
+    ./../../common/all/system/sops.nix
   ];
+
+  # SOPS SECRETS CONFIGURATION
+  sops = {
+    defaultSopsFile = "${dotfiles}/secrets/gitlab";
+
+    secrets = {
+      "smb/username" = {
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+      "smb/password" = {
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+      "secret" = {
+        owner = "git";
+        group = "gitlab";
+      };
+      "otp" = {
+        owner = "git";
+        group = "gitlab";
+      };
+      "db" = {
+        owner = "git";
+        group = "gitlab";
+      };
+    };
+
+    # Template for SMB credentials file
+    templates."smb-credentials" = {
+      content = ''
+        username=${config.sops.placeholder."smb/username"}
+        password=${config.sops.placeholder."smb/password"}
+      '';
+      mode = "0600";
+    };
+  };
 
   # NETWORK
   networking = {
@@ -17,12 +57,12 @@
     # interfaces.ens18 = {
     #   useDHCP = false;
     #   ipv4.addresses = [{
-    #     address = "192.168.1.50";
+    #     address = "192.168.10.30";
     #     prefixLength = 24;
     #   }];
     # };
-    # defaultGateway = "192.168.1.1";
-    # nameservers = [ "192.168.1.2" "1.1.1.1" "8.8.8.8" ];
+    defaultGateway = "192.168.10.1";
+    nameservers = [ "192.168.10.1" "1.1.1.1" "8.8.8.8" ];
   };
 
   # LOCALISATION
@@ -56,21 +96,6 @@
     cifs-utils  # Required for SMB mounts
   ];
 
-  # SMB MOUNT FOR GIT DATA
-  # Create credentials file for SMB mount
-  # You need to create /etc/smb-credentials with:
-  #   username=YOUR_SMB_USERNAME
-  #   password=YOUR_SMB_PASSWORD
-  #   domain=WORKGROUP
-  environment.etc."smb-credentials" = {
-    mode = "0600";
-    text = ''
-      username=CHANGEME
-      password=CHANGEME
-      domain=WORKGROUP
-    '';
-  };
-
   # Create /git directory and mount SMB share
   systemd.tmpfiles.rules = [
     "d /git 0755 git gitlab -"
@@ -80,7 +105,8 @@
     device = "//192.168.10.5/git";
     fsType = "cifs";
     options = [
-      "credentials=/etc/smb-credentials"
+      "username=${builtins.readFile config.sops.secrets.smb_username.path}"
+      "password=${builtins.readFile config.sops.secrets.smb_password.path}"
       "uid=${toString config.users.users.git.uid}"
       "gid=${toString config.users.groups.gitlab.gid}"
       "file_mode=0660"
@@ -112,15 +138,11 @@
     # Use SMB mount for git repository storage
     statePath = "/git/gitlab";
 
-    # Initial root password - CHANGE THIS after first login
-    initialRootPasswordFile = pkgs.writeText "rootPassword" "ChangeMe123!";
-
-    # Secret files - these should be generated and secured
-    # Generate with: openssl rand -hex 32
+    # Secret files - now managed by SOPS
     secrets = {
-      secretFile = pkgs.writeText "secret" "CHANGEME_generate_with_openssl_rand_hex_32";
-      otpFile = pkgs.writeText "otp" "CHANGEME_generate_with_openssl_rand_hex_32";
-      dbFile = pkgs.writeText "db" "CHANGEME_generate_with_openssl_rand_hex_32";
+      secretFile = config.sops.secrets."secret".path;
+      otpFile = config.sops.secrets."otp".path;
+      dbFile = config.sops.secrets."db".path;
       jwsFile = pkgs.runCommand "oidcKeyBase" {} "${pkgs.openssl}/bin/openssl genrsa 2048 > $out";
     };
 
@@ -177,7 +199,7 @@
     };
   };
 
-  # Ensure GitLab service starts after the SMB mount
+  # Ensure GitLab service starts after the SMB mount and SOPS secrets
   systemd.services.gitlab.after = [ "git.mount" ];
   systemd.services.gitlab.requires = [ "git.mount" ];
   systemd.services.gitlab-workhorse.after = [ "git.mount" ];
