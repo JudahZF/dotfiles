@@ -126,6 +126,8 @@
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
 
+  services.qemuGuest.enable = true;
+
   # GITLAB CONFIGURATION
   services.gitlab = {
     enable = true;
