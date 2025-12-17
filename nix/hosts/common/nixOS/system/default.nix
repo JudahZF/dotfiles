@@ -16,6 +16,7 @@
   environment.systemPackages = with pkgs; [
     btrfs-progs
     git
+    sops
     wget
     zsh
   ];

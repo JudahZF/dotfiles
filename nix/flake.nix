@@ -103,8 +103,11 @@
               };
             };
           };
-          modules =
-            [ ./hosts/nixos/popper nix-index-database.nixosModules.nix-index ];
+          modules = [
+            ./hosts/nixos/popper
+            nix-index-database.nixosModules.nix-index
+            sops-nix.nixosModules.sops
+          ];
         };
       zevlor = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -129,9 +132,13 @@
             };
           };
         };
-        modules =
-          [ ./hosts/nixos/zevlor nix-index-database.nixosModules.nix-index ];
-      };
+        modules = [
+          ./hosts/nixos/zevlor
+          nix-index-database.nixosModules.nix-index
+          sops-nix.nixosModules.sops
+
+        ];
       };
     };
+  };
 }
