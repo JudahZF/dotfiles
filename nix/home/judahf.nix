@@ -1,9 +1,7 @@
 { dotfiles, pkgs, ... }: {
   imports = [
     ./apps
-    ./apps/cider.nix
     ./cli
-    ./desktop
   ];
   home = { stateVersion = "24.05"; };
 

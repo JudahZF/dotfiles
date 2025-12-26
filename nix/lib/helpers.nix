@@ -1,4 +1,4 @@
-{ inputs, outputs, stateVersion, ... }: {
+{ inputs, outputs, stateVersion, flake-overlays, ... }: {
   mkDarwin = { hostname, username ? "judahfuller", system ? "aarch64-darwin", }:
     let
       customConfPath = ./../hosts/darwin/${hostname};
@@ -81,6 +81,7 @@
             allowUnfree = true;
             allowUnfreePredicate = _: true;
           };
+          overlays = [] ++ flake-overlays;
         };
         pkgs-unstable = import inputs.nixpkgs-unstable {
           inherit system;
@@ -94,6 +95,7 @@
         ../hosts/nixos/${hostname}
         inputs.nix-index-database.nixosModules.nix-index
         inputs.sops-nix.nixosModules.sops
+        flake-overlays
       ];
     };
 }

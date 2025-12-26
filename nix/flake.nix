@@ -48,8 +48,15 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index-database = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-index-database";
+    };
+
+    nix-xilinx = {
+        inputs.nixpkgs.follows = "nixpkgs";
+        url = "github:MIT-OpenCompute/xilinx-flake";
+      };
 
     nvf = {
       url = "github:JudahZF/nvf/telescope_gitFiles";
@@ -77,6 +84,9 @@
       stateVersion = "24.05";
       libx = import ./lib { inherit inputs outputs stateVersion; };
 
+      flake-overlays = [
+        nix-xilinx.overlay
+      ];
     in {
       darwinConfigurations = {
         gale = libx.mkDarwin { hostname = "gale"; };
@@ -99,6 +109,8 @@
           };
           specialArgs = {
             inherit inputs;
+            system = "x86_64-linux";
+            username = "judahf";
             dotfiles = inputs.dotfiles;
             pkgs-unstable = import inputs.nixpkgs-unstable {
               system = "x86_64-linux";
@@ -110,16 +122,19 @@
           };
         };
 
-        gitlab = {
+        gitlab = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.10.119";
-            targetUser = "root";
-            buildOnTarget = false;
+            targetHost = "192.168.10.30";
+            targetUser = "judahf";
+            # Build on the target machine since we're on aarch64-darwin
+            buildOnTarget = true;
           };
+
           imports = [
             ./hosts/nixos/gitlab
             inputs.nix-index-database.nixosModules.nix-index
             inputs.sops-nix.nixosModules.sops
+            inputs.home-manager.nixosModules.home-manager
           ];
         };
       };
