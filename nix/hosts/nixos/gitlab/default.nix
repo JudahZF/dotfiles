@@ -1,18 +1,23 @@
-{ pkgs, inputs, config, dotfiles, ... }: {
+{ pkgs, lib, inputs, config, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../common/nixOS/system/bootloader.nix
     ./../../common/nixOS/system/ssh.nix
     ./../../common/nixOS/system/tailscale.nix
     ./../../common/nixOS/system/network.nix
     ./../../common/all/system/nix.nix
     ./../../common/all/system/nixpkgs.nix
     ./../../common/all/system/sops.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
+
+  # BOOTLOADER - Use GRUB for BIOS boot (Proxmox VM)
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   # SOPS SECRETS CONFIGURATION
   sops = {
-    defaultSopsFile = "${dotfiles}/secrets/gitlab";
+    defaultSopsFile = lib.mkForce "${dotfiles}/secrets/gitlab.yaml";
 
     secrets = {
       "smb/username" = {
@@ -26,16 +31,39 @@
         mode = "0600";
       };
       "secret" = {
-        owner = "git";
+        owner = "gitlab";
         group = "gitlab";
+        mode = "0640";
       };
       "otp" = {
-        owner = "git";
+        owner = "gitlab";
         group = "gitlab";
+        mode = "0640";
       };
       "db" = {
-        owner = "git";
+        owner = "gitlab";
         group = "gitlab";
+        mode = "0640";
+      };
+      "initialRootPassword" = {
+        owner = "gitlab";
+        group = "gitlab";
+        mode = "0640";
+      };
+      "activeRecordPrimaryKey" = {
+        owner = "gitlab";
+        group = "gitlab";
+        mode = "0640";
+      };
+      "activeRecordDeterministicKey" = {
+        owner = "gitlab";
+        group = "gitlab";
+        mode = "0640";
+      };
+      "activeRecordSalt" = {
+        owner = "gitlab";
+        group = "gitlab";
+        mode = "0640";
       };
     };
 
@@ -74,10 +102,23 @@
     extraGroups = [ "wheel" "docker" ];
     packages = with pkgs; [ home-manager ];
     openssh.authorizedKeys.keys = [
-      # Add your SSH public key here
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO"
     ];
   };
   users.defaultUserShell = pkgs.zsh;
+
+  # HOME-MANAGER for judahf user (zsh, starship, and other CLI tools)
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "bak";
+    extraSpecialArgs = { inherit inputs dotfiles; };
+    users.judahf = {
+      imports = [
+        ./../../../home/judahf.nix
+      ];
+    };
+  };
 
   # Enable password-less sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
@@ -94,21 +135,22 @@
     cifs-utils  # Required for SMB mounts
   ];
 
-  # Create /git directory and mount SMB share
+  # Create required directories
   systemd.tmpfiles.rules = [
     "d /git 0755 git gitlab -"
+    "d /var/gitlab/state 0750 gitlab gitlab -"
   ];
 
   fileSystems."/git" = {
     device = "//192.168.10.5/git";
     fsType = "cifs";
     options = [
-      "username=${builtins.readFile config.sops.secrets.smb_username.path}"
-      "password=${builtins.readFile config.sops.secrets.smb_password.path}"
+      "credentials=${config.sops.templates."smb-credentials".path}"
       "uid=${toString config.users.users.git.uid}"
       "gid=${toString config.users.groups.gitlab.gid}"
-      "file_mode=0660"
-      "dir_mode=0770"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "noperm"  # Disable permission checks - SMB server handles permissions
       "nofail"
       "x-systemd.automount"
       "x-systemd.idle-timeout=60"
@@ -118,8 +160,12 @@
   };
 
   # Ensure git user has a fixed UID for SMB mount
-  users.users.git.uid = 986;
-  users.groups.gitlab.gid = 986;
+  users.users.git = {
+    uid = lib.mkForce 986;
+    group = "git";
+  };
+  users.groups.git = {};
+  users.groups.gitlab.gid = lib.mkForce 986;
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -132,11 +178,11 @@
 
     # Set your GitLab host - update this to your domain
     host = "gitlab.local";
-    port = 443;
-    https = true;
+    port = 80;
+    https = false;
 
-    # Use SMB mount for git repository storage
-    statePath = "/git/gitlab";
+    # Use local storage for GitLab state (CIFS doesn't handle symlinks well)
+    statePath = "/var/gitlab/state";
 
     # Secret files - now managed by SOPS
     secrets = {
@@ -144,7 +190,13 @@
       otpFile = config.sops.secrets."otp".path;
       dbFile = config.sops.secrets."db".path;
       jwsFile = pkgs.runCommand "oidcKeyBase" {} "${pkgs.openssl}/bin/openssl genrsa 2048 > $out";
+      activeRecordPrimaryKeyFile = config.sops.secrets."activeRecordPrimaryKey".path;
+      activeRecordDeterministicKeyFile = config.sops.secrets."activeRecordDeterministicKey".path;
+      activeRecordSaltFile = config.sops.secrets."activeRecordSalt".path;
     };
+
+    # Initial root password
+    initialRootPasswordFile = config.sops.secrets."initialRootPassword".path;
 
     # Database configuration
     databaseCreateLocally = true;
@@ -199,11 +251,21 @@
     };
   };
 
-  # Ensure GitLab service starts after the SMB mount and SOPS secrets
+
+
+  # Ensure GitLab service starts after the SMB mount
   systemd.services.gitlab.after = [ "git.mount" ];
-  systemd.services.gitlab.requires = [ "git.mount" ];
-  systemd.services.gitlab-workhorse.after = [ "git.mount" ];
-  systemd.services.gitlab-workhorse.requires = [ "git.mount" ];
+  systemd.services.gitlab.wants = [ "git.mount" ];
+
+  # Workhorse: wait for GitLab socket before connecting (avoid race condition)
+  # Don't add after=gitlab.service to avoid circular dependency
+  systemd.services.gitlab-workhorse = {
+    wants = [ "git.mount" ];
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
+  };
 
   # NGINX reverse proxy for GitLab
   services.nginx = {

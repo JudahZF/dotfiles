@@ -1,2 +1,3 @@
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 #. "$HOME/.cargo/env"

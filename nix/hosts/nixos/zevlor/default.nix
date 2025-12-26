@@ -51,6 +51,8 @@
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
         ./../../../home/judahf.nix
+        ./../../../home/apps/cider.nix
+        ./../../../home/desktop
         ./hyprland.nix
       ];
     };
