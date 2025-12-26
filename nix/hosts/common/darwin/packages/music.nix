@@ -5,7 +5,7 @@
       "arturia-software-center"
       "blackhole-64ch"
       "ilok-license-manager"
-      "izotope-product-portal"
+      # "izotope-product-portal"
       "midi-monitor"
       "native-access"
       "qlab"

@@ -36,6 +36,7 @@
       "hiddenbar"
       "hyperkey"
       "keka"
+      "lm-studio"
       "malwarebytes"
       "microsoft-edge"
       "microsoft-office"

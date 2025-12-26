@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./zen.nix ]; }
+{ ... }: { imports = [ ]; }
