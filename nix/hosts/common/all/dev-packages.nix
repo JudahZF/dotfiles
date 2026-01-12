@@ -20,7 +20,9 @@ in {
     bootdev-cli
     bun
     cmake
+    unstable.claude-code
     ghidra
+    gh
     go
     jetbrains.datagrip
     jq
@@ -32,7 +34,7 @@ in {
     nixfmt-rfc-style
     nodejs
     ollama
-    opencode
+    unstable.opencode
     phpactor
     pnpm
     unstable.prettier

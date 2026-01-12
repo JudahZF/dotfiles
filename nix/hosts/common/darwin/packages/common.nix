@@ -4,6 +4,7 @@
       "chrome-cli"
       "cocoapods"
       "FiloSottile/musl-cross/musl-cross"
+      "withgraphite/tap/graphite"
       "macmon"
       "mas"
       { name = "jackielii/tap/skhd-zig"; }
@@ -59,7 +60,6 @@
       "stats"
       "tailscale-app"
       "tor-browser"
-      "utm"
       "vlc"
       "whatsapp"
       "wireshark"
@@ -70,7 +70,7 @@
       "Amphetamine" = 937984704;
       "Capo" = 696977615;
       "Home Assistant Companion" = 1099568401;
-      "Windows App" = 1295203466;
+      # "Windows App" = 1295203466;
       "Logic Pro" = 634148309;
       "Xcode" = 497799835;
     };
@@ -80,6 +80,7 @@
       "filosottile/musl-cross"
       "Gcenx/homebrew-wine"
       "koekeishiya/formulae"
+      "withgraphite/tap"
     ];
   };
   environment.systemPackages = [ pkgs.mkalias ];

@@ -13,6 +13,7 @@
     ./updates.nix
     ./user.nix
     ./window_manager.nix
+    inputs.home-manager.darwinModules.home-manager
     inputs.nix-index-database.darwinModules.nix-index
   ];
 }
