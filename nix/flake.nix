@@ -82,11 +82,12 @@
       inherit (self) outputs;
 
       stateVersion = "24.05";
-      libx = import ./lib { inherit inputs outputs stateVersion; };
 
       flake-overlays = [
         nix-xilinx.overlay
       ];
+
+      libx = import ./lib { inherit inputs outputs stateVersion flake-overlays; };
     in {
       darwinConfigurations = {
         gale = libx.mkDarwin { hostname = "gale"; };

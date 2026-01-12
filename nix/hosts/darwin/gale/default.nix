@@ -3,6 +3,7 @@
     ./custom-dock.nix
     (import ../../common/all/dev-packages.nix { inherit inputs pkgs pkgs-unstable; })
     ../../common
+    ../../common/all/uni-packages.nix
     ../../common/darwin/packages/design.nix
     ../../common/darwin/packages/gaming.nix
     ../../common/darwin/packages/music.nix

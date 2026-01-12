@@ -8,6 +8,10 @@ export PNPM_HOME="$HOME/.pnpm/"
 export PATH="$HOME/.pnpm/:$PATH"
 export PATH="/Applications/Ghostty.app/Contents/MacOS:/Users/judahfuller/Library/Python/3.9/bin:$PATH"
 
+export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+export ANTHROPIC_AUTH_TOKEN="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"
+export ANTHROPIC_API_KEY="" # Important: Must be explicitly empty
+
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 

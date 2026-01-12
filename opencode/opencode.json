@@ -1,5 +1,38 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "build": {
+      "model": "github-copilot/claude-opus-4.5"
+    },
+    "plan": {
+      "model": "github-copilot/claude-opus-4.5"
+    },
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "mode": "subagent",
+      "model": "openrouter/anthropic/claude-haiku-4.5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    },
+    "general": {
+      "model": "openrouter/openai/gpt-oss-120b:exacto"
+    },
+    "explore": {
+      "model": "openrouter/openai/gpt-oss-120b:exacto"
+    },
+    "compaction": {
+      "model": "openrouter/anthropic/claude-haiku-4.5"
+    },
+    "title": {
+      "model": "openrouter/openai/gpt-oss-120b:exacto"
+    },
+    "summary": {
+      "model": "openrouter/openai/gpt-oss-120b:exacto"
+    }
+  },
   "mcp": {
     "context7": {
       "type": "local",
@@ -13,10 +46,15 @@
       ],
       "enabled": true
     },
-    "my-different-local-mcp-server": {
+    "graphite": {
       "type": "local",
-      "command": ["bun", "x", "my-other-mcp-command"],
+      "command": ["gt", "mcp"],
       "enabled": true
     }
+  },
+  "model": "openrouter/minimax/minimax-m2.1",
+  "tools": {
+    "lsp": true,
+    "webfetch": true
   }
 }
