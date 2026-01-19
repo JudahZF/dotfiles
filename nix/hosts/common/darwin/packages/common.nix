@@ -16,7 +16,7 @@
     ];
     casks = [
       "1password"
-      "adobe-acrobat-reader"
+      # "adobe-acrobat-reader"
       "aldente"
       "alt-tab"
       "angry-ip-scanner"
@@ -55,9 +55,11 @@
       "raycast"
       "raspberry-pi-imager"
       "rockboxutility"
+      "signal"
       "silicon-labs-vcp-driver"
       "sketch"
       "stats"
+      "steipete/tap/codexbar"
       "tailscale-app"
       "tor-browser"
       "vlc"
@@ -80,6 +82,7 @@
       "filosottile/musl-cross"
       "Gcenx/homebrew-wine"
       "koekeishiya/formulae"
+      "steipete/tap"
       "withgraphite/tap"
     ];
   };

@@ -95,7 +95,6 @@
         ../hosts/nixos/${hostname}
         inputs.nix-index-database.nixosModules.nix-index
         inputs.sops-nix.nixosModules.sops
-        flake-overlays
       ];
     };
 }

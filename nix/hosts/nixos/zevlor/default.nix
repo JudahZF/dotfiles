@@ -56,11 +56,22 @@
         ./hyprland.nix
       ];
     };
+    users.richf = {
+      imports = [
+        ./../../../home/richf.nix
+      ];
+    };
   };
 
   users.users.judahf = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" "render" "video" ];
+    packages = with pkgs; [ home-manager ];
+  };
+
+  users.users.richf = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" "video" ];
     packages = with pkgs; [ home-manager ];
   };
 
