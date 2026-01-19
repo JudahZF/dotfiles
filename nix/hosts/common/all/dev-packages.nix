@@ -24,6 +24,7 @@ in {
     ghidra
     gh
     go
+    gradle
     jetbrains.datagrip
     jq
     lazygit

@@ -18,15 +18,11 @@
         "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
       else
         "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
+      # Configure difftastic as diff tool manually (avoids broken programs.difftastic module)
+      diff.tool = "difftastic";
+      difftool.prompt = false;
+      difftool.difftastic.cmd =
+        ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
     };
-  };
-
-  programs.difftastic = {
-    enable = true;
-    git = {
-      enable = true;
-      diffToolMode = true;
-    };
-    options.color = "always";
   };
 }
