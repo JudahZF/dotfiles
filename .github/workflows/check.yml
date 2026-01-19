@@ -1,0 +1,39 @@
+name: Flake Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Check NixOS configurations
+        run: |
+          cd nix
+          nix build .#checks.x86_64-linux.popper --dry-run
+          nix build .#checks.x86_64-linux.zevlor --dry-run
+          nix build .#checks.x86_64-linux.gitlab --dry-run
+          nix build .#checks.x86_64-linux.clawdbot --dry-run
+
+  check-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Check Darwin configurations
+        run: |
+          cd nix
+          nix build .#checks.aarch64-darwin.gale --dry-run
