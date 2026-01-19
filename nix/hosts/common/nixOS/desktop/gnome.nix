@@ -17,9 +17,15 @@
     totem # video player
   ]);
 
-  # Extensions
-  # environment.systemPackages = with pkgs; [  ];
-  # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  # Disable accessibility/screen reader
+  services.gnome.at-spi2-core.enable = false;
+
+  # Cursor theme
+  environment.systemPackages = with pkgs; [ adwaita-icon-theme ];
+  environment.variables = {
+    XCURSOR_THEME = "Adwaita";
+    XCURSOR_SIZE = "24";
+  };
 
   services.xserver = {
     desktopManager.gnome.enable = true;
