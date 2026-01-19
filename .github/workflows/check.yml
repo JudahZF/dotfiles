@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-linux:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +25,7 @@ jobs:
           nix build .#checks.x86_64-linux.clawdbot --dry-run
 
   check-darwin:
-    runs-on: macos-latest
+    runs-on: macos-latest  # Blacksmith doesn't offer macOS runners
     steps:
       - uses: actions/checkout@v4
 
