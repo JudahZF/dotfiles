@@ -97,6 +97,20 @@
         popper = libx.mkNixos { hostname = "popper"; };
         zevlor = libx.mkNixos { hostname = "zevlor"; };
         gitlab = libx.mkNixos { hostname = "gitlab"; };
+        clawdbot = libx.mkNixos { hostname = "clawdbot"; };
+      };
+
+      # Evaluation checks - run with `nix flake check`
+      checks = {
+        x86_64-linux = {
+          popper = self.nixosConfigurations.popper.config.system.build.toplevel;
+          zevlor = self.nixosConfigurations.zevlor.config.system.build.toplevel;
+          gitlab = self.nixosConfigurations.gitlab.config.system.build.toplevel;
+          clawdbot = self.nixosConfigurations.clawdbot.config.system.build.toplevel;
+        };
+        aarch64-darwin = {
+          gale = self.darwinConfigurations.gale.config.system.build.toplevel;
+        };
       };
 
       colmena = {
@@ -133,6 +147,21 @@
 
           imports = [
             ./hosts/nixos/gitlab
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.sops-nix.nixosModules.sops
+            inputs.home-manager.nixosModules.home-manager
+          ];
+        };
+
+        clawdbot = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.10.31";  # Update this IP
+            targetUser = "judahf";
+            buildOnTarget = true;
+          };
+
+          imports = [
+            ./hosts/nixos/clawdbot
             inputs.nix-index-database.nixosModules.nix-index
             inputs.sops-nix.nixosModules.sops
             inputs.home-manager.nixosModules.home-manager
