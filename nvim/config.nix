@@ -15,7 +15,8 @@
       enableTreesitter = true;
       lua.enable = true;
       nix.enable = true;
-      markdown.enable = true;
+      markdown.enable =
+        false; # Disabled: marksman LSP requires dotnet which is broken on darwin-aarch64
       python.enable = true;
       rust.enable = true;
       ts.enable = true;

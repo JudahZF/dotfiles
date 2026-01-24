@@ -5,40 +5,27 @@
     ./../../common/nixOS
     ./../../common/all/apps/discord.nix
     ./../../common/all/apps/steam.nix
+    ./../../common/nixOS/hardware/thrustmaster.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
-  hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
-    rocmPackages.clr.icd
-  ];
-  hardware.graphics.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
-  environment.systemPackages = with pkgs; [
-    clinfo
-    openrgb
-  ];
+  systemd.tmpfiles.rules =
+    [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  hardware.graphics.extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
+  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  environment.systemPackages = with pkgs; [ clinfo openrgb ];
 
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
   };
 
-
   # NETWORK
   networking = {
     hostName = "zevlor";
-    interfaces = {
-      enp9s0 = {
-        useDHCP = true;
-      };
-    };
+    interfaces = { enp9s0 = { useDHCP = true; }; };
   };
 
   # USER
@@ -56,22 +43,19 @@
         ./hyprland.nix
       ];
     };
-    users.richf = {
-      imports = [
-        ./../../../home/richf.nix
-      ];
-    };
+    users.richf = { imports = [ ./../../../home/richf.nix ]; };
   };
 
   users.users.judahf = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "render" "video" ];
+    extraGroups =
+      [ "wheel" "docker" "networkmanager" "render" "video" "input" ];
     packages = with pkgs; [ home-manager ];
   };
 
   users.users.richf = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "video" ];
+    extraGroups = [ "networkmanager" "video" "input" ];
     packages = with pkgs; [ home-manager ];
   };
 
