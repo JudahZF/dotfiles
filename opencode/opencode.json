@@ -2,10 +2,10 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "model": "github-copilot/claude-opus-4.5"
+      "model": "anthropic/claude-opus-4-5"
     },
     "plan": {
-      "model": "github-copilot/claude-opus-4.5"
+      "model": "anthropic/claude-opus-4-5"
     },
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -40,7 +40,7 @@
       "enabled": true
     }
   },
-  "model": "openrouter/minimax/minimax-m2.1",
+  "model": "anthropic/claude-opus-4-5",
   "tools": {
     "lsp": true,
     "webfetch": true

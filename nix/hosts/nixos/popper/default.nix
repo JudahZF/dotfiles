@@ -3,7 +3,6 @@
     ./hardware-configuration.nix
     ./../../common/all
     ./../../common/nixOS
-    ./../../common/all/apps/discord.nix
     ./../../common/all/apps/steam.nix
     ./../../common/all/dev-packages.nix
     ./../../common/all/uni-packages.nix
