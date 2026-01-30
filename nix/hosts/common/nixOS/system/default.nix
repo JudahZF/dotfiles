@@ -17,6 +17,9 @@
   environment.systemPackages = with pkgs; [
     btrfs-progs
     git
+    (python313.withPackages (ps:
+      with ps;
+      [ meshtastic ])) # Meshtastic CLI (Linux only, use pipx on macOS)
     sops
     wget
     zsh
