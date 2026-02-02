@@ -1,13 +1,13 @@
 { pkgs, lib, inputs, config, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../common/nixOS/system/ssh.nix
-    ./../../common/nixOS/system/tailscale.nix
-    ./../../common/nixOS/system/network.nix
-    ./../../common/nixOS/apps/clawdbot.nix
-    ./../../common/all/system/nix.nix
-    ./../../common/all/system/nixpkgs.nix
-    ./../../common/all/system/sops.nix
+    ./../../../modules/system/nixos/ssh.nix
+    ./../../../modules/system/nixos/tailscale.nix
+    ./../../../modules/system/nixos/network.nix
+    ./../../../modules/apps/clawdbot.nix
+    ./../../../modules/system/nix.nix
+    ./../../../modules/system/nixpkgs.nix
+    ./../../../modules/system/sops.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -27,7 +27,6 @@
       };
     };
 
-    # Environment file template for clawdbot service
     templates."clawdbot-env" = {
       content = ''
         ANTHROPIC_API_KEY=${config.sops.placeholder."anthropic_api_key"}
@@ -38,13 +37,13 @@
     };
   };
 
-  # NETWORK - Update IP address as needed
+  # NETWORK
   networking = {
     hostName = "clawdbot";
     interfaces.ens18 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.10.31";  # Update this IP
+        address = "192.168.10.31";
         prefixLength = 24;
       }];
     };
@@ -76,12 +75,11 @@
     extraSpecialArgs = { inherit inputs dotfiles; };
     users.judahf = {
       imports = [
-        ./../../../home/judahf.nix
+        ./../../../home/users/judahf
       ];
     };
   };
 
-  # Enable password-less sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
 
   # PACKAGES
@@ -97,7 +95,6 @@
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
 
-  # QEMU Guest Agent (for Proxmox)
   services.qemuGuest.enable = true;
 
   # CLAWDBOT GATEWAY SERVICE
@@ -108,10 +105,8 @@
     environmentFile = config.sops.templates."clawdbot-env".path;
   };
 
-  # Open firewall for SSH
   networking.firewall.allowedTCPPorts = [ 22 ];
 
-  # Automatic garbage collection
   nix.gc = {
     automatic = true;
     dates = "weekly";

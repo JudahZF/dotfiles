@@ -1,0 +1,23 @@
+{ pkgs, lib, ... }:
+lib.mkIf pkgs.stdenv.isLinux {
+  environment.systemPackages = with pkgs; [
+    bluez
+    bluez-tools
+  ];
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+        FastConnectable = true;
+      };
+      Policy = {
+        AutoEnable = true;
+      };
+    };
+  };
+
+  services.blueman.enable = true;
+}

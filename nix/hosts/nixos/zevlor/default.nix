@@ -1,11 +1,8 @@
 { pkgs, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../common/all
-    ./../../common/nixOS
-    ./../../common/all/apps/discord.nix
-    ./../../common/all/apps/steam.nix
-    ./../../common/nixOS/hardware/thrustmaster.nix
+    ./../../../modules
+    ./../../../modules/hardware/thrustmaster.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -37,13 +34,13 @@
       imports = [
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
-        ./../../../home/judahf.nix
+        ./../../../home/users/judahf
         ./../../../home/apps/cider.nix
         ./../../../home/desktop
         ./hyprland.nix
       ];
     };
-    users.richf = { imports = [ ./../../../home/richf.nix ]; };
+    users.richf = { imports = [ ./../../../home/users/richf ]; };
   };
 
   users.users.judahf = {
