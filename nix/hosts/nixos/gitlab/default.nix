@@ -1,12 +1,12 @@
 { pkgs, lib, inputs, config, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../common/nixOS/system/ssh.nix
-    ./../../common/nixOS/system/tailscale.nix
-    ./../../common/nixOS/system/network.nix
-    ./../../common/all/system/nix.nix
-    ./../../common/all/system/nixpkgs.nix
-    ./../../common/all/system/sops.nix
+    ./../../../modules/system/nixos/ssh.nix
+    ./../../../modules/system/nixos/tailscale.nix
+    ./../../../modules/system/nixos/network.nix
+    ./../../../modules/system/nix.nix
+    ./../../../modules/system/nixpkgs.nix
+    ./../../../modules/system/sops.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -67,7 +67,6 @@
       };
     };
 
-    # Template for SMB credentials file
     templates."smb-credentials" = {
       content = ''
         username=${config.sops.placeholder."smb/username"}
@@ -107,7 +106,7 @@
   };
   users.defaultUserShell = pkgs.zsh;
 
-  # HOME-MANAGER for judahf user (zsh, starship, and other CLI tools)
+  # HOME-MANAGER for judahf user
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -115,12 +114,11 @@
     extraSpecialArgs = { inherit inputs dotfiles; };
     users.judahf = {
       imports = [
-        ./../../../home/judahf.nix
+        ./../../../home/users/judahf
       ];
     };
   };
 
-  # Enable password-less sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
 
   # PACKAGES
@@ -132,10 +130,9 @@
     htop
     vim
     tmux
-    cifs-utils  # Required for SMB mounts
+    cifs-utils
   ];
 
-  # Create required directories
   systemd.tmpfiles.rules = [
     "d /git 0755 git gitlab -"
     "d /var/gitlab/state 0750 gitlab gitlab -"
@@ -150,7 +147,7 @@
       "gid=${toString config.users.groups.gitlab.gid}"
       "file_mode=0664"
       "dir_mode=0775"
-      "noperm"  # Disable permission checks - SMB server handles permissions
+      "noperm"
       "nofail"
       "x-systemd.automount"
       "x-systemd.idle-timeout=60"
@@ -159,7 +156,6 @@
     ];
   };
 
-  # Ensure git user has a fixed UID for SMB mount
   users.users.git = {
     uid = lib.mkForce 986;
     group = "git";
@@ -175,16 +171,11 @@
   # GITLAB CONFIGURATION
   services.gitlab = {
     enable = true;
-
-    # Set your GitLab host - update this to your domain
     host = "gitlab.local";
     port = 80;
     https = false;
-
-    # Use local storage for GitLab state (CIFS doesn't handle symlinks well)
     statePath = "/var/gitlab/state";
 
-    # Secret files - now managed by SOPS
     secrets = {
       secretFile = config.sops.secrets."secret".path;
       otpFile = config.sops.secrets."otp".path;
@@ -195,30 +186,14 @@
       activeRecordSaltFile = config.sops.secrets."activeRecordSalt".path;
     };
 
-    # Initial root password
     initialRootPasswordFile = config.sops.secrets."initialRootPassword".path;
 
-    # Database configuration
     databaseCreateLocally = true;
     databaseHost = "";
     databasePasswordFile = null;
 
-    # Redis configuration
     redisUrl = "unix:/run/gitlab/redis.sock";
 
-    # SMTP configuration - uncomment and configure for email
-    # smtp = {
-    #   enable = true;
-    #   address = "smtp.example.com";
-    #   port = 587;
-    #   username = "gitlab@example.com";
-    #   passwordFile = "/run/secrets/smtp-password";
-    #   domain = "example.com";
-    #   authentication = "login";
-    #   enableStartTlsAuto = true;
-    # };
-
-    # GitLab settings
     extraConfig = {
       gitlab = {
         email_from = "gitlab@example.com";
@@ -234,13 +209,11 @@
         };
       };
 
-      # Backup settings
       backup = {
-        keep_time = 604800; # 7 days in seconds
+        keep_time = 604800;
         path = "/git/gitlab-backups";
       };
 
-      # Git repository storage
       repositories = {
         storages = {
           default = {
@@ -251,14 +224,9 @@
     };
   };
 
-
-
-  # Ensure GitLab service starts after the SMB mount
   systemd.services.gitlab.after = [ "git.mount" ];
   systemd.services.gitlab.wants = [ "git.mount" ];
 
-  # Workhorse: wait for GitLab socket before connecting (avoid race condition)
-  # Don't add after=gitlab.service to avoid circular dependency
   systemd.services.gitlab-workhorse = {
     wants = [ "git.mount" ];
     serviceConfig = {
@@ -267,7 +235,6 @@
     };
   };
 
-  # NGINX reverse proxy for GitLab
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
@@ -278,11 +245,6 @@
     virtualHosts."gitlab.local" = {
       enableACME = false;
       forceSSL = false;
-
-      # Use self-signed cert for local development
-      # For production, enable ACME or provide your own certs
-      # enableACME = true;
-      # forceSSL = true;
 
       locations."/" = {
         proxyPass = "http://unix:/run/gitlab/gitlab-workhorse.socket";
@@ -296,14 +258,12 @@
     };
   };
 
-  # Redis for GitLab
   services.redis.servers.gitlab = {
     enable = true;
     unixSocket = "/run/gitlab/redis.sock";
     unixSocketPerm = 770;
   };
 
-  # PostgreSQL tuning for GitLab
   services.postgresql = {
     enable = true;
     settings = {
@@ -318,10 +278,8 @@
     };
   };
 
-  # Open firewall for HTTP/HTTPS and SSH
   networking.firewall.allowedTCPPorts = [ 22 80 443 ];
 
-  # Docker for GitLab CI runners (optional)
   virtualisation.docker = {
     enable = true;
     autoPrune = {
@@ -330,16 +288,14 @@
     };
   };
 
-  # Automatic garbage collection
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
 
-  # Enable automatic updates (optional)
   system.autoUpgrade = {
-    enable = false; # Set to true if you want automatic updates
+    enable = false;
     allowReboot = false;
   };
 

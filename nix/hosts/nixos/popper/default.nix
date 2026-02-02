@@ -1,11 +1,7 @@
 { pkgs, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../common/all
-    ./../../common/nixOS
-    ./../../common/all/apps/steam.nix
-    ./../../common/all/dev-packages.nix
-    ./../../common/all/uni-packages.nix
+    ./../../../modules
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -14,21 +10,14 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      # VA-API drivers
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-media-driver
       intel-vaapi-driver
       libvdpau-va-gl
-
-      # OpenCL and compute support
       intel-compute-runtime
       intel-gmmlib
       vpl-gpu-rt
-
-      # VA-API utilities and libraries
       libva
       libva-utils
-
-      # Diagnostic tools
       glxinfo
       pciutils
     ];
@@ -41,7 +30,6 @@
   };
 
   # HARDWARE
-  ## Thunderbolt
   services.hardware.bolt.enable = true;
 
   # NETWORK
@@ -69,7 +57,7 @@
       imports = [
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
-        ./../../../home/judahf.nix
+        ./../../../home/users/judahf
         ./hyprland.nix
       ];
     };
