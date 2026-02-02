@@ -26,7 +26,6 @@ fi
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+# Note: starship and zoxide are initialized by Home-Manager
 
 fastfetch
