@@ -5,7 +5,7 @@
       customConf = if builtins.pathExists customConfPath then
         (customConfPath + "/default.nix")
       else
-        ./../hosts/common/darwin/default-dock.nix;
+        ./../hosts/darwin/default-dock.nix;
     in inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit system inputs username;
@@ -26,8 +26,7 @@
         };
       };
       modules = [
-        ../hosts/common/default.nix
-        ../hosts/common/darwin/default.nix
+        ../modules
         customConf
         inputs.home-manager.darwinModules.home-manager
         {
@@ -46,7 +45,7 @@
             };
           };
           home-manager.users.${username} = {
-            imports = [ ./../home/${username}.nix ];
+            imports = [ ./../home/users/judahf ];
           };
         }
         inputs.nix-homebrew.darwinModules.nix-homebrew
