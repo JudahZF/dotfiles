@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   environment.gnome.excludePackages = (with pkgs; [
     atomix # puzzle game
     cheese # webcam tool
@@ -18,7 +18,7 @@
   ]);
 
   # Disable accessibility/screen reader
-  services.gnome.at-spi2-core.enable = false;
+  services.gnome.at-spi2-core.enable = lib.mkForce false;
 
   # Cursor theme
   environment.systemPackages = with pkgs; [ adwaita-icon-theme ];

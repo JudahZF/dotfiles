@@ -23,6 +23,53 @@
       difftool.prompt = false;
       difftool.difftastic.cmd =
         ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
+      # Additional settings
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      rerere.enabled = true;
+      rebase.autoStash = true;
+      fetch.prune = true;
+      # Aliases (using settings.alias instead of deprecated aliases)
+      alias = {
+        # Basic shortcuts
+        co = "checkout";
+        br = "branch";
+        ci = "commit";
+        st = "status";
+
+        # Pretty log with graph (using glog instead of lg - lg reserved for lazygit)
+        glog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        gloga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all";
+
+        # Commit helpers
+        amend = "commit --amend --no-edit";
+        wip = "commit -am 'WIP'";
+        undo = "reset HEAD~1 --mixed";
+
+        # Staging helpers
+        unstage = "reset HEAD --";
+        discard = "checkout --";
+
+        # Branch management
+        recent = "branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'";
+        cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d";
+
+        # Log shortcuts
+        last = "log -1 HEAD";
+        history = "log --oneline -20";
+      };
+    };
+  };
+
+  # Delta for better diffs (using new API location)
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      side-by-side = true;
+      line-numbers = true;
     };
   };
 }

@@ -45,6 +45,42 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+
+      history = {
+        size = 50000;
+        save = 50000;
+        ignoreDups = true;
+        ignoreSpace = true;
+        extended = true;
+        share = true;
+      };
+
+      shellAliases = {
+        # Git
+        g = "git";
+        ga = "git add";
+        gc = "git commit";
+        gd = "git diff";
+        gs = "git status";
+        gp = "git push";
+
+        # Navigation
+        ".." = "cd ..";
+        "..." = "cd ../..";
+
+        # Nix
+        rebuild = "~/dotfiles/rebuild.sh";
+        update = "~/dotfiles/update.sh";
+
+        # Modern tools
+        cat = "bat --paging=never";
+        ls = "eza --icons";
+        ll = "eza -la --icons";
+        lt = "eza --tree --level=2 --icons";
+      };
+
       initContent = if pkgs.stdenv.isDarwin then
         builtins.readFile "${dotfiles}/zsh/macos/zshrc"
       else
