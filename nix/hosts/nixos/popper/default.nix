@@ -58,6 +58,7 @@
         inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
         ./../../../home/users/judahf
+        ./../../../home/desktop
         ./hyprland.nix
       ];
     };
