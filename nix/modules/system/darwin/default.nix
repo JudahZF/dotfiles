@@ -1,5 +1,5 @@
-{ pkgs, lib, inputs, ... }: {
-  imports = lib.optionals pkgs.stdenv.isDarwin [
+{ system, lib, inputs, ... }: {
+  imports = lib.optionals (lib.hasSuffix "-darwin" system) [
     ./activation.nix
     ./defaults.nix
     ./dock.nix

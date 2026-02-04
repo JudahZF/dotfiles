@@ -6,28 +6,30 @@
         (customConfPath + "/default.nix")
       else
         ./../hosts/darwin/default-dock.nix;
+      pkgs = import inputs.nixpkgs-darwin {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
+      };
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
+      };
     in inputs.nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit system inputs username;
         dotfiles = inputs.dotfiles;
-        pkgs = import inputs.nixpkgs-darwin {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-          };
-        };
-        pkgs-unstable = import inputs.nixpkgs-unstable {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-          };
-        };
+        inherit pkgs-unstable;
       };
       modules = [
         ../modules
         customConf
+        { nixpkgs.pkgs = pkgs; }
         inputs.home-manager.darwinModules.home-manager
         {
           networking.hostName = hostname;
@@ -36,13 +38,7 @@
           home-manager.extraSpecialArgs = {
             inherit inputs;
             dotfiles = inputs.dotfiles;
-            pkgs-unstable = import inputs.nixpkgs-unstable {
-              inherit system;
-              config = {
-                allowUnfree = true;
-                allowUnfreePredicate = _: true;
-              };
-            };
+            inherit pkgs-unstable;
           };
           home-manager.users.${username} = {
             imports = [ ./../home/users/judahf ];
@@ -68,20 +64,21 @@
     };
 
   mkNixos = { hostname, username ? "judahf", system ? "x86_64-linux", }:
-    inputs.nixpkgs.lib.nixosSystem {
-      inherit system;
+    let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
+        overlays = [] ++ flake-overlays;
+      };
+    in inputs.nixpkgs.lib.nixosSystem {
+      inherit pkgs;
       specialArgs = {
         inherit inputs username system;
         name = hostname;
         dotfiles = inputs.dotfiles;
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-          };
-          overlays = [] ++ flake-overlays;
-        };
         pkgs-unstable = import inputs.nixpkgs-unstable {
           inherit system;
           config = {

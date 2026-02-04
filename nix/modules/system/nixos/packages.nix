@@ -13,11 +13,6 @@ lib.mkIf pkgs.stdenv.isLinux {
     zsh
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowUnfreePredicate = _: true;
-  };
-
   programs.zsh.enable = true;
 
   services.fstrim.enable = true;

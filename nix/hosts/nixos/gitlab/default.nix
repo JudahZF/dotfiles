@@ -164,7 +164,6 @@
   users.groups.gitlab.gid = lib.mkForce 986;
 
   programs.zsh.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
   services.qemuGuest.enable = true;
 
