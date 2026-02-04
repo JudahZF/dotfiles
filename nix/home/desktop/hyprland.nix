@@ -90,7 +90,7 @@
         rounding = 10;
       };
 
-      exec-once = [ "waybar" "hyprpaper" ];
+      exec-once = [ "waybar" "swww-daemon" "wallpaper-cycle" ];
 
       general = {
         gaps_in = 2;
