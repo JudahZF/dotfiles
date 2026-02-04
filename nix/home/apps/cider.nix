@@ -19,4 +19,15 @@ in
       };
     })
   ];
+
+  xdg.desktopEntries.cider = {
+    name = "Cider";
+    comment = "Apple Music client";
+    exec = "cider %U";
+    icon = "cider";
+    terminal = false;
+    type = "Application";
+    categories = [ "Audio" "Music" "Player" "AudioVideo" ];
+    mimeType = [ "x-scheme-handler/cider" "x-scheme-handler/itms" "x-scheme-handler/itmss" "x-scheme-handler/musics" "x-scheme-handler/music" ];
+  };
 }
