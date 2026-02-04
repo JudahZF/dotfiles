@@ -17,8 +17,8 @@
     wireless.enable = false; # Managed by NetworkManager
   };
 
-  # Disable greetd (conflicts with GDM, which is enabled in gnome.nix)
-  services.greetd.enable = lib.mkForce false;
+  # Disable ly (conflicts with GDM, which is enabled in gnome.nix)
+  services.displayManager.ly.enable = lib.mkForce false;
 
   # GPU - VideoCore VII
   hardware.graphics.enable = true;
