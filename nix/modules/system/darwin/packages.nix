@@ -66,6 +66,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "whatsapp"
       "wireshark"
       "wifiman"
+      "wispr-flow"
       "zen"
       # Design
       "affinity"
