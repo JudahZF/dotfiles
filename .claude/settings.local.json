@@ -10,7 +10,11 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "Bash(git push:*)",
-      "WebFetch(domain:docs.blacksmith.sh)"
+      "WebFetch(domain:docs.blacksmith.sh)",
+      "Bash(nix flake check:*)",
+      "Bash(/nix/var/nix/profiles/default/bin/nix flake check:*)",
+      "Skill(commit-commands:commit-push-pr)",
+      "Skill(commit-commands:commit-push-pr:*)"
     ]
   }
 }

@@ -1,13 +1,19 @@
-{ dotfiles, pkgs, ... }: {
-  imports = [
-    ../../apps
-    ../../cli
-  ];
+{ dotfiles, lib, pkgs, ... }: {
+  imports = [ ../../apps ../../cli ];
   home = {
     stateVersion = "24.05";
     username = if pkgs.stdenv.isDarwin then "judahfuller" else "judahf";
-    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/judahfuller" else "/home/judahf";
+    homeDirectory =
+      if pkgs.stdenv.isDarwin then "/Users/judahfuller" else "/home/judahf";
     enableNixpkgsReleaseCheck = false;
+
+    # Darwin-specific dotfile symlinks
+    file = lib.mkIf pkgs.stdenv.isDarwin {
+      ".yabairc" = {
+        source = "${dotfiles}/yabairc";
+        executable = true;
+      };
+    };
   };
 
   programs = {

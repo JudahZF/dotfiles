@@ -32,4 +32,29 @@ yabai -m config                                 \
     mouse_action2                resize         \
     mouse_drop_action            swap
 
+# ============================================
+# App-Specific Rules
+# ============================================
+
+# System dialogs and utilities - float
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Archive Utility$" manage=off
+yabai -m rule --add app="^Finder$" title="(Copy|Move|Delete|Connecting|Info|Preferences)" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^Disk Utility$" manage=off
+yabai -m rule --add app="^Installer$" manage=off
+yabai -m rule --add app="^1Password$" manage=off
+yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Raycast$" manage=off
+
+# ============================================
+# Signals
+# ============================================
+
+# Ghostty: Re-apply BSP layout on tab create/destroy to prevent tiling issues
+yabai -m signal --add app='^Ghostty$' event=window_created   action='yabai -m space --layout bsp'
+yabai -m signal --add app='^Ghostty$' event=window_destroyed action='yabai -m space --layout bsp'
+
 echo "yabai configuration loaded.."

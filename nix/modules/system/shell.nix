@@ -1,7 +1,8 @@
 { pkgs, ... }: {
   environment = {
     shellAliases = {
-      cd = "z";
+      cc = "claude --dangerously-skip-permissions";
+
       diff = "difftastic";
       du = "dua";
       find = "fd";
@@ -22,6 +23,7 @@
       fastfetch # neofetch
       fd # find
       fzf # fuzzy finder
+      just # command runner
       ripgrep # grep
       starship # shell prompt
       unzip # unzip
