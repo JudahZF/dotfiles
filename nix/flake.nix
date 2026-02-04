@@ -53,6 +53,8 @@
       url = "github:nix-community/nix-index-database";
     };
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     nix-xilinx = {
         inputs.nixpkgs.follows = "nixpkgs";
         url = "github:MIT-OpenCompute/xilinx-flake";
@@ -98,7 +100,11 @@
         zevlor = libx.mkNixos { hostname = "zevlor"; };
         gitlab = libx.mkNixos { hostname = "gitlab"; };
         clawdbot = libx.mkNixos { hostname = "clawdbot"; };
+        jfpi = libx.mkNixos { hostname = "jfpi"; system = "aarch64-linux"; };
       };
+
+      # SD card image for Raspberry Pi 5
+      images.jfpi = self.nixosConfigurations.jfpi.config.system.build.sdImage;
 
       # Evaluation checks - run with `nix flake check`
       checks = {
@@ -110,6 +116,9 @@
         };
         aarch64-darwin = {
           gale = self.darwinConfigurations.gale.config.system.build.toplevel;
+        };
+        aarch64-linux = {
+          jfpi = self.nixosConfigurations.jfpi.config.system.build.toplevel;
         };
       };
 

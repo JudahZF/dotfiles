@@ -1,16 +1,22 @@
-{ pkgs, lib, inputs, ... }: {
+{ pkgs, lib, inputs, ... }:
+let
+  # Check if zen-browser is available for this system
+  zenBrowserAvailable = inputs.zen-browser.packages ? ${pkgs.system};
+in {
   environment.systemPackages = with pkgs; [
     beszel # server monitoring
     cmatrix
     colmena # nix server deployment
-    google-chrome
     iperf3
     nmap
     obsidian
     remmina
     temurin-bin
-    (inputs.zen-browser.packages.${pkgs.system}.default)
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     mkalias
+  ] ++ lib.optionals (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64) [
+    google-chrome # x86_64-linux only
+  ] ++ lib.optionals zenBrowserAvailable [
+    (inputs.zen-browser.packages.${pkgs.system}.default)
   ];
 }
