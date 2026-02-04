@@ -1,7 +1,3 @@
-{ lib, system, ... }: {
-  nixpkgs = {
-    config.allowUnfree = true;
-    config.allowUnfreePredicate = _: true;
-    hostPlatform = lib.mkDefault "${system}";
-  };
+{ ... }: {
+  # nixpkgs options are configured via the read-only pkgs module in lib/helpers.nix
 }
