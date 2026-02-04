@@ -10,6 +10,7 @@
     ./fd.nix
     ./fzf.nix
     ./git.nix
+    ./yazi.nix
     ./ripgrep.nix
     ./ssh.nix
     ./starship.nix
