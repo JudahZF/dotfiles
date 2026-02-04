@@ -22,7 +22,7 @@
       enable = pkgs.stdenv.isLinux;
       settings = {
         background-opacity = 0.8;
-        shell-integration-features = [ "ssh-env" "ssh-terminfo" ];
+        # shell-integration-features = ssh-env ssh-terminfo;
       };
     };
     zsh = {
