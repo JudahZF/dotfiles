@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ system, lib, ... }: {
   imports = [
     ./common
     ./dev
@@ -6,7 +6,7 @@
     ./music
     ./production
     ./uni
-  ] ++ lib.optionals pkgs.stdenv.isLinux [
+  ] ++ lib.optionals (lib.hasSuffix "-linux" system) [
     ./gaming
   ];
 }
