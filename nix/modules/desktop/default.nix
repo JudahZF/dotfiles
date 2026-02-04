@@ -4,5 +4,6 @@
     ./grim.nix
     ./hyprland.nix
     ./login.nix
+    ./niri.nix
   ];
 }
