@@ -23,62 +23,62 @@
 
       bind = [
         # session management
-        "$hyprMod SHIFT, r, exec, hyprctl, reload"
-        "$hyprMod SHIFT, q, exit"
+        "$cmdMod SHIFT, r, exec, hyprctl, reload"
+        "$cmdMod SHIFT, q, exit"
         ''SUPER, S, exec, grim -g "$(slurp)"''
 
         # application launchers
-        "$hyprMod, RETURN, exec, $terminal"
-        "$hyprMod, E, exec, $fileManager"
+        "$cmdMod, RETURN, exec, $terminal"
+        "$cmdMod, E, exec, $fileManager"
         "$cmdMod, SPACE, exec, $menu"
 
         # window management
         "$cmdMod, Q, killactive"
-        "$hyprMod, V, togglefloating"
-        "$hyprMod, W, fullscreen"
-        "$hyprMod, J, togglesplit"
+        "$cmdMod, V, togglefloating"
+        "$cmdMod, W, fullscreen"
+        "$cmdMod, J, togglesplit"
 
         # focus management
-        "$hyprMod, LEFT, movefocus, l"
-        "$hyprMod, RIGHT, movefocus, r"
-        "$hyprMod, UP, movefocus, u"
-        "$hyprMod, DOWN, movefocus, d"
-        "$hyprMod SHIFT, LEFT, movetoworkspace, r-1"
-        "$hyprMod SHIFT, RIGHT, movetoworkspace, r+1"
+        "$cmdMod, LEFT, movefocus, l"
+        "$cmdMod, RIGHT, movefocus, r"
+        "$cmdMod, UP, movefocus, u"
+        "$cmdMod, DOWN, movefocus, d"
+        "$cmdMod SHIFT, LEFT, movetoworkspace, r-1"
+        "$cmdMod SHIFT, RIGHT, movetoworkspace, r+1"
 
         # workspace management
         ## switch to workspace
-        "$hyprMod, 1, workspace, 1"
-        "$hyprMod, 2, workspace, 2"
-        "$hyprMod, 3, workspace, 3"
-        "$hyprMod, 4, workspace, 4"
-        "$hyprMod, 5, workspace, 5"
-        "$hyprMod, 6, workspace, 6"
-        "$hyprMod, 7, workspace, 7"
-        "$hyprMod, 8, workspace, 8"
-        "$hyprMod, 9, workspace, 9"
-        "$hyprMod, 0, workspace, 10"
+        "$cmdMod, 1, workspace, 1"
+        "$cmdMod, 2, workspace, 2"
+        "$cmdMod, 3, workspace, 3"
+        "$cmdMod, 4, workspace, 4"
+        "$cmdMod, 5, workspace, 5"
+        "$cmdMod, 6, workspace, 6"
+        "$cmdMod, 7, workspace, 7"
+        "$cmdMod, 8, workspace, 8"
+        "$cmdMod, 9, workspace, 9"
+        "$cmdMod, 0, workspace, 10"
 
         ## move window to workspace
-        "$hyprMod SHIFT, 1, movetoworkspace, 1"
-        "$hyprMod SHIFT, 2, movetoworkspace, 2"
-        "$hyprMod SHIFT, 3, movetoworkspace, 3"
-        "$hyprMod SHIFT, 4, movetoworkspace, 4"
-        "$hyprMod SHIFT, 5, movetoworkspace, 5"
-        "$hyprMod SHIFT, 6, movetoworkspace, 6"
-        "$hyprMod SHIFT, 7, movetoworkspace, 7"
-        "$hyprMod SHIFT, 8, movetoworkspace, 8"
-        "$hyprMod SHIFT, 9, movetoworkspace, 9"
-        "$hyprMod SHIFT, 0, movetoworkspace, 10"
+        "$cmdMod SHIFT, 1, movetoworkspace, 1"
+        "$cmdMod SHIFT, 2, movetoworkspace, 2"
+        "$cmdMod SHIFT, 3, movetoworkspace, 3"
+        "$cmdMod SHIFT, 4, movetoworkspace, 4"
+        "$cmdMod SHIFT, 5, movetoworkspace, 5"
+        "$cmdMod SHIFT, 6, movetoworkspace, 6"
+        "$cmdMod SHIFT, 7, movetoworkspace, 7"
+        "$cmdMod SHIFT, 8, movetoworkspace, 8"
+        "$cmdMod SHIFT, 9, movetoworkspace, 9"
+        "$cmdMod SHIFT, 0, movetoworkspace, 10"
 
         ## scroll through workspaces
-        "$hyprMod, mouse_down, workspace, e+1"
-        "$hyprMod, mouse_up, workspace, e-1"
+        "$cmdMod, mouse_down, workspace, e+1"
+        "$cmdMod, mouse_up, workspace, e-1"
       ];
 
       bindm = [
-        "$hyprMod, mouse:272, movewindow"
-        "$hyprMod, mouse:273, resizewindow"
+        "$cmdMod, mouse:272, movewindow"
+        "$cmdMod, mouse:273, resizewindow"
       ];
 
       decoration = {
