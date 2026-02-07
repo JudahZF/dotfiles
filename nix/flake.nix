@@ -104,7 +104,32 @@
       };
 
       # SD card image for Raspberry Pi 5
-      images.jfpi = self.nixosConfigurations.jfpi.config.system.build.sdImage;
+      images.jfpi = (nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs;
+          system = "aarch64-linux";
+          username = "judahf";
+          dotfiles = inputs.dotfiles;
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            config = { allowUnfree = true; };
+            overlays = [ (final: prev: { lndir = prev.xorg.lndir; }) ];
+          };
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            system = "aarch64-linux";
+            config = { allowUnfree = true; };
+          };
+        };
+        modules = [
+          (nixpkgs + "/nixos/modules/installer/sd-card/sd-image-aarch64.nix")
+          ./hosts/nixos/jfpi
+          inputs.nixos-hardware.nixosModules.raspberry-pi-5
+          inputs.nix-index-database.nixosModules.nix-index
+          inputs.sops-nix.nixosModules.sops
+          { sdImage.compressImage = true; }
+        ];
+      }).config.system.build.sdImage;
 
       # Evaluation checks - run with `nix flake check`
       checks = {

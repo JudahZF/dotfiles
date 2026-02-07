@@ -18,7 +18,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
         show-recents = false;
         show-process-indicators = true;
         tilesize = 48;
-        workspaces-auto-swoosh = false;
+        workspaces-auto-swoosh = true;
       };
     };
     dock = {

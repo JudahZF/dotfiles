@@ -3,13 +3,13 @@
 
   # RPi5 boot is handled by nixos-hardware module
 
-  # Filesystem - adjust UUIDs after installation
+  # Filesystem - Ubuntu's existing partition labels
   fileSystems."/" = {
-    device = "/dev/disk/by-label/NIXOS_SD";
+    device = "/dev/disk/by-label/writable";
     fsType = "ext4";
   };
   fileSystems."/boot/firmware" = {
-    device = "/dev/disk/by-label/FIRMWARE";
+    device = "/dev/disk/by-label/system-boot";
     fsType = "vfat";
   };
 

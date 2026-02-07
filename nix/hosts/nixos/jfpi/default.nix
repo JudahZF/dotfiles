@@ -1,7 +1,8 @@
 { pkgs, lib, inputs, dotfiles, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../../modules
+    # Minimal modules - no desktop/GNOME
+    ./../../../modules/system
     inputs.nixos-hardware.nixosModules.raspberry-pi-5
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -17,27 +18,31 @@
     wireless.enable = false; # Managed by NetworkManager
   };
 
-  # Disable greetd (conflicts with GDM, which is enabled in gnome.nix)
-  services.greetd.enable = lib.mkForce false;
-
-  # GPU - VideoCore VII
-  hardware.graphics.enable = true;
+  # SSH for headless access
+  services.openssh.enable = true;
 
   # User
   users.users.judahf = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "video" ];
+    extraGroups = [ "wheel" "networkmanager" ];
     packages = with pkgs; [ home-manager ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO"
+    ];
   };
   users.defaultUserShell = pkgs.zsh;
 
-  # Home Manager
+  # Minimal home-manager - just shell basics
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs dotfiles; };
     users.judahf = {
-      imports = [ ./../../../home/users/judahf ];
+      home.stateVersion = "24.05";
+      home.username = "judahf";
+      home.homeDirectory = "/home/judahf";
+      programs.zsh.enable = true;
+      programs.git.enable = true;
     };
   };
 
