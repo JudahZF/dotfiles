@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ./../../../modules
+    ./../../../modules/apps/xilinx.nix
     ./../../../modules/hardware/thrustmaster.nix
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -43,10 +44,13 @@
     users.richf = { imports = [ ./../../../home/users/richf ]; };
   };
 
+  # AMD/Xilinx Vivado and Vitis for Zynq FPGA development
+  programs.xilinx.enable = true;
+
   users.users.judahf = {
     isNormalUser = true;
     extraGroups =
-      [ "wheel" "docker" "networkmanager" "render" "video" "input" ];
+      [ "wheel" "docker" "networkmanager" "render" "video" "input" "plugdev" ];
     packages = with pkgs; [ home-manager ];
   };
 
