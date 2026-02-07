@@ -12,6 +12,7 @@
           allowUnfree = true;
           allowUnfreePredicate = _: true;
         };
+        overlays = [ (final: prev: { lndir = prev.xorg.lndir; }) ];
       };
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system;
@@ -71,7 +72,7 @@
           allowUnfree = true;
           allowUnfreePredicate = _: true;
         };
-        overlays = [] ++ flake-overlays;
+        overlays = [ (final: prev: { lndir = prev.xorg.lndir; }) ] ++ flake-overlays;
       };
     in inputs.nixpkgs.lib.nixosSystem {
       inherit pkgs;
