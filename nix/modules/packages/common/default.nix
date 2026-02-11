@@ -6,6 +6,7 @@ in {
   environment.systemPackages = with pkgs; [
     beszel # server monitoring
     cmatrix
+    codex # openai coding agent cli
     colmena # nix server deployment
     iperf3
     nmap
