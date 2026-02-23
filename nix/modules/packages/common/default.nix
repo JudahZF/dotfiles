@@ -6,13 +6,15 @@ in {
   environment.systemPackages = with pkgs; [
     beszel # server monitoring
     cmatrix
-    codex # openai coding agent cli
+    codex
     colmena # nix server deployment
     iperf3
     nmap
+    libreoffice
     obsidian
     remmina
     temurin-bin
+    turbo # turborepo cli
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     mkalias
   ] ++ lib.optionals (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64) [

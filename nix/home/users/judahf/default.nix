@@ -5,6 +5,7 @@
     username = if pkgs.stdenv.isDarwin then "judahfuller" else "judahf";
     homeDirectory =
       if pkgs.stdenv.isDarwin then "/Users/judahfuller" else "/home/judahf";
+    sessionPath = [ "$HOME/.cache/.bun/bin" ];
     enableNixpkgsReleaseCheck = false;
 
     # Darwin-specific dotfile symlinks
