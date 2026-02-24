@@ -10,13 +10,14 @@ in {
     colmena # nix server deployment
     iperf3
     nmap
-    libreoffice
     obsidian
     remmina
     temurin-bin
     turbo # turborepo cli
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     mkalias
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    libreoffice # NixOS only
   ] ++ lib.optionals (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64) [
     google-chrome # x86_64-linux only
   ] ++ lib.optionals zenBrowserAvailable [

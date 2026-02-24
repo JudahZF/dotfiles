@@ -14,6 +14,7 @@
     ./ripgrep.nix
     ./ssh.nix
     ./starship.nix
+    ./zig.nix
     ./zoxide.nix
   ];
 }
