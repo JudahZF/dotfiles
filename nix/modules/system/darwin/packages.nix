@@ -3,13 +3,14 @@ lib.mkIf pkgs.stdenv.isDarwin {
   homebrew = {
     # Common homebrew packages
     brews = [
+      "azure-cli"
       "chrome-cli"
       "cocoapods"
       "FiloSottile/musl-cross/musl-cross"
       "withgraphite/tap/graphite"
       "macmon"
       "mas"
-      { name = "jackielii/tap/skhd-zig"; }
+      "jackielii/tap/skhd-zig"
       "samtay/tui/tetris"
       {
         name = "yabai";
@@ -67,7 +68,8 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "tor-browser"
       "vlc"
       "whatsapp"
-      "wireshark"
+      "wireshark-app"
+      "unifi-identity-endpoint"
       "wifiman"
       "wispr-flow"
       "zen"
@@ -95,7 +97,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "4k-video-downloader"
       "ableset"
       "companion"
-      "handbrake"
+      "handbrake-app"
       "lightkey"
       "ndi-tools"
       "propresenter"
@@ -114,6 +116,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "FelixKratz/formulae"
       "filosottile/musl-cross"
       "Gcenx/homebrew-wine"
+      "jackielii/tap"
       "koekeishiya/formulae"
       "steipete/tap"
       "withgraphite/tap"

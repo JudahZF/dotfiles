@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   # 1Password SSH Agent configuration for home-manager
 
   # Set environment variable for 1Password SSH agent socket
@@ -6,6 +6,16 @@
 
   # Ensure 1Password CLI is available in the user environment
   home.packages = with pkgs; [ _1password-cli ];
+
+  # Create ~/.1password/agent.sock symlink on macOS so the platform-agnostic
+  # path works (used by both SSH_AUTH_SOCK and ssh.nix IdentityAgent)
+  home.activation.onepasswordAgentSymlink = lib.mkIf pkgs.stdenv.isDarwin (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p "$HOME/.1password"
+      ln -sf "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" \
+        "$HOME/.1password/agent.sock"
+    ''
+  );
 
   # Configure systemd user service to run 1Password SSH agent on NixOS
   systemd.user.services._1password-agent = lib.mkIf pkgs.stdenv.isLinux {
