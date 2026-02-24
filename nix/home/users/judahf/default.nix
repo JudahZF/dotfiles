@@ -10,6 +10,9 @@
 
     # Darwin-specific dotfile symlinks
     file = lib.mkIf pkgs.stdenv.isDarwin {
+      ".skhdrc" = {
+        source = "${dotfiles}/skhdrc";
+      };
       ".yabairc" = {
         source = "${dotfiles}/yabairc";
         executable = true;
@@ -29,6 +32,10 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      envExtra = if pkgs.stdenv.isDarwin then
+        builtins.readFile "${dotfiles}/zsh/macos/zshenv"
+      else
+        builtins.readFile "${dotfiles}/zsh/linux/zshenv";
       initContent = if pkgs.stdenv.isDarwin then
         builtins.readFile "${dotfiles}/zsh/macos/zshrc"
       else
