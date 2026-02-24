@@ -45,18 +45,18 @@
             imports = [ ./../home/users/judahf ];
           };
         }
-        inputs.nix-homebrew.darwinModules.nix-homebrew
+        inputs.nix-zerobrew.darwinModules.nix-zerobrew
         {
-          nix-homebrew = {
+          nix-zerobrew = {
             enable = true;
             enableRosetta = true;
             autoMigrate = true;
-            mutableTaps = true;
             user = "${username}";
-            taps = with inputs; {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "homebrew/homebrew-bundle" = homebrew-bundle;
+            package = inputs.nix-zerobrew.packages.${system}.zerobrew;
+            packageRosetta = inputs.nix-zerobrew.packages.x86_64-darwin.zerobrew;
+            prefixes = {
+              "/opt/zerobrew".linkDir = "/opt/homebrew";
+              "/usr/local/zerobrew".linkDir = "/usr/local";
             };
           };
         }
