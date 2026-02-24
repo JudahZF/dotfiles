@@ -1,3 +1,16 @@
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
-#. "$HOME/.cargo/env"
+export BTCA_KEY=ak_7JTBTEYW4CZ8GYKE3P8PG9A50XM0CR6B
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PNPM_HOME="$HOME/.pnpm/"
+export PATH="$PNPM_HOME:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/Applications/Ghostty.app/Contents/MacOS:$HOME/Library/Python/3.9/bin:$PATH"
+
+# Nix
+export PATH=/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi

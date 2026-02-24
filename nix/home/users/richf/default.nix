@@ -14,6 +14,7 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      envExtra = builtins.readFile "${dotfiles}/zsh/linux/zshenv";
       initContent = builtins.readFile "${dotfiles}/zsh/linux/zshrc";
     };
   };
