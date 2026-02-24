@@ -1,5 +1,10 @@
 { pkgs, ... }: {
   config.vim = {
+    options = {
+      tabstop = 4;
+      shiftwidth = 4;
+    };
+
     theme = {
       enable = true;
       name = "tokyonight";
@@ -13,14 +18,41 @@
 
     languages = {
       enableTreesitter = true;
+      bash.enable = true;
+      css.enable = true;
+      go.enable = true;
+      html.enable = true;
       lua.enable = true;
       nix.enable = true;
       markdown.enable =
         false; # Disabled: marksman LSP requires dotnet which is broken on darwin-aarch64
+      php.enable = true;
       python.enable = true;
       rust.enable = true;
+      sql.enable = true;
+      tailwind.enable = true;
       ts.enable = true;
+      yaml.enable = true;
+      zig.enable = true;
     };
+
+    autocomplete.nvim-cmp = {
+      enable = true;
+      mappings = {
+        complete = "<C-Space>";
+        confirm = "<C-y>";
+        next = "<C-n>";
+        previous = "<C-p>";
+      };
+    };
+
+    snippets.luasnip.enable = true;
+
+    formatter.conform-nvim.enable = true;
+
+    visuals.fidget-nvim.enable = true;
+
+    binds.whichKey.enable = true;
 
     telescope = {
       enable = true;
@@ -73,6 +105,21 @@
         key = "<leader>e";
         action = ":Neotree filesystem focus right toggle<CR>";
       }
+      {
+        mode = "v";
+        key = "J";
+        action = ":m '>+1<CR>gv=gv";
+      }
+      {
+        mode = "v";
+        key = "K";
+        action = ":m '<-2<CR>gv=gv";
+      }
+      {
+        mode = "n";
+        key = "<leader>?";
+        action = "<Cmd>lua require('which-key').show({ global = false })<CR>";
+      }
     ];
 
     navigation.harpoon = {
@@ -110,9 +157,29 @@
         mappings = {
           workspaceDiagnostics = "<leader>tt";
           quickfix = "<leader>tf";
-          #next = "]t";
-          #previous = "[t";
         };
+      };
+      lspconfig.sources = {
+        ansiblels = ''
+          lspconfig.ansiblels.setup({
+            capabilities = caps,
+          })
+        '';
+        eslint = ''
+          lspconfig.eslint.setup({
+            capabilities = caps,
+          })
+        '';
+        jsonls = ''
+          lspconfig.jsonls.setup({
+            capabilities = caps,
+          })
+        '';
+        templ = ''
+          lspconfig.templ.setup({
+            capabilities = caps,
+          })
+        '';
       };
     };
 
@@ -120,6 +187,26 @@
       enable = true;
       highlight.enable = true;
       indent.enable = true;
+      grammars = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+        comment
+        csv
+        editorconfig
+        git_config
+        gitcommit
+        gitignore
+        gomod
+        gosum
+        json
+        json5
+        jsonc
+        make
+        markdown_inline
+        regex
+        ruby
+        scss
+        swift
+        toml
+      ];
     };
 
     lazy.plugins = {
@@ -135,7 +222,6 @@
           };
         };
         keys = [
-
           {
             mode = "n";
             key = "<leader>c";
@@ -144,6 +230,21 @@
         ];
         lazy = true;
       };
+
+      "guess-indent.nvim" = {
+        package = pkgs.vimPlugins.guess-indent-nvim;
+        setupModule = "guess-indent";
+        setupOpts = {
+          auto_cmds = true;
+          override_indent = true;
+        };
+      };
     };
+
+    luaConfigPost = ''
+      -- Force transparency
+      vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    '';
   };
 }
