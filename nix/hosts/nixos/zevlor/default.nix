@@ -42,6 +42,7 @@
       ];
     };
     users.richf = { imports = [ ./../../../home/users/richf ]; };
+    users.beckf = { imports = [ ./../../../home/users/beckf ]; };
   };
 
   # AMD/Xilinx Vivado and Vitis for Zynq FPGA development
@@ -55,6 +56,12 @@
   };
 
   users.users.richf = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" "video" "input" ];
+    packages = with pkgs; [ home-manager ];
+  };
+
+  users.users.beckf = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "video" "input" ];
     packages = with pkgs; [ home-manager ];
