@@ -24,19 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
@@ -46,7 +33,10 @@
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-zerobrew = {
+      url = "github:JudahZF/nix-zerobrew";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
 
     nix-index-database = {
       inputs.nixpkgs.follows = "nixpkgs";
