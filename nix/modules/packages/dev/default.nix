@@ -34,7 +34,7 @@ in {
     nixfmt-rfc-style
     nodejs
     ollama
-    unstable.opencode
+    opencode
     phpactor
     platformio
     pnpm
