@@ -9,6 +9,7 @@
     "1password/custom_allowed_browsers" = {
       text = ''
         .zen
+        helium
       '';
       mode = "0755";
     };
