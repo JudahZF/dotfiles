@@ -60,9 +60,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    t3code = {
+      url = "github:JudahZF/t3code-nix/update/v0.0.8";
+    };
+
     walker = {
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
+    };
+
+    helium-browser = {
+      url = "github:schembriaiden/helium-browser-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";

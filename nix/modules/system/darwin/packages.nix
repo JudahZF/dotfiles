@@ -4,7 +4,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
     # Common homebrew packages
     brews = [
       "azure-cli"
-      "chrome-cli"
+      # "chrome-cli" # removed - no longer using Chrome
       "cocoapods"
       "FiloSottile/musl-cross/musl-cross"
       "withgraphite/tap/graphite"
@@ -36,14 +36,14 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "docker-desktop"
       "game-porting-toolkit"
       "ghostty"
-      "helium-browser"
+      # "helium-browser" # now managed via nix flake
       "hiddenbar"
       "hyperkey"
       "iina"
       "keka"
       "lm-studio"
       "malwarebytes"
-      "microsoft-edge"
+      # "microsoft-edge" # removed - only using helium + zen
       "microsoft-office"
       "microsoft-teams"
       "mqttx"
@@ -65,7 +65,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "codex-app"
       "steipete/tap/codexbar"
       "tailscale-app"
-      "tor-browser"
+      # "tor-browser" # removed - only using helium + zen
       "vlc"
       "whatsapp"
       "wireshark-app"

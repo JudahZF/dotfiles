@@ -18,8 +18,8 @@ in {
     mkalias
   ] ++ lib.optionals pkgs.stdenv.isLinux [
     libreoffice # NixOS only
-  ] ++ lib.optionals (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64) [
-    google-chrome # x86_64-linux only
+  ] ++ lib.optionals (inputs.helium-browser.packages ? ${pkgs.system}) [
+    (inputs.helium-browser.packages.${pkgs.system}.default)
   ] ++ lib.optionals zenBrowserAvailable [
     (inputs.zen-browser.packages.${pkgs.system}.default)
   ];

@@ -14,6 +14,7 @@ let
 in {
   environment.systemPackages = with pkgs; [
     ## stable
+    adafruit-nrfutil
     bootdev-cli
     bun
     cmake
@@ -43,7 +44,10 @@ in {
     (python313.withPackages (ps: with ps; [ pip requests mcp ]))
     pipx
     ruff
+    uv
     watchman
     unstable.zed-editor
-  ];
+  ] ++ (if builtins.hasAttr system inputs.t3code.packages
+        then [ inputs.t3code.packages.${system}.default ]
+        else []);
 }
