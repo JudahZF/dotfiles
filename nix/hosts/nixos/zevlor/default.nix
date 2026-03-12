@@ -2,7 +2,6 @@
   imports = [
     ./hardware-configuration.nix
     ./../../../modules
-    ./../../../modules/apps/xilinx.nix
     ./../../../modules/hardware/thrustmaster.nix
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -44,9 +43,6 @@
     users.richf = { imports = [ ./../../../home/users/richf ]; };
     users.beckf = { imports = [ ./../../../home/users/beckf ]; };
   };
-
-  # AMD/Xilinx Vivado and Vitis for Zynq FPGA development
-  programs.xilinx.enable = true;
 
   users.users.judahf = {
     isNormalUser = true;

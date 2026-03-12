@@ -47,11 +47,6 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    nix-xilinx = {
-        inputs.nixpkgs.follows = "nixpkgs";
-        url = "github:MIT-OpenCompute/xilinx-flake";
-      };
-
     nvf = {
       url = "github:JudahZF/nvf/telescope_gitFiles";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -71,10 +66,7 @@
       inputs.elephant.follows = "elephant";
     };
 
-    helium-browser = {
-      url = "github:schembriaiden/helium-browser-nix-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    helium-browser.url = "github:amaanq/helium-flake";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
@@ -86,9 +78,7 @@
 
       stateVersion = "24.05";
 
-      flake-overlays = [
-        nix-xilinx.overlay
-      ];
+      flake-overlays = [];
 
       libx = import ./lib { inherit inputs outputs stateVersion flake-overlays; };
     in {
