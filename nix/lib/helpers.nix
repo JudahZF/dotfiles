@@ -68,18 +68,19 @@
       ];
     };
 
-  mkNixos = { hostname, username ? "judahf", system ? "x86_64-linux", }:
+  mkNixos = { hostname, username ? "judahf", system ? "x86_64-linux", extraOverlays ? [], }:
     let
       pkgs = import inputs.nixpkgs {
         inherit system;
         config = {
           allowUnfree = true;
           allowUnfreePredicate = _: true;
+          permittedInsecurePackages = [ "python3.12-ecdsa-0.19.1" ];
         };
         overlays = [
           (final: prev: { lndir = prev.xorg.lndir; })
           inputs.opencode-nix.overlays.default
-        ] ++ flake-overlays;
+        ] ++ flake-overlays ++ extraOverlays;
       };
     in inputs.nixpkgs.lib.nixosSystem {
       inherit pkgs;
