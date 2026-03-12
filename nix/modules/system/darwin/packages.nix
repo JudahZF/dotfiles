@@ -112,7 +112,6 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "Final Cut Pro" = 424389933;
     };
     taps = [
-      "homebrew/cask"
       "FelixKratz/formulae"
       "filosottile/musl-cross"
       "Gcenx/homebrew-wine"

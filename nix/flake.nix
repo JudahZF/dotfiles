@@ -61,7 +61,7 @@
     };
 
     t3code = {
-      url = "github:JudahZF/t3code-nix/update/v0.0.8";
+      url = "github:Sawrz/t3code-nix";
     };
 
     walker = {

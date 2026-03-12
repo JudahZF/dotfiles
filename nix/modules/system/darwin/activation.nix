@@ -22,5 +22,12 @@ lib.mkIf pkgs.stdenv.isDarwin {
     activateSettings.text = ''
       sudo -u ${username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
+    codesignZig.text = ''
+      for bin in "${pkgs.zig}/bin/zig" "${pkgs.cargo-zigbuild}/bin/.cargo-zigbuild-wrapped"; do
+        if [ -f "$bin" ]; then
+          /usr/bin/codesign --force --sign - "$bin" 2>/dev/null || true
+        fi
+      done
+    '';
   };
 }
