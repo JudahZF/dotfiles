@@ -1,6 +1,10 @@
 # Dotfiles management commands
 # Run `just` or `just --list` to see available recipes
 
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+flake_dir := "./nix"
+
 # Default recipe: list available commands
 default:
     @just --list
@@ -28,24 +32,40 @@ clean:
 # Building
 # ─────────────────────────────────────────────────────────────
 
-# Build a specific host configuration
+# Build a specific NixOS host configuration
 build host:
-    nix build ./nix#nixosConfigurations.{{host}}.config.system.build.toplevel
+    nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel
 
-# Build Darwin configuration
+# Build a specific Darwin host configuration
 build-darwin host="gale":
-    nix build ./nix#darwinConfigurations.{{host}}.config.system.build.toplevel
+    nix build {{flake_dir}}#darwinConfigurations.{{host}}.config.system.build.toplevel
+
+# Build any host by name, dispatching to the correct flake output
+build-host host:
+    case "{{host}}" in \
+      gale) nix build {{flake_dir}}#darwinConfigurations.{{host}}.config.system.build.toplevel ;; \
+      popper|zevlor|gitlab|clawdbot|jfpi) nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel ;; \
+      *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
+    esac
 
 # Build all configurations (runs flake check)
 build-all: check
 
 # Run flake check to validate all configurations
 check:
-    nix flake check ./nix
+    nix flake check {{flake_dir}}
 
 # Build Raspberry Pi SD card image
 build-pi-image:
-    nix build ./nix#images.jfpi
+    nix build {{flake_dir}}#images.jfpi
+
+# Build the wrapped Neovim package for the current system
+build-neovim:
+    nix build {{flake_dir}}#judah-neovim
+
+# Build a specific flake check output
+build-check system check_name:
+    nix build {{flake_dir}}#checks.{{system}}.{{check_name}}
 
 # ─────────────────────────────────────────────────────────────
 # Server Deployment (Colmena)
@@ -53,11 +73,15 @@ build-pi-image:
 
 # Deploy to a specific server
 deploy host:
-    colmena apply --on {{host}}
+    colmena apply --config {{flake_dir}} --on {{host}}
 
 # Deploy to all servers
 deploy-all:
-    colmena apply
+    colmena apply --config {{flake_dir}}
+
+# Preview deployment changes for a specific server
+deploy-dry-run host:
+    colmena apply --config {{flake_dir}} --on {{host}} --dry-activate
 
 # ─────────────────────────────────────────────────────────────
 # macOS (Yabai)
@@ -87,11 +111,23 @@ optimize:
 
 # Show flake metadata
 flake-info:
-    nix flake metadata ./nix
+    nix flake metadata {{flake_dir}}
 
 # Show flake outputs
 flake-outputs:
-    nix flake show ./nix
+    nix flake show {{flake_dir}} --no-write-lock-file
+
+# Format the Nix flake tree
+fmt:
+    nix fmt {{flake_dir}}
+
+# Evaluate a host without building it
+eval-host host:
+    case "{{host}}" in \
+      gale) nix eval {{flake_dir}}#darwinConfigurations.{{host}}.config.system.name ;; \
+      popper|zevlor|gitlab|clawdbot|jfpi) nix eval {{flake_dir}}#nixosConfigurations.{{host}}.config.system.name ;; \
+      *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
+    esac
 
 # List available host configurations
 list-hosts:
