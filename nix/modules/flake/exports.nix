@@ -1,4 +1,5 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   flake = {
     nixosModules = {
       browsers = {
@@ -40,7 +41,9 @@
           ../desktop/gnome.nix
           ../desktop/grim.nix
           ../desktop/hyprland/system.nix
+          ../desktop/niri/system.nix
           ../desktop/login.nix
+          ../desktop/noctalia/system.nix
         ];
       };
       dev = {
@@ -314,10 +317,13 @@
       };
       desktop = {
         imports = [
-          ../desktop/hyprland/home.nix
+          ../desktop/noctalia/home.nix
           ../desktop/swww.nix
-          ../desktop/walker.nix
-          ../desktop/waybar.nix
+        ];
+      };
+      hyprland = {
+        imports = [
+          ../desktop/hyprland/home.nix
         ];
       };
       home = {

@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -6,7 +7,7 @@
       "$cmdMod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "files";
-      "$menu" = "walker";
+      "$ipc" = "noctalia-shell ipc call";
 
       animations = {
         enabled = true;
@@ -25,12 +26,14 @@
         # session management
         "$cmdMod SHIFT, r, exec, hyprctl, reload"
         "$cmdMod SHIFT, q, exit"
-        ''SUPER, S, exec, grim -g "$(slurp)"''
+        ''$cmdMod SHIFT, S, exec, grim -g "$(slurp)"''
 
         # application launchers
         "$cmdMod, RETURN, exec, $terminal"
         "$cmdMod, E, exec, $fileManager"
-        "$cmdMod, SPACE, exec, $menu"
+        "$cmdMod, SPACE, exec, $ipc launcher toggle"
+        "$cmdMod, S, exec, $ipc controlCenter toggle"
+        "$cmdMod, comma, exec, $ipc settings toggle"
 
         # window management
         "$cmdMod, Q, killactive"
@@ -90,7 +93,11 @@
         rounding = 10;
       };
 
-      exec-once = [ "waybar" "swww-daemon" "wallpaper-cycle" ];
+      exec-once = [
+        "noctalia-shell --no-duplicate"
+        "swww-daemon"
+        "wallpaper-cycle"
+      ];
 
       general = {
         gaps_in = 2;

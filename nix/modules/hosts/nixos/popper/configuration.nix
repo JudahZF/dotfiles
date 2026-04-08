@@ -1,6 +1,14 @@
-{ pkgs, inputs, dotfiles, self, ... }: {
+{
+  pkgs,
+  inputs,
+  dotfiles,
+  self,
+  ...
+}:
+{
   imports = [
     ./hardware.nix
+    ./niri.nix
     self.nixosModules.browsers
     self.nixosModules.communication
     self.nixosModules.desktop
@@ -18,7 +26,10 @@
   ];
 
   # GPU (Intel QuickSync)
-  boot.kernelParams = [ "i915.fastboot=1" "i915.enable_guc=3" ];
+  boot.kernelParams = [
+    "i915.fastboot=1"
+    "i915.enable_guc=3"
+  ];
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -47,17 +58,21 @@
   # NETWORK
   networking = {
     hostName = "popper";
-    interfaces = {
-      eno1 = {
-        useDHCP = false;
-        ipv4.addresses = [{
-          address = "192.168.1.33";
-          prefixLength = 24;
-        }];
+    networkmanager.ensureProfiles.profiles.eno1 = {
+      connection = {
+        id = "eno1";
+        type = "ethernet";
+        interface-name = "eno1";
+        autoconnect = true;
       };
+      ipv4 = {
+        method = "manual";
+        addresses = "192.168.1.33/24";
+        gateway = "192.168.1.1";
+        dns = "192.168.1.2;1.1.1.1;8.8.8.8;";
+      };
+      ipv6.method = "ignore";
     };
-    defaultGateway = "192.168.1.1";
-    nameservers = [ "192.168.1.2" "1.1.1.1" "8.8.8.8" ];
   };
 
   # USER
@@ -67,10 +82,10 @@
     extraSpecialArgs = { inherit inputs dotfiles self; };
     users.judahf = {
       imports = [
-        inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
         self.homeModules.user-judahf
         self.homeModules.desktop
+        self.homeModules.hyprland
         ./hyprland.nix
       ];
     };
@@ -78,7 +93,13 @@
 
   users.users.judahf = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "render" "video" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "networkmanager"
+      "render"
+      "video"
+    ];
     packages = with pkgs; [ home-manager ];
   };
 

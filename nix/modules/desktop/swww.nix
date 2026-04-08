@@ -4,6 +4,8 @@ let
 
   wallpaper-cycle = pkgs.writeShellScriptBin "wallpaper-cycle" ''
     WALLPAPER_DIR="${wallpaperDir}"
+    NOCTALIA_CACHE_DIR="$HOME/.cache/noctalia"
+    NOCTALIA_WALLPAPERS="$NOCTALIA_CACHE_DIR/wallpapers.json"
 
     if [ ! -d "$WALLPAPER_DIR" ]; then
       echo "Wallpaper directory not found: $WALLPAPER_DIR"
@@ -27,10 +29,31 @@ let
       --transition-type grow \
       --transition-pos center \
       --transition-duration 2
+
+    mkdir -p "$NOCTALIA_CACHE_DIR"
+    OUTPUT_JSON=$(
+      {
+        ${pkgs.swww}/bin/swww query 2>/dev/null || true
+      } | while IFS=: read -r output _; do
+        if [ -n "$output" ]; then
+          printf '%s\n' "$output"
+        fi
+      done | ${pkgs.jq}/bin/jq -Rn --arg wallpaper "$SELECTED" '
+        [inputs | select(length > 0)] as $outputs
+        | if ($outputs | length) == 0 then
+            ["HDMI-A-3", "HDMI-A-2"]
+          else
+            $outputs
+          end
+        | reduce .[] as $output ({}; .[$output] = { light: $wallpaper, dark: $wallpaper })
+      '
+    )
+    printf '%s\n' "$OUTPUT_JSON" > "$NOCTALIA_WALLPAPERS"
   '';
 in
 {
   home.packages = [
+    pkgs.jq
     pkgs.swww
     wallpaper-cycle
   ];
