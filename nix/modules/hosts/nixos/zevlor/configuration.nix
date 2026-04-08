@@ -1,6 +1,14 @@
-{ pkgs, inputs, dotfiles, self, ... }: {
+{
+  pkgs,
+  inputs,
+  dotfiles,
+  self,
+  ...
+}:
+{
   imports = [
     ./hardware.nix
+    ./niri.nix
     self.nixosModules.browsers
     self.nixosModules.communication
     self.nixosModules.desktop
@@ -20,11 +28,16 @@
 
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
-  systemd.tmpfiles.rules =
-    [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
-  hardware.graphics.extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
+  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  hardware.graphics.extraPackages = with pkgs; [
+    amdvlk
+    rocmPackages.clr.icd
+  ];
   hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-  environment.systemPackages = with pkgs; [ clinfo openrgb ];
+  environment.systemPackages = with pkgs; [
+    clinfo
+    openrgb
+  ];
 
   services.hardware.openrgb = {
     enable = true;
@@ -34,7 +47,16 @@
   # NETWORK
   networking = {
     hostName = "zevlor";
-    interfaces = { enp9s0 = { useDHCP = true; }; };
+    networkmanager.ensureProfiles.profiles.enp9s0 = {
+      connection = {
+        id = "enp9s0";
+        type = "ethernet";
+        interface-name = "enp9s0";
+        autoconnect = true;
+      };
+      ipv4.method = "auto";
+      ipv6.method = "auto";
+    };
   };
 
   # USER
@@ -44,33 +66,52 @@
     extraSpecialArgs = { inherit inputs dotfiles self; };
     users.judahf = {
       imports = [
-        inputs.walker.homeManagerModules.default
         inputs.zen-browser.homeModules.beta
         self.homeModules.user-judahf
         self.homeModules.desktop
+        self.homeModules.hyprland
         ./hyprland.nix
       ];
     };
-    users.richf = { imports = [ self.homeModules.user-richf ]; };
-    users.beckf = { imports = [ self.homeModules.user-beckf ]; };
+    users.richf = {
+      imports = [ self.homeModules.user-richf ];
+    };
+    users.beckf = {
+      imports = [ self.homeModules.user-beckf ];
+    };
   };
 
   users.users.judahf = {
     isNormalUser = true;
-    extraGroups =
-      [ "wheel" "docker" "networkmanager" "render" "video" "input" "plugdev" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "networkmanager"
+      "render"
+      "video"
+      "input"
+      "plugdev"
+    ];
     packages = with pkgs; [ home-manager ];
   };
 
   users.users.richf = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "video" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "video"
+      "input"
+    ];
     packages = with pkgs; [ home-manager ];
   };
 
   users.users.beckf = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "video" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "video"
+      "input"
+    ];
     packages = with pkgs; [ home-manager ];
   };
 

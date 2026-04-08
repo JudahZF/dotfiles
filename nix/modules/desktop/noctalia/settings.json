@@ -1,0 +1,99 @@
+{
+  "settingsVersion": 59,
+  "bar": {
+    "position": "top",
+    "backgroundOpacity": 0.93,
+    "showCapsule": true,
+    "widgets": {
+      "left": [
+        {
+          "id": "Launcher"
+        },
+        {
+          "id": "Clock"
+        },
+        {
+          "id": "SystemMonitor"
+        },
+        {
+          "id": "ActiveWindow"
+        },
+        {
+          "id": "MediaMini"
+        }
+      ],
+      "center": [
+        {
+          "id": "Workspace"
+        }
+      ],
+      "right": [
+        {
+          "id": "Tray"
+        },
+        {
+          "id": "NotificationHistory"
+        },
+        {
+          "id": "Battery"
+        },
+        {
+          "id": "Volume"
+        },
+        {
+          "id": "Brightness"
+        },
+        {
+          "id": "ControlCenter"
+        }
+      ]
+    },
+    "rightClickAction": "controlCenter",
+    "rightClickFollowMouse": true
+  },
+  "general": {
+    "enableShadows": true,
+    "enableBlurBehind": true,
+    "showChangelogOnStartup": false,
+    "telemetryEnabled": false
+  },
+  "ui": {
+    "panelBackgroundOpacity": 0.93,
+    "settingsPanelMode": "attached",
+    "settingsPanelSideBarCardStyle": false
+  },
+  "colorSchemes": {
+    "darkMode": true,
+    "useWallpaperColors": false
+  },
+  "wallpaper": {
+    "enabled": true,
+    "overviewEnabled": false,
+    "directory": "~/dotfiles/wallpapers",
+    "enableMultiMonitorDirectories": false,
+    "viewMode": "recursive",
+    "setWallpaperOnAllMonitors": true,
+    "linkLightAndDarkWallpapers": true,
+    "fillMode": "crop",
+    "useOriginalImages": true,
+    "automationEnabled": false,
+    "wallpaperChangeMode": "random",
+    "randomIntervalSec": 300,
+    "transitionDuration": 1500,
+    "transitionType": [
+      "fade",
+      "disc",
+      "stripes",
+      "wipe",
+      "pixelate",
+      "honeycomb"
+    ],
+    "panelPosition": "follow_bar"
+  },
+  "appLauncher": {
+    "viewMode": "grid"
+  },
+  "hooks": {
+    "wallpaperChange": "swww img \"$1\" --transition-type grow --transition-pos center --transition-duration 2"
+  }
+}
