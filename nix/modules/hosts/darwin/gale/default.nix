@@ -21,18 +21,23 @@ in {
     modules = [
       ./configuration.nix
       self.darwinModules.browsers
-      self.darwinModules.cli
       self.darwinModules.communication
       self.darwinModules.darwin
+      self.darwinModules.design
+      self.darwinModules.desktop
       self.darwinModules.dev
       self.darwinModules.fonts
+      self.darwinModules.gaming
       self.darwinModules.home-manager-system
       self.darwinModules.libraries
       self.darwinModules.media
+      self.darwinModules.networking
       self.darwinModules.nix-config
+      self.darwinModules.productivity
       self.darwinModules.security
       self.darwinModules.secrets
       self.darwinModules.shell
+      self.darwinModules.utilities
       { nixpkgs.pkgs = pkgs; }
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-zerobrew.darwinModules.nix-zerobrew

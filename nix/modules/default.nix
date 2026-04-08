@@ -2,20 +2,25 @@
   imports = [
     ./flake
     ./browsers
-    ./cli
     ./communication
     ./darwin
+    ./design
     ./desktop
     ./dev
     ./fonts
+    ./gaming
     ./home
     ./libraries
     ./media
     ./nix-config
+    ./networking
     ./nixos
+    ./productivity
+    ./production
     ./secrets
     ./security
     ./shell
+    ./utilities
     ./users
     ./hosts/darwin/gale
     ./hosts/nixos/clawdbot

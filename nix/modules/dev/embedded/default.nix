@@ -1,8 +1,6 @@
-{ pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
-    adafruit-nrfutil
-    bootdev-cli
-    nanopb
-    platformio
+{ ... }: {
+  imports = [
+    ./embedded.nix
+    ./xilinx.nix
   ];
 }

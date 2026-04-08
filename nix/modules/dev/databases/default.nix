@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
-    jetbrains.datagrip
-    libpq
+{ ... }: {
+  imports = [
+    ./datagrip.nix
+    ./libpq.nix
   ];
 }

@@ -2,7 +2,6 @@
   imports = [
     ./hardware.nix
     self.nixosModules.browsers
-    self.nixosModules.cli
     self.nixosModules.communication
     self.nixosModules.desktop
     self.nixosModules.dev
@@ -14,6 +13,7 @@
     self.nixosModules.security
     self.nixosModules.secrets
     self.nixosModules.shell
+    self.nixosModules.utilities
     inputs.home-manager.nixosModules.home-manager
   ];
 
