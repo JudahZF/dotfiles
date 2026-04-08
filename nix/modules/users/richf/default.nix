@@ -1,7 +1,7 @@
 { self, dotfiles, ... }: {
   imports = [
     self.homeModules.home
-    self.homeModules.cli
+    self.homeModules.utilities
   ];
 
   home = {
