@@ -1,4 +1,4 @@
-{ inputs, pkgs, pkgs-unstable ? null, lib, options, ... }:
+{ inputs, pkgs, pkgs-unstable ? null, lib, ... }:
 let
   unstable = if pkgs-unstable != null then pkgs-unstable else pkgs;
   system = pkgs.stdenv.system;
@@ -13,24 +13,8 @@ lib.mkMerge [
         else
           [ ]
       );
-  }
-  (lib.mkIf (options ? environment.shellAliases) {
     environment.shellAliases = {
       cc = "claude --dangerously-skip-permissions";
     };
-  })
-  (lib.mkIf (pkgs.stdenv.isDarwin && options ? homebrew.casks) {
-    homebrew.casks = [
-      "codex"
-      "codex-app"
-      "comfyui"
-      "lm-studio"
-    ];
-  })
-  (lib.mkIf (pkgs.stdenv.isDarwin && options ? homebrew.casks) {
-    homebrew = {
-      casks = [ "steipete/tap/codexbar" ];
-      taps = [ "steipete/tap" ];
-    };
-  })
+  }
 ]

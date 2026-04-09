@@ -1,5 +1,5 @@
-{ options, ... }:
-if options ? programs.atuin then {
+{ ... }:
+{
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
@@ -10,4 +10,4 @@ if options ? programs.atuin then {
       style = "compact";
     };
   };
-} else { }
+}

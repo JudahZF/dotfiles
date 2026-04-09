@@ -1,5 +1,5 @@
-{ options, ... }:
-if options ? programs.bat then {
+{ ... }:
+{
   programs.bat = {
     enable = true;
     config = {
@@ -8,4 +8,4 @@ if options ? programs.bat then {
       style = "numbers,changes,header";
     };
   };
-} else { }
+}

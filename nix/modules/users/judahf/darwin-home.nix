@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ../../desktop/skhd-zig.nix
-    ../../desktop/yabai.nix
+    ../../desktop/skhd-zig/home.nix
+    ../../desktop/yabai/home.nix
   ];
 }

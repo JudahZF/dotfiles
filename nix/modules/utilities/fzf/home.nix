@@ -1,8 +1,5 @@
-{ pkgs, options, ... }:
-(if options ? environment.systemPackages then {
-  environment.systemPackages = [ pkgs.fzf ];
-} else { })
-// (if options ? programs.fzf then {
+{ ... }:
+{
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -16,4 +13,4 @@
     fileWidgetCommand = "fd --type f --hidden --follow --exclude .git";
     changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
   };
-} else { })
+}

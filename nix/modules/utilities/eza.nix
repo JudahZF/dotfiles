@@ -1,5 +1,5 @@
-{ options, ... }:
-if options ? programs.eza then {
+{ ... }:
+{
   programs.eza = {
     enable = true;
     enableZshIntegration = true;
@@ -7,4 +7,4 @@ if options ? programs.eza then {
     git = true;
     extraOptions = [ "--group-directories-first" "--header" ];
   };
-} else { }
+}

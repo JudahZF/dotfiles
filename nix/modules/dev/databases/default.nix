@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ./datagrip.nix
+    ./datagrip/default.nix
     ./libpq.nix
   ];
 }

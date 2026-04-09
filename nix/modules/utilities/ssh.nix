@@ -1,5 +1,5 @@
-{ options, ... }:
-if options ? programs.ssh then {
+{ ... }:
+{
   programs.ssh = {
     matchBlocks = {
       all = {
@@ -23,4 +23,4 @@ if options ? programs.ssh then {
       };
     };
   };
-} else { }
+}

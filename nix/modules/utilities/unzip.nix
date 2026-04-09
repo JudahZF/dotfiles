@@ -1,4 +1,4 @@
-{ pkgs, options, ... }:
-if options ? environment.systemPackages then {
+{ pkgs, ... }:
+{
   environment.systemPackages = [ pkgs.unzip ];
-} else { }
+}
