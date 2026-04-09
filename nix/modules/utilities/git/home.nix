@@ -1,16 +1,5 @@
-{ pkgs, lib, options, ... }:
-(if options ? environment.shellAliases then {
-  environment.shellAliases = { lg = "lazygit"; };
-} else { })
-// (if options ? environment.systemPackages then {
-  environment.systemPackages = with pkgs; [
-    git
-    git-cliff
-    git-lfs
-    lazygit
-  ];
-} else { })
-// (if options ? programs.git then {
+{ pkgs, lib, ... }:
+{
   programs.git = {
     enable = true;
     lfs.enable = true;
@@ -69,4 +58,4 @@
       line-numbers = true;
     };
   };
-} else { })
+}

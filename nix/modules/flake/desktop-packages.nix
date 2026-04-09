@@ -1,15 +1,16 @@
-{ inputs, lib, ... }:
+{ inputs, lib, lndirOverlay, ... }:
 {
   perSystem =
     { pkgs, system, ... }:
     let
       mkNiriConfig = import ../desktop/niri/settings.nix { inherit lib; };
+      wrappedPkgs = pkgs.extend lndirOverlay;
     in
     {
       packages = lib.optionalAttrs pkgs.stdenv.isLinux (
         let
           noctalia-shell-wrapped = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
-            inherit pkgs;
+            pkgs = wrappedPkgs;
             package = inputs.nixpkgs-unstable.legacyPackages.${system}.noctalia-shell;
             outOfStoreConfig = "$HOME/.config/noctalia";
             autoCopyConfig = false;
@@ -19,8 +20,8 @@
           mkNiriPackage =
             host: outputs:
             inputs.wrapper-modules.wrappers.niri.wrap {
-              inherit pkgs;
-              package = pkgs.niri;
+              pkgs = wrappedPkgs;
+              package = wrappedPkgs.niri;
               "config.kdl".content = mkNiriConfig {
                 inherit host outputs;
                 noctaliaPackage = noctalia-shell-wrapped;

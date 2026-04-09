@@ -1,5 +1,5 @@
-{ pkgs, options, ... }:
-if options ? programs.yazi then {
+{ pkgs, ... }:
+{
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
@@ -21,4 +21,4 @@ if options ? programs.yazi then {
     jq
     unar
   ];
-} else { }
+}

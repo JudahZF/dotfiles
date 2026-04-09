@@ -1,14 +1,5 @@
-{ pkgs, options, ... }:
-(if options ? environment.shellAliases then {
-  environment.shellAliases = {
-    # Use btop as the interactive system monitor behind the familiar top command.
-    top = "btop";
-  };
-} else { })
-// (if options ? environment.systemPackages then {
-  environment.systemPackages = [ pkgs.btop ];
-} else { })
-// (if options ? programs.btop then {
+{ ... }:
+{
   programs.btop = {
     enable = true;
     settings = {
@@ -71,4 +62,4 @@
       show_battery_watts = true;
     };
   };
-} else { })
+}

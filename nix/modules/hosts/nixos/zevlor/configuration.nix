@@ -22,7 +22,7 @@
     self.nixosModules.secrets
     self.nixosModules.shell
     self.nixosModules.utilities
-    ../../../modules/nixos/thrustmaster.nix
+    ../../../nixos/thrustmaster.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 

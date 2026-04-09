@@ -9,31 +9,30 @@
       };
       utilities = {
         imports = [
-          ../utilities/git.nix
-          ../utilities/btop.nix
+          ../utilities/git/default.nix
+          ../utilities/btop/default.nix
           ../utilities/comma.nix
           ../utilities/coreutils.nix
           ../utilities/curl.nix
           ../utilities/difftastic.nix
           ../utilities/dua.nix
           ../utilities/entr.nix
-          ../utilities/fastfetch.nix
-          ../utilities/fd.nix
-          ../utilities/fzf.nix
+          ../utilities/fastfetch/default.nix
+          ../utilities/fd/default.nix
+          ../utilities/fzf/default.nix
           ../utilities/just.nix
-          ../utilities/ripgrep.nix
-          ../utilities/starship.nix
+          ../utilities/ripgrep/default.nix
+          ../utilities/starship/default.nix
           ../utilities/unzip.nix
           ../utilities/wget.nix
           ../utilities/zellij.nix
-          ../utilities/zoxide.nix
+          ../utilities/zoxide/default.nix
         ];
       };
       communication = {
         imports = [
           ../communication/discord.nix
           ../communication/meshtastic.nix
-          ../communication/signal.nix
         ];
       };
       desktop = {
@@ -48,7 +47,7 @@
       };
       dev = {
         imports = [
-          ../dev/ai.nix
+          ../dev/ai/default.nix
           ../dev/bootdev-cli.nix
           ../dev/go/default.nix
           ../dev/python/default.nix
@@ -95,12 +94,12 @@
           ../nixos/localisation.nix
           ../nixos/network.nix
           ../nixos/ssh.nix
-          ../networking/tailscale.nix
+          ../networking/tailscale/system.nix
         ];
       };
       security = {
         imports = [
-          ../security/onepassword
+          ../security/onepassword/nixos.nix
         ];
       };
       secrets = import ../secrets/sops.nix;
@@ -116,34 +115,33 @@
       browsers = {
         imports = [
           ../browsers/safari
-          ../browsers/zen
+          ../browsers/zen/system.nix
         ];
       };
       utilities = {
         imports = [
-          ../utilities/git.nix
-          ../utilities/btop.nix
+          ../utilities/git/default.nix
+          ../utilities/btop/default.nix
           ../utilities/comma.nix
           ../utilities/coreutils.nix
           ../utilities/curl.nix
           ../utilities/difftastic.nix
           ../utilities/dua.nix
           ../utilities/entr.nix
-          ../utilities/fastfetch.nix
-          ../utilities/fd.nix
-          ../utilities/fzf.nix
+          ../utilities/fastfetch/default.nix
+          ../utilities/fd/default.nix
+          ../utilities/fzf/default.nix
           ../utilities/just.nix
-          ../utilities/ripgrep.nix
-          ../utilities/starship.nix
+          ../utilities/ripgrep/default.nix
+          ../utilities/starship/default.nix
           ../utilities/unzip.nix
           ../utilities/wget.nix
           ../utilities/zellij.nix
-          ../utilities/zoxide.nix
+          ../utilities/zoxide/default.nix
         ];
       };
       communication = {
         imports = [
-          ../communication/signal.nix
           ../communication/whatsapp.nix
         ];
       };
@@ -190,20 +188,23 @@
           ../desktop/hyperkey.nix
           ../desktop/macmon.nix
           ../desktop/raycast.nix
-          ../desktop/skhd-zig.nix
+          ../desktop/skhd-zig/system.nix
           ../desktop/stats.nix
-          ../desktop/yabai.nix
+          ../desktop/yabai/system.nix
         ];
       };
       dev = {
         imports = [
-          ../dev/ai.nix
+          ../dev/ai/default.nix
+          ../dev/ai/darwin.nix
           ../dev/bootdev-cli.nix
           ../dev/go/default.nix
           ../dev/python/default.nix
           ../dev/node/default.nix
-          ../dev/embedded/default.nix
+          ../dev/embedded/embedded.nix
+          ../dev/embedded/darwin.nix
           ../dev/databases/default.nix
+          ../dev/databases/datagrip/darwin.nix
           ../dev/editors/default.nix
           ../dev/editors/neovim/module.nix
           ../dev/zig.nix
@@ -252,7 +253,7 @@
           ../networking/angry-ip-scanner.nix
           ../networking/barrier.nix
           ../networking/nomachine.nix
-          ../networking/tailscale.nix
+          ../networking/tailscale/darwin.nix
           ../networking/unifi-identity-endpoint.nix
           ../networking/wifiman.nix
           ../networking/wireshark-app.nix
@@ -278,7 +279,7 @@
       security = {
         imports = [
           ../security/malwarebytes.nix
-          ../security/onepassword
+          ../security/onepassword/darwin.nix
           ../security/private-internet-access.nix
         ];
       };
@@ -294,25 +295,25 @@
     homeModules = {
       browsers = {
         imports = [
-          ../browsers/zen
+          ../browsers/zen/home.nix
         ];
       };
       utilities = {
         imports = [
           ../utilities/atuin.nix
           ../utilities/bat.nix
-          ../utilities/btop.nix
+          ../utilities/btop/home.nix
           ../utilities/direnv.nix
           ../utilities/eza.nix
-          ../utilities/fastfetch.nix
-          ../utilities/fd.nix
-          ../utilities/fzf.nix
-          ../utilities/git.nix
-          ../utilities/ripgrep.nix
+          ../utilities/fastfetch/home.nix
+          ../utilities/fd/home.nix
+          ../utilities/fzf/home.nix
+          ../utilities/git/home.nix
+          ../utilities/ripgrep/home.nix
           ../utilities/ssh.nix
-          ../utilities/starship.nix
+          ../utilities/starship/home.nix
           ../utilities/yazi.nix
-          ../utilities/zoxide.nix
+          ../utilities/zoxide/home.nix
         ];
       };
       desktop = {
@@ -341,7 +342,7 @@
       neovim = import ../dev/editors/neovim/module.nix;
       security = {
         imports = [
-          ../security/onepassword
+          ../security/onepassword/home.nix
         ];
       };
       user-judahf = import ../users/judahf;

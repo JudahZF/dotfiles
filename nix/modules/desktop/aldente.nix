@@ -1,9 +1,7 @@
-{ pkgs, lib, options, ... }:
+{ pkgs, lib, ... }:
 lib.mkMerge [
-  (lib.mkIf (pkgs.stdenv.isDarwin && options ? homebrew.casks) {
+  (lib.mkIf pkgs.stdenv.isDarwin {
     homebrew.casks = [ "aldente" ];
-  })
-  (lib.mkIf (pkgs.stdenv.isDarwin && options ? system.defaults.CustomUserPreferences) {
     system.defaults.CustomUserPreferences = {
       "com.apphousekitchen.aldente-pro.plist" = {
         automaticDischarge = false;
