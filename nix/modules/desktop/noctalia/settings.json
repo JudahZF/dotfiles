@@ -69,7 +69,7 @@
   "wallpaper": {
     "enabled": true,
     "overviewEnabled": false,
-    "directory": "~/dotfiles/wallpapers",
+    "directory": "/home/judahf/dotfiles/wallpapers",
     "enableMultiMonitorDirectories": false,
     "viewMode": "recursive",
     "setWallpaperOnAllMonitors": true,
@@ -92,8 +92,5 @@
   },
   "appLauncher": {
     "viewMode": "grid"
-  },
-  "hooks": {
-    "wallpaperChange": "swww img \"$1\" --transition-type grow --transition-pos center --transition-duration 2"
   }
 }

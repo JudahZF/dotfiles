@@ -12,6 +12,18 @@ lib.mkMerge [
     '';
   })
   (lib.mkIf pkgs.stdenv.isLinux {
+    xdg.desktopEntries."1password" = {
+      name = "1Password";
+      genericName = "Password Manager";
+      comment = "1Password password manager";
+      exec = "1password --ozone-platform=wayland --enable-features=WaylandWindowDecorations %U";
+      icon = "1password";
+      terminal = false;
+      categories = [ "Office" "Utility" ];
+      startupNotify = true;
+      mimeType = [ "x-scheme-handler/onepassword" ];
+    };
+
     systemd.user.services._1password-agent = {
       Unit = {
         Description = "1Password SSH Agent";

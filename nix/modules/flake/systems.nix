@@ -15,7 +15,10 @@
     lndirOverlay = final: prev: { lndir = prev.xorg.lndir; };
   in {
     inherit lndirOverlay unfreeConfig;
-    flakeOverlays = [ inputs.nix-xilinx.overlay ];
+    flakeOverlays = [
+      inputs.nix-xilinx.overlay
+      inputs.firefox-addons.overlays.default
+    ];
 
     mkPkgs = {
       system,

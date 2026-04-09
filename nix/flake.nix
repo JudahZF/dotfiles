@@ -28,7 +28,7 @@
     };
 
     helium-browser = {
-      url = "github:schembriaiden/helium-browser-nix-flake";
+      url = "github:Ev357/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

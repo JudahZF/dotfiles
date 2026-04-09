@@ -95,8 +95,6 @@
 
       exec-once = [
         "noctalia-shell --no-duplicate"
-        "swww-daemon"
-        "wallpaper-cycle"
       ];
 
       general = {

@@ -1,6 +1,7 @@
 { inputs, pkgs, config, ... }:
 {
   programs.zen-browser = {
+    enable = true;
     profiles = {
       "default" = {
         containersForce = true;
@@ -26,7 +27,7 @@
             id = 4;
           };
         };
-        extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+        extensions.packages = with pkgs.firefox-addons; [
           darkreader
           enhancer-for-nebula
           enhancer-for-youtube

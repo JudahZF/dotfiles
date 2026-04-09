@@ -16,7 +16,8 @@
       "Skill(commit-commands:commit-push-pr)",
       "Skill(commit-commands:commit-push-pr:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:discourse.nixos.org)"
+      "WebFetch(domain:discourse.nixos.org)",
+      "Bash(git:*)"
     ]
   }
 }
