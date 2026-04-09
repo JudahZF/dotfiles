@@ -44,6 +44,7 @@ in {
     (python313.withPackages (ps: with ps; [ pip requests mcp ]))
     pipx
     ruff
+    swiftformat
     uv
     watchman
     unstable.zed-editor
