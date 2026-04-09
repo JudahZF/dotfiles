@@ -1,0 +1,5 @@
+{ ... }: {
+  imports = [
+    ./lightkey.nix
+  ];
+}

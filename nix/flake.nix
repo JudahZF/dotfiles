@@ -1,5 +1,11 @@
 {
   description = "JF Flake";
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
 
   inputs = {
     cider = {
@@ -13,9 +19,16 @@
     };
 
     elephant.url = "github:abenz1267/elephant";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    helium-browser = {
+      url = "github:schembriaiden/helium-browser-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -24,19 +37,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
-
-    opencode-nix.url = "github:dan-online/opencode-nix";
-
     nix-darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
-    };
-
-    nix-zerobrew = {
-      url = "github:JudahZF/nix-zerobrew";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
@@ -45,7 +47,21 @@
       url = "github:nix-community/nix-index-database";
     };
 
+    nix-zerobrew = {
+      url = "github:JudahZF/nix-zerobrew";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    nix-xilinx = {
+      url = "github:MIT-OpenCompute/xilinx-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nvf = {
       url = "github:JudahZF/nvf/telescope_gitFiles";
@@ -57,141 +73,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    t3code = {
-      url = "github:Sawrz/t3code-nix";
-    };
-
+    t3code.url = "github:Sawrz/t3code-nix";
     walker = {
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
     };
-
-    helium-browser.url = "github:amaanq/helium-flake";
-
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs = { ... }@inputs:
-    with inputs;
-    let
-      inherit (self) outputs;
-
-      stateVersion = "24.05";
-
-      flake-overlays = [];
-
-      libx = import ./lib { inherit inputs outputs stateVersion flake-overlays; };
-    in {
-      darwinConfigurations = {
-        gale = libx.mkDarwin { hostname = "gale"; };
-      };
-
-      nixosConfigurations = {
-        popper = libx.mkNixos { hostname = "popper"; };
-        zevlor = libx.mkNixos { hostname = "zevlor"; };
-        gitlab = libx.mkNixos { hostname = "gitlab"; };
-        clawdbot = libx.mkNixos { hostname = "clawdbot"; };
-        jfpi = libx.mkNixos { hostname = "jfpi"; system = "aarch64-linux"; };
-      };
-
-      # SD card image for Raspberry Pi 5
-      images.jfpi = (nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit inputs;
-          system = "aarch64-linux";
-          username = "judahf";
-          dotfiles = inputs.dotfiles;
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            config = { allowUnfree = true; };
-            overlays = [ (final: prev: { lndir = prev.xorg.lndir; }) ];
-          };
-          pkgs-unstable = import inputs.nixpkgs-unstable {
-            system = "aarch64-linux";
-            config = { allowUnfree = true; };
-          };
-        };
-        modules = [
-          (nixpkgs + "/nixos/modules/installer/sd-card/sd-image-aarch64.nix")
-          ./hosts/nixos/jfpi
-          inputs.nixos-hardware.nixosModules.raspberry-pi-5
-          inputs.nix-index-database.nixosModules.nix-index
-          inputs.sops-nix.nixosModules.sops
-          { sdImage.compressImage = true; }
-        ];
-      }).config.system.build.sdImage;
-
-      # Evaluation checks - run with `nix flake check`
-      checks = {
-        x86_64-linux = {
-          popper = self.nixosConfigurations.popper.config.system.build.toplevel;
-          zevlor = self.nixosConfigurations.zevlor.config.system.build.toplevel;
-          gitlab = self.nixosConfigurations.gitlab.config.system.build.toplevel;
-          clawdbot = self.nixosConfigurations.clawdbot.config.system.build.toplevel;
-        };
-        aarch64-darwin = {
-          gale = self.darwinConfigurations.gale.config.system.build.toplevel;
-        };
-        aarch64-linux = {
-          jfpi = self.nixosConfigurations.jfpi.config.system.build.toplevel;
-        };
-      };
-
-      colmena = {
-        meta = {
-          nixpkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-            };
-          };
-          specialArgs = {
-            inherit inputs;
-            system = "x86_64-linux";
-            username = "judahf";
-            dotfiles = inputs.dotfiles;
-            pkgs-unstable = import inputs.nixpkgs-unstable {
-              system = "x86_64-linux";
-              config = {
-                allowUnfree = true;
-                allowUnfreePredicate = _: true;
-              };
-            };
-          };
-        };
-
-        gitlab = { name, nodes, pkgs, ... }: {
-          deployment = {
-            targetHost = "192.168.10.30";
-            targetUser = "judahf";
-            # Build on the target machine since we're on aarch64-darwin
-            buildOnTarget = true;
-          };
-
-          imports = [
-            ./hosts/nixos/gitlab
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.sops-nix.nixosModules.sops
-            inputs.home-manager.nixosModules.home-manager
-          ];
-        };
-
-        clawdbot = { name, nodes, pkgs, ... }: {
-          deployment = {
-            targetHost = "192.168.10.31";  # Update this IP
-            targetUser = "judahf";
-            buildOnTarget = true;
-          };
-
-          imports = [
-            ./hosts/nixos/clawdbot
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.sops-nix.nixosModules.sops
-            inputs.home-manager.nixosModules.home-manager
-          ];
-        };
-      };
-    };
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules/default.nix);
 }
