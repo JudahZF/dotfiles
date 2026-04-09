@@ -335,7 +335,7 @@
       };
       media = {
         imports = [
-          # ../media/cider/home.nix
+          ../media/cider/home.nix
         ];
       };
       neovim = import ../dev/editors/neovim/module.nix;
