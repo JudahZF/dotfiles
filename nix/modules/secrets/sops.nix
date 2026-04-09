@@ -10,5 +10,13 @@ in {
       sshKeyPaths = [ "${homeDir}/.ssh/personal" ];
       generateKey = false;
     };
+
+    secrets.git-crypt-key = {
+      sopsFile = "${dotfiles}/secrets/git-crypt-key";
+      format = "binary";
+      path = "${homeDir}/.git-crypt-key";
+      owner = username;
+      mode = "0400";
+    };
   };
 }
