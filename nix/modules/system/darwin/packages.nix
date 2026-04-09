@@ -70,6 +70,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "whatsapp"
       "wireshark-app"
       "unifi-identity-endpoint"
+      "utm"
       "wifiman"
       "wispr-flow"
       "zen"
@@ -107,7 +108,6 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "Amphetamine" = 937984704;
       "Capo" = 696977615;
       "Home Assistant Companion" = 1099568401;
-      "Logic Pro" = 634148309;
       "Xcode" = 497799835;
       "Final Cut Pro" = 424389933;
     };
