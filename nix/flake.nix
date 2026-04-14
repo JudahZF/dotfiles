@@ -8,11 +8,6 @@
   };
 
   inputs = {
-    cider = {
-      url = "github:Fuwn/cider.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     dotfiles = {
       url = "path:..";
       flake = false;
