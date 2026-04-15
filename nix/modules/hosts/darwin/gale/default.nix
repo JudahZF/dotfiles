@@ -1,11 +1,11 @@
-{ inputs, self, mkPkgs, mkUnstablePkgs, lndirOverlay, ... }:
+{ inputs, self, mkPkgs, mkUnstablePkgs, lndirOverlay, flakeOverlays, ... }:
 let
   system = "aarch64-darwin";
   username = "judahfuller";
   pkgs = mkPkgs {
     inherit system;
     darwin = true;
-    overlays = [ lndirOverlay ];
+    overlays = [ lndirOverlay ] ++ flakeOverlays;
     extraConfig = {
       permittedInsecurePackages = [ "python3.12-ecdsa-0.19.1" ];
     };
@@ -60,7 +60,7 @@ in {
         nix-zerobrew = {
           enable = true;
           enableRosetta = true;
-          autoMigrate = true;
+          autoMigrate = false;
           user = username;
           package = inputs.nix-zerobrew.packages.${system}.zerobrew;
           packageRosetta = inputs.nix-zerobrew.packages.x86_64-darwin.zerobrew;

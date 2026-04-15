@@ -114,6 +114,7 @@
     darwinModules = {
       browsers = {
         imports = [
+          ../browsers/helium/system.nix
           ../browsers/safari
           ../browsers/zen/system.nix
         ];

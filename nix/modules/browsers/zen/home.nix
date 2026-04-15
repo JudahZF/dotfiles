@@ -2,9 +2,14 @@
 {
   programs.zen-browser = {
     enable = true;
+    darwinDefaultsId = "app.zen-browser.zen";
     profiles = {
       "default" = {
+        # Intentionally pin the existing macOS profile path so Zen keeps the pre-break user data.
+        name = "Default (release)";
         containersForce = true;
+        id = 0;
+        path = "fmxexr8f.Default (release)";
         containers = {
           Personal = {
             color = "blue";

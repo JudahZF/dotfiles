@@ -12,7 +12,6 @@
     ./gaming
     ./home
     ./libraries
-    ./media
     ./nix-config
     ./networking
     ./nixos
