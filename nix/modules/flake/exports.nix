@@ -27,12 +27,14 @@
           ../utilities/wget.nix
           ../utilities/zellij.nix
           ../utilities/zoxide/default.nix
+          ../utilities/legacy-common.nix
         ];
       };
       communication = {
         imports = [
           ../communication/discord.nix
           ../communication/meshtastic.nix
+          ../communication/signal.nix
         ];
       };
       desktop = {
@@ -63,6 +65,7 @@
           ../dev/cmake.nix
           ../dev/postman.nix
           ../dev/protobuf.nix
+          ../dev/legacy-tools.nix
         ];
       };
       fonts = import ../fonts/nerd-fonts;
@@ -75,6 +78,11 @@
         ];
       };
       neovim = import ../dev/editors/neovim/module.nix;
+      networking = {
+        imports = [
+          ../networking/remmina.nix
+        ];
+      };
       nix-config = {
         imports = [
           ../nix-config/nix.nix
@@ -102,6 +110,11 @@
           ../security/onepassword/nixos.nix
         ];
       };
+      productivity = {
+        imports = [
+          ../productivity/obsidian.nix
+        ];
+      };
       secrets = import ../secrets/sops.nix;
       shell = {
         imports = [
@@ -114,7 +127,7 @@
     darwinModules = {
       browsers = {
         imports = [
-          ../browsers/helium/system.nix
+          ../browsers/helium/darwin.nix
           ../browsers/safari
           ../browsers/zen/system.nix
         ];
@@ -139,10 +152,13 @@
           ../utilities/wget.nix
           ../utilities/zellij.nix
           ../utilities/zoxide/default.nix
+          ../utilities/legacy-common.nix
         ];
       };
       communication = {
         imports = [
+          ../communication/discord.nix
+          ../communication/signal-darwin.nix
           ../communication/whatsapp.nix
         ];
       };
@@ -223,7 +239,9 @@
           ../dev/mqttx.nix
           ../dev/musl-cross.nix
           ../dev/raspberry-pi-imager.nix
+          ../dev/utm.nix
           ../dev/xcode.nix
+          ../dev/legacy-tools.nix
         ];
       };
       fonts = import ../fonts/nerd-fonts;
@@ -254,6 +272,7 @@
           ../networking/angry-ip-scanner.nix
           ../networking/barrier.nix
           ../networking/nomachine.nix
+          ../networking/remmina.nix
           ../networking/tailscale/darwin.nix
           ../networking/unifi-identity-endpoint.nix
           ../networking/wifiman.nix
@@ -273,6 +292,7 @@
           ../productivity/home-assistant-companion.nix
           ../productivity/keka.nix
           ../productivity/microsoft-office.nix
+          ../productivity/obsidian.nix
           ../productivity/quicklook.nix
           ../productivity/wispr-flow.nix
         ];

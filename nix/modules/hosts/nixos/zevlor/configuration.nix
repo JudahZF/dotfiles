@@ -16,8 +16,10 @@
     self.nixosModules.fonts
     self.nixosModules.home-manager-system
     self.nixosModules.libraries
+    self.nixosModules.networking
     self.nixosModules.nix-config
     self.nixosModules.nixos
+    self.nixosModules.productivity
     self.nixosModules.security
     self.nixosModules.secrets
     self.nixosModules.shell
