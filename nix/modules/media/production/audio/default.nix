@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   imports = [
     ./ableton-live-suite.nix
     ./ableset.nix

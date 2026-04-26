@@ -1,4 +1,9 @@
-{ pkgs, lib, username ? null, ... }:
+{
+  pkgs,
+  lib,
+  username ? null,
+  ...
+}:
 lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
   homebrew = {
     brews = [

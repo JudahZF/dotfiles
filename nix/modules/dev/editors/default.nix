@@ -1,6 +1,11 @@
-{ pkgs, pkgs-unstable ? null, ... }:
+{
+  pkgs,
+  pkgs-unstable ? null,
+  ...
+}:
 let
   unstable = if pkgs-unstable != null then pkgs-unstable else pkgs;
-in {
+in
+{
   environment.systemPackages = [ unstable.zed-editor ];
 }

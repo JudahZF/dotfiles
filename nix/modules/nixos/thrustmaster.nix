@@ -1,6 +1,11 @@
 # Thrustmaster racing wheel support with force feedback
 # Supports T300RS, T248, T128, TX, TS-XW, TS-PC and similar wheels
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 lib.mkIf pkgs.stdenv.isLinux {
   boot.blacklistedKernelModules = [ "hid-thrustmaster" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.hid-tmff2 ];

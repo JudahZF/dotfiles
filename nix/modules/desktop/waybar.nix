@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   programs.waybar = {
     enable = true;
     settings.main = {
@@ -14,8 +15,14 @@
       modules-center = [
         "clock"
       ];
-      modules-right =
-        [ "tray" "bluetooth" "network" "pulseaudio" "cpu" "battery" ];
+      modules-right = [
+        "tray"
+        "bluetooth"
+        "network"
+        "pulseaudio"
+        "cpu"
+        "battery"
+      ];
 
       "hyprland/workspaces" = {
         on-click = "activate";
@@ -53,7 +60,13 @@
         tooltip = false;
       };
       network = {
-        format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
+        format-icons = [
+          "󰤯"
+          "󰤟"
+          "󰤢"
+          "󰤥"
+          "󰤨"
+        ];
         format = "{icon}";
         format-wifi = "{icon}";
         format-ethernet = "󰀂";
@@ -72,8 +85,30 @@
         format-charging = "{icon}";
         format-plugged = "";
         format-icons = {
-          charging = [ "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
-          default = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          charging = [
+            "󰢜"
+            "󰂆"
+            "󰂇"
+            "󰂈"
+            "󰢝"
+            "󰂉"
+            "󰢞"
+            "󰂊"
+            "󰂋"
+            "󰂅"
+          ];
+          default = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
         };
         format-full = "󰂅";
         tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
@@ -98,7 +133,13 @@
         tooltip-format = "Playing at {volume}%";
         scroll-step = 5;
         format-muted = "";
-        format-icons = { default = [ "" "" "" ]; };
+        format-icons = {
+          default = [
+            ""
+            ""
+            ""
+          ];
+        };
       };
 
       tray = {

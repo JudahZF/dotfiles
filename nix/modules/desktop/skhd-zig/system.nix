@@ -1,4 +1,9 @@
-{ pkgs, lib, username ? null, ... }:
+{
+  pkgs,
+  lib,
+  username ? null,
+  ...
+}:
 lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
   homebrew = {
     brews = [ "jackielii/tap/skhd-zig" ];
@@ -28,8 +33,11 @@ lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
   launchd.user.agents.skhd = {
     serviceConfig = {
       Label = "com.jackielii.skhd";
-      ProgramArguments =
-        [ "/opt/homebrew/opt/skhd-zig/bin/skhd" "-c" "/Users/${username}/.skhdrc" ];
+      ProgramArguments = [
+        "/opt/homebrew/opt/skhd-zig/bin/skhd"
+        "-c"
+        "/Users/${username}/.skhdrc"
+      ];
       EnvironmentVariables = {
         HOME = "/Users/${username}";
         PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";

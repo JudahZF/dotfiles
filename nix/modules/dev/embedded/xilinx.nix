@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.programs.xilinx;
 in
@@ -26,9 +31,9 @@ in
   };
 
   config = lib.mkIf (cfg.enable && pkgs.stdenv.isLinux) {
-    environment.systemPackages = with pkgs;
-      lib.optionals cfg.enableVivado [ vivado ]
-      ++ lib.optionals cfg.enableVitis [ vitis ];
+    environment.systemPackages =
+      with pkgs;
+      lib.optionals cfg.enableVivado [ vivado ] ++ lib.optionals cfg.enableVitis [ vitis ];
 
     # udev rules for Xilinx USB JTAG cables (Platform Cable USB, etc.)
     # and Digilent boards (Zybo, Arty, etc.)

@@ -1,4 +1,5 @@
-{ self, dotfiles, ... }: {
+{ self, dotfiles, ... }:
+{
   imports = [
     self.homeModules.home
     self.homeModules.utilities

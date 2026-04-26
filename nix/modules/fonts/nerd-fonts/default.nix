@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   imports = [
     ./fira-code.nix
     ./fira-mono.nix

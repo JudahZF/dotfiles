@@ -1,4 +1,9 @@
-{ inputs, lib, lndirOverlay, ... }:
+{
+  inputs,
+  lib,
+  lndirOverlay,
+  ...
+}:
 {
   perSystem =
     { pkgs, system, ... }:

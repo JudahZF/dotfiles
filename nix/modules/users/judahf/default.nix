@@ -1,4 +1,5 @@
-{ self, ... }: {
+{ self, ... }:
+{
   imports = [
     self.homeModules.home
     self.homeModules.browsers

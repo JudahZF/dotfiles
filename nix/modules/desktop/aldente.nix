@@ -38,7 +38,11 @@ lib.mkMerge [
           "adapterCurrent"
           "adapterName"
         ];
-        popoverWidgets = [ "highAppUsage" "powerflow" "stats" ];
+        popoverWidgets = [
+          "highAppUsage"
+          "powerflow"
+          "stats"
+        ];
         sailingMode = true;
         sailingLevel = 5;
         showDockIcon = false;

@@ -1,4 +1,9 @@
-{ pkgs, lib, username, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 lib.mkIf pkgs.stdenv.isDarwin {
   system.defaults = {
     NSGlobalDomain = {

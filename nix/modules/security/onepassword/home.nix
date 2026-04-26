@@ -1,7 +1,9 @@
 { pkgs, lib, ... }:
 lib.mkMerge [
   {
-    home.sessionVariables = { SSH_AUTH_SOCK = "$HOME/.1password/agent.sock"; };
+    home.sessionVariables = {
+      SSH_AUTH_SOCK = "$HOME/.1password/agent.sock";
+    };
     home.packages = with pkgs; [ _1password-cli ];
   }
   (lib.mkIf pkgs.stdenv.isDarwin {
@@ -19,7 +21,10 @@ lib.mkMerge [
       exec = "1password --ozone-platform=wayland --enable-features=WaylandWindowDecorations %U";
       icon = "1password";
       terminal = false;
-      categories = [ "Office" "Utility" ];
+      categories = [
+        "Office"
+        "Utility"
+      ];
       startupNotify = true;
       mimeType = [ "x-scheme-handler/onepassword" ];
     };
@@ -40,7 +45,9 @@ lib.mkMerge [
         StandardError = "journal";
       };
 
-      Install = { WantedBy = [ "graphical-session.target" ]; };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
   })
 ]

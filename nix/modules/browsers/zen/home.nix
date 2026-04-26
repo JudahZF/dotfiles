@@ -1,4 +1,9 @@
-{ inputs, pkgs, config, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 {
   programs.zen-browser = {
     enable = true;
@@ -43,31 +48,32 @@
           ublock-origin
         ];
         spacesForce = true;
-        spaces = let
-          containers =
-            config.programs.zen-browser.profiles."default".containers;
-        in {
-          "Personal" = {
-            id = "c6de089c-410d-4206-961d-ab11f988d40a";
-            container = containers."Personal".id;
-            position = 1000;
+        spaces =
+          let
+            containers = config.programs.zen-browser.profiles."default".containers;
+          in
+          {
+            "Personal" = {
+              id = "c6de089c-410d-4206-961d-ab11f988d40a";
+              container = containers."Personal".id;
+              position = 1000;
+            };
+            "Projects" = {
+              id = "845d81a9-9c90-4792-8fe1-59eb53dc9a1c";
+              container = containers."Personal".id;
+              position = 2000;
+            };
+            "Work" = {
+              id = "cdd10fab-4fc5-494b-9041-325e5759195b";
+              container = containers."Work".id;
+              position = 3000;
+            };
+            "University" = {
+              id = "2d89feb2-c9f9-408e-9997-d13529817b22";
+              container = containers."University".id;
+              position = 4000;
+            };
           };
-          "Projects" = {
-            id = "845d81a9-9c90-4792-8fe1-59eb53dc9a1c";
-            container = containers."Personal".id;
-            position = 2000;
-          };
-          "Work" = {
-            id = "cdd10fab-4fc5-494b-9041-325e5759195b";
-            container = containers."Work".id;
-            position = 3000;
-          };
-          "University" = {
-            id = "2d89feb2-c9f9-408e-9997-d13529817b22";
-            container = containers."University".id;
-            position = 4000;
-          };
-        };
       };
     };
     policies = {
@@ -95,12 +101,14 @@
       PasswordManagerEnabled = false;
       SearchEngines = {
         Default = "DuckDuckGo";
-        Custom = [{
-          Name = "DuckDuckGo";
-          Template = "https://duckduckgo.com/?q={searchTerms}";
-          IconURL = "https://duckduckgo.com/favicon.ico";
-          IsDefault = true;
-        }];
+        Custom = [
+          {
+            Name = "DuckDuckGo";
+            Template = "https://duckduckgo.com/?q={searchTerms}";
+            IconURL = "https://duckduckgo.com/favicon.ico";
+            IsDefault = true;
+          }
+        ];
       };
       SkipTermsOfUse = true;
       TranslateEnabled = true;

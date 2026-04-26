@@ -1,7 +1,16 @@
-{ inputs, self, mkPkgs, mkUnstablePkgs, lndirOverlay, flakeOverlays, ... }:
+{
+  inputs,
+  self,
+  mkPkgs,
+  mkUnstablePkgs,
+  lndirOverlay,
+  flakeOverlays,
+  ...
+}:
 let
   system = "x86_64-linux";
-in {
+in
+{
   flake.nixosConfigurations.popper = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     pkgs = mkPkgs {

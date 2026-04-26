@@ -1,4 +1,12 @@
-{ inputs, self, mkPkgs, mkUnstablePkgs, lndirOverlay, flakeOverlays, ... }:
+{
+  inputs,
+  self,
+  mkPkgs,
+  mkUnstablePkgs,
+  lndirOverlay,
+  flakeOverlays,
+  ...
+}:
 let
   system = "aarch64-darwin";
   username = "judahfuller";
@@ -10,11 +18,17 @@ let
       permittedInsecurePackages = [ "python3.12-ecdsa-0.19.1" ];
     };
   };
-in {
+in
+{
   flake.darwinConfigurations.gale = inputs.nix-darwin.lib.darwinSystem {
     inherit system;
     specialArgs = {
-      inherit inputs self system username;
+      inherit
+        inputs
+        self
+        system
+        username
+        ;
       dotfiles = inputs.dotfiles;
       pkgs-unstable = mkUnstablePkgs system;
     };

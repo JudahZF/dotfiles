@@ -1,3 +1,4 @@
-{ pkgs, lib, ... }: lib.mkIf pkgs.stdenv.isLinux {
+{ pkgs, lib, ... }:
+lib.mkIf pkgs.stdenv.isLinux {
   services.displayManager.ly.enable = true;
 }

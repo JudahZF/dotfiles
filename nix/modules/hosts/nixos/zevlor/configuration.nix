@@ -9,6 +9,7 @@
   imports = [
     ./hardware.nix
     ./niri.nix
+    ../../../gaming/steam.nix
     self.nixosModules.browsers
     self.nixosModules.communication
     self.nixosModules.desktop
