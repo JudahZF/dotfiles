@@ -40,7 +40,15 @@
   environment.systemPackages = with pkgs; [
     clinfo
     openrgb
+    xwayland-satellite
   ];
+
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
+  programs.steam.gamescopeSession.enable = true;
 
   services.hardware.openrgb = {
     enable = true;
