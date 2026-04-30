@@ -1,7 +1,8 @@
-{ ... }:
-{
+{ ... }: {
   homebrew = {
     casks = [
+      "cursor"
+      "cursor-cli"
       "codex"
       "codex-app"
       "comfyui"
