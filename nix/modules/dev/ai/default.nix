@@ -14,6 +14,7 @@ lib.mkMerge [
     environment.systemPackages = [
       unstable.claude-code
       unstable.opencode
+      unstable.pi-coding-agent
       unstable.prettier
       pkgs.ollama
     ]
