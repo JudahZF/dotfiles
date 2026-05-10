@@ -51,9 +51,11 @@
         imports = [
           ../dev/ai/default.nix
           ../dev/bootdev-cli.nix
+          ../dev/cmux.nix
           ../dev/go/default.nix
           ../dev/python/default.nix
           ../dev/node/default.nix
+          ../dev/opentofu.nix
           ../dev/embedded/default.nix
           ../dev/databases/default.nix
           ../dev/editors/default.nix
@@ -215,9 +217,11 @@
           ../dev/ai/default.nix
           ../dev/ai/darwin.nix
           ../dev/bootdev-cli.nix
+          ../dev/cmux.nix
           ../dev/go/default.nix
           ../dev/python/default.nix
           ../dev/node/default.nix
+          ../dev/opentofu.nix
           ../dev/embedded/embedded.nix
           ../dev/embedded/darwin.nix
           ../dev/databases/default.nix

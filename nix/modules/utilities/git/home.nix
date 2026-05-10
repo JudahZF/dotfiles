@@ -3,13 +3,21 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        side-by-side = true;
+        line-numbers = true;
+      };
+    };
     ignores = [ ".env" ];
     signing = {
       format = "ssh";
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg+m/SsrTx6+3t00tabRdDLms4jYrxGwlh8gG7ZkIsO";
       signByDefault = true;
     };
-    settings = {
+    extraConfig = {
       user = {
         email = "judah@judahfuller.com";
         name = "Judah Fuller";
@@ -45,16 +53,6 @@
         last = "log -1 HEAD";
         history = "log --oneline -20";
       };
-    };
-  };
-
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true;
-      side-by-side = true;
-      line-numbers = true;
     };
   };
 }
