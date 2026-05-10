@@ -1,13 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -euo pipefail
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
 # Logging functions
 log_info() {
-  echo "$(date +'%Y-%m-%d %H:%M:%S') [INFO] $1"
+  printf '%s [INFO] %s\n' "$(date +'%Y-%m-%d %H:%M:%S')" "$*"
 }
 
 log_error() {
-  echo "$(date +'%Y-%m-%d %H:%M:%S') [ERROR] $1" >&2
+  printf '%s [ERROR] %s\n' "$(date +'%Y-%m-%d %H:%M:%S')" "$*" >&2
 }
 
 log_info "Starting rebuild process..."
@@ -16,7 +18,7 @@ log_info "Starting rebuild process..."
 OS=$(uname -s)
 
 # Attempt to run the internal rebuild script without sudo first.
-if bash ~/dotfiles/*/_internal_rebuild.sh; then
+if bash "$SCRIPT_DIR/nix/_internal_rebuild.sh"; then
   log_info "Internal rebuild executed successfully."
 else
   log_info "Internal rebuild failed"

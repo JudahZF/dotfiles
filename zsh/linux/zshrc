@@ -1,1 +1,3 @@
-fastfetch
+if [[ -o interactive && "${DISABLE_FASTFETCH:-0}" != "1" ]] && command -v fastfetch >/dev/null 2>&1; then
+  fastfetch
+fi
