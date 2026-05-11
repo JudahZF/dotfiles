@@ -14,6 +14,8 @@
           builtins.readFile "${dotfiles}/zsh/macos/zshenv"
         else
           builtins.readFile "${dotfiles}/zsh/linux/zshenv";
+      profileExtra =
+        if pkgs.stdenv.isDarwin then builtins.readFile "${dotfiles}/zsh/macos/zprofile" else "";
       initContent =
         if pkgs.stdenv.isDarwin then
           builtins.readFile "${dotfiles}/zsh/macos/zshrc"

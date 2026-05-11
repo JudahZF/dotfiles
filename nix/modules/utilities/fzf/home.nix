@@ -2,7 +2,10 @@
 {
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
+    # Home Manager's generated fzf zsh integration currently emits
+    # "can't change option: zle" on shell startup with fzf 0.62/zsh 5.9.
+    # Keep fzf installed/configured, but don't source `fzf --zsh` from .zshrc.
+    enableZshIntegration = false;
     defaultCommand = "fd --type f --hidden --follow --exclude .git";
     defaultOptions = [
       "--height=40%"

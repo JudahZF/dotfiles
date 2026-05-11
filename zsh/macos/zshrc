@@ -1,9 +1,18 @@
+if [[ -n "${__JUDAH_ZSHRC_SOURCED:-}" ]]; then
+  return
+fi
+export __JUDAH_ZSHRC_SOURCED=1
+
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-# Note: starship and zoxide are initialized by Home-Manager
+if [[ -o interactive && "$TERM" != "dumb" ]] && command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# Note: zoxide is initialized by Home-Manager
 
 if [[ -o interactive && "${DISABLE_FASTFETCH:-0}" != "1" ]] && command -v fastfetch >/dev/null 2>&1; then
   fastfetch
