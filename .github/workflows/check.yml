@@ -21,8 +21,6 @@ jobs:
           cd nix
           nix build .#checks.x86_64-linux.popper --dry-run
           nix build .#checks.x86_64-linux.zevlor --dry-run
-          nix build .#checks.x86_64-linux.gitlab --dry-run
-          nix build .#checks.x86_64-linux.clawdbot --dry-run
 
   check-darwin:
     runs-on: macos-latest  # Blacksmith doesn't offer macOS runners

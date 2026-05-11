@@ -44,7 +44,7 @@ build-darwin host="gale":
 build-host host:
     case "{{host}}" in \
       gale) nix build {{flake_dir}}#darwinConfigurations.{{host}}.config.system.build.toplevel ;; \
-      popper|zevlor|gitlab|clawdbot|jfpi) nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel ;; \
+      popper|zevlor|jfpi) nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel ;; \
       *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
     esac
 
@@ -125,7 +125,7 @@ fmt:
 eval-host host:
     case "{{host}}" in \
       gale) nix eval {{flake_dir}}#darwinConfigurations.{{host}}.config.system.name ;; \
-      popper|zevlor|gitlab|clawdbot|jfpi) nix eval {{flake_dir}}#nixosConfigurations.{{host}}.config.system.name ;; \
+      popper|zevlor|jfpi) nix eval {{flake_dir}}#nixosConfigurations.{{host}}.config.system.name ;; \
       *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
     esac
 
@@ -137,6 +137,4 @@ list-hosts:
     @echo "NixOS:"
     @echo "  - popper"
     @echo "  - zevlor"
-    @echo "  - gitlab"
-    @echo "  - clawdbot"
     @echo "  - jfpi"

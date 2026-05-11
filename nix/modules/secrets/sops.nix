@@ -1,8 +1,13 @@
-{ pkgs, username, dotfiles, ... }:
+{
+  pkgs,
+  username,
+  dotfiles,
+  ...
+}:
 let
-  homeDir =
-    if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
-in {
+  homeDir = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+in
+{
   sops = {
     defaultSopsFile = "${dotfiles}/secrets/secrets.yaml";
 

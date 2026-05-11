@@ -1,4 +1,4 @@
-{ self, lib, ... }:
+{ self, ... }:
 {
   perSystem =
     { system, pkgs, ... }:
@@ -11,12 +11,6 @@
           {
             popper = self.nixosConfigurations.popper.config.system.build.toplevel;
             zevlor = self.nixosConfigurations.zevlor.config.system.build.toplevel;
-          }
-          // lib.optionalAttrs (self.nixosConfigurations ? gitlab) {
-            gitlab = self.nixosConfigurations.gitlab.config.system.build.toplevel;
-          }
-          // lib.optionalAttrs (self.nixosConfigurations ? clawdbot) {
-            clawdbot = self.nixosConfigurations.clawdbot.config.system.build.toplevel;
           }
         else
           { }

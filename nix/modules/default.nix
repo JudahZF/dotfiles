@@ -26,7 +26,5 @@
     ./hosts/nixos/zevlor
   ]
   ++ lib.optionals (builtins.pathExists ./production) [ ./production ]
-  ++ lib.optionals (builtins.pathExists ./hosts/nixos/clawdbot) [ ./hosts/nixos/clawdbot ]
-  ++ lib.optionals (builtins.pathExists ./hosts/nixos/gitlab) [ ./hosts/nixos/gitlab ]
   ++ lib.optionals (builtins.pathExists ./hosts/nixos/jfpi) [ ./hosts/nixos/jfpi ];
 }
