@@ -9,5 +9,6 @@
     ./identity.nix
     ./darwin-home.nix
     ./linux-home.nix
+    ./pi.nix
   ];
 }
