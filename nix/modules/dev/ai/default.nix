@@ -8,6 +8,8 @@
 let
   unstable = if pkgs-unstable != null then pkgs-unstable else pkgs;
   system = pkgs.stdenv.system;
+  clawhub = import ../../../packages/clawhub.nix { inherit pkgs lib; };
+  clawpack-cli = import ../../../packages/clawpack-cli.nix { inherit pkgs lib; };
 in
 lib.mkMerge [
   {
@@ -16,6 +18,8 @@ lib.mkMerge [
       unstable.opencode
       unstable.pi-coding-agent
       unstable.prettier
+      clawhub
+      clawpack-cli
       pkgs.ollama
     ]
     ++ (
