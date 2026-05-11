@@ -7,6 +7,7 @@
     ./images.nix
     ./colmena.nix
     ./desktop-packages.nix
+    ./packages.nix
     ./formatter.nix
   ];
 }

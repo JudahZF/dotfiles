@@ -3,7 +3,7 @@
   programs = {
     ghostty = {
       enable = pkgs.stdenv.isLinux;
-      settings.background-opacity = 0.8;
+      settings.background-opacity = 0.5;
     };
 
     zsh = {
