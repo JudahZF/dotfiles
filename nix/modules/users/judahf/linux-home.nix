@@ -1,9 +1,13 @@
-{ dotfiles, pkgs, ... }:
+{ dotfiles, pkgs, pkgs-unstable ? null, ... }:
 {
   programs = {
     ghostty = {
-      enable = pkgs.stdenv.isLinux;
-      settings.background-opacity = 0.5;
+      enable = true;
+      package = if pkgs.stdenv.isDarwin then pkgs-unstable.ghostty-bin else pkgs.ghostty;
+      settings = {
+        background-opacity = 0.65;
+        background-blur = "macos-glass-clear";
+      };
     };
 
     zsh = {
