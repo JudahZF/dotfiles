@@ -1,1 +1,2 @@
 . "$HOME/.cargo/env"
+export PATH="/home/judahf/.bun/bin:$PATH"
