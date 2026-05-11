@@ -9,7 +9,7 @@
       };
       personalgit = {
         host = "personalgit";
-        hostName = "github.com";
+        hostName = "codeberg.org";
         user = "git";
         IdentityFile = "~/.ssh/personal.pub";
         IdentitiesOnly = "yes";
