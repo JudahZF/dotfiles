@@ -1,8 +1,11 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { Type } from "typebox";
 
-const PLAN_TOOLS = ["read", "grep", "find", "ls"];
+const PLAN_UPDATE_TOOL = "update_plan";
+const PLAN_TOOLS = ["read", "grep", "find", "ls", PLAN_UPDATE_TOOL];
 const MUTATING_TOOLS = new Set(["bash", "edit", "write"]);
 const CUSTOM_TYPE = "plan-mode";
+const PLAN_STATE_TYPE = "plan-mode-state";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -21,40 +24,45 @@ function textFromContent(content: unknown) {
     .join("\n");
 }
 
-function branchText(ctx: { sessionManager: { getBranch(): unknown[] } }) {
-  const sections: string[] = [];
+function latestPlanFromEntries(ctx: { sessionManager: { getEntries(): unknown[] } }) {
+  let plan: string | undefined;
 
-  for (const entry of ctx.sessionManager.getBranch()) {
-    if (!isRecord(entry)) continue;
-
-    if (entry.type === "message" && isRecord(entry.message)) {
-      const role = typeof entry.message.role === "string" ? entry.message.role : "message";
-      const text = textFromContent(entry.message.content);
-      if (text) sections.push(`${role.toUpperCase()}:\n${text}`);
-      continue;
-    }
-
-    if (entry.type === "custom_message") {
-      const text = textFromContent(entry.content);
-      if (text) sections.push(`CONTEXT:\n${text}`);
-      continue;
-    }
-
-    if (entry.type === "compaction" && typeof entry.summary === "string") {
-      sections.push(`COMPACTION SUMMARY:\n${entry.summary}`);
-    }
+  for (const entry of ctx.sessionManager.getEntries()) {
+    if (!isRecord(entry) || entry.type !== "custom" || entry.customType !== PLAN_STATE_TYPE || !isRecord(entry.data)) continue;
+    if (typeof entry.data.plan === "string") plan = entry.data.plan;
   }
 
-  return sections.join("\n\n---\n\n");
+  return plan;
 }
 
 function planSystemPrompt(systemPrompt: string) {
-  return `${systemPrompt}\n\nPlanning mode is active. Do not implement or modify files. Think through the task, inspect files as needed, ask clarifying questions if necessary, and produce a concrete implementation plan. Do not call mutating tools such as bash, edit, or write. When the user says to implement, tell them to run /implement so pi can start from a fresh context with the plan.`;
+  return `${systemPrompt}\n\nPlanning mode is active. Do not implement or modify files. Think through the task, inspect files as needed, ask clarifying questions if necessary, and maintain the current implementation plan with the ${PLAN_UPDATE_TOOL} tool. Call ${PLAN_UPDATE_TOOL} whenever the plan materially changes so the stored plan is always the final handoff. Do not call mutating tools such as bash, edit, or write. When the user says to implement, tell them to run /implement so pi can start from a fresh context with only the final stored plan.`;
 }
 
 export default function (pi: ExtensionAPI) {
   let planMode = false;
   let previousTools: string[] | undefined;
+  let currentPlan: string | undefined;
+
+  pi.registerTool({
+    name: PLAN_UPDATE_TOOL,
+    label: "Update Plan",
+    description: "Create or replace the final implementation plan used by /implement.",
+    promptSnippet: "Create or replace the final implementation plan used by /implement",
+    promptGuidelines: [`Use ${PLAN_UPDATE_TOOL} in planning mode whenever the implementation plan changes.`],
+    parameters: Type.Object({
+      plan: Type.String({ description: "The complete current implementation plan. This replaces any previous plan." }),
+    }),
+    async execute(_toolCallId, params) {
+      currentPlan = params.plan.trim();
+      pi.appendEntry(PLAN_STATE_TYPE, { plan: currentPlan });
+
+      return {
+        content: [{ type: "text", text: "Plan updated. /implement will receive this final version only." }],
+        details: { plan: currentPlan },
+      };
+    },
+  });
 
   function enablePlanMode(ctx: { ui: { notify(message: string, level?: "info" | "warning" | "error" | "success"): void; setStatus(key: string, value?: string): void } }) {
     if (!planMode) previousTools = [...pi.getActiveTools()];
@@ -87,19 +95,19 @@ export default function (pi: ExtensionAPI) {
     handler: async (args, ctx) => {
       await ctx.waitForIdle();
 
-      const planContext = branchText(ctx).trim();
-      if (!planContext) {
-        ctx.ui.notify("No plan context found in this session.", "warning");
+      const finalPlan = (currentPlan ?? latestPlanFromEntries(ctx))?.trim();
+      if (!finalPlan) {
+        ctx.ui.notify(`No stored plan found. Ask the agent to call ${PLAN_UPDATE_TOOL} with the final plan first.`, "warning");
         return;
       }
 
       const parentSession = ctx.sessionManager.getSessionFile();
       const extraInstructions = args.trim();
       const kickoff = [
-        "Implement the following plan. The previous planning conversation has been intentionally cleared from context; use only this handoff plus the files you inspect now.",
+        "Implement the following plan. The previous planning conversation has been intentionally cleared from context; use only this final plan plus the files you inspect now.",
         extraInstructions ? `Additional user instructions: ${extraInstructions}` : undefined,
-        "Plan/context from previous session:",
-        planContext,
+        "Final plan:",
+        finalPlan,
       ].filter((line): line is string => Boolean(line)).join("\n\n");
 
       disablePlanMode(ctx);
@@ -126,6 +134,7 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("session_start", (_event, ctx) => {
+    currentPlan = latestPlanFromEntries(ctx);
     if (planMode) ctx.ui.setStatus(CUSTOM_TYPE, "plan");
   });
 
