@@ -24,6 +24,7 @@
           ../utilities/ripgrep/default.nix
           ../utilities/starship/default.nix
           ../utilities/unzip.nix
+          ../utilities/zip.nix
           ../utilities/wget.nix
           ../utilities/zellij.nix
           ../utilities/zoxide/default.nix
@@ -151,6 +152,7 @@
           ../utilities/ripgrep/default.nix
           ../utilities/starship/default.nix
           ../utilities/unzip.nix
+          ../utilities/zip.nix
           ../utilities/wget.nix
           ../utilities/zellij.nix
           ../utilities/zoxide/default.nix
