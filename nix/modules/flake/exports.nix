@@ -104,6 +104,13 @@
           ../nixos/kernel.nix
           ../nixos/localisation.nix
           ../nixos/network.nix
+          (
+            { pkgs, lib, ... }:
+            lib.mkIf pkgs.stdenv.isLinux {
+              environment.systemPackages = [ pkgs.powertop ];
+              powerManagement.powertop.enable = true;
+            }
+          )
           ../nixos/ssh.nix
           ../networking/tailscale/system.nix
         ];
