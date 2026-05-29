@@ -1,4 +1,9 @@
-{ dotfiles, pkgs, pkgs-unstable ? null, ... }:
+{
+  dotfiles,
+  pkgs,
+  pkgs-unstable ? null,
+  ...
+}:
 {
   programs = {
     ghostty = {

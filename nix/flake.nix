@@ -42,6 +42,11 @@
       url = "github:nix-community/nix-index-database";
     };
 
+    custom-packages = {
+      url = "path:./custom-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-zerobrew = {
       url = "github:JudahZF/nix-zerobrew";
       inputs.nixpkgs.follows = "nixpkgs-darwin";

@@ -235,6 +235,7 @@
           ../dev/embedded/darwin.nix
           ../dev/databases/default.nix
           ../dev/databases/datagrip/darwin.nix
+          ../dev/dotnet.nix
           ../dev/editors/default.nix
           ../dev/editors/neovim/module.nix
           ../dev/zig.nix
@@ -302,6 +303,7 @@
         imports = [
           ../productivity/daisydisk.nix
           ../productivity/dropbox.nix
+          ../productivity/granola.nix
           ../productivity/home-assistant-companion.nix
           ../productivity/keka.nix
           ../productivity/microsoft-office.nix
