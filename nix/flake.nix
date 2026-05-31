@@ -43,8 +43,7 @@
     };
 
     custom-packages = {
-      # Temporary absolute path while the submodule cannot be fetched over SSH.
-      url = "path:/home/judahf/dotfiles/nix/custom-packages";
+      url = "path:./custom-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -8,15 +8,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1780242920,
-        "narHash": "sha256-6jpfcSxsTk6+wJ566XfyGE2ov+zWnb7+pqPM9my8cSc=",
-        "path": "/home/judahf/dotfiles/nix/custom-packages",
+        "path": "./custom-packages",
         "type": "path"
       },
       "original": {
-        "path": "/home/judahf/dotfiles/nix/custom-packages",
+        "path": "./custom-packages",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "dotfiles": {
       "flake": false,

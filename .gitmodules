@@ -1,6 +1,6 @@
 [submodule "nix/custom-packages"]
 	path = nix/custom-packages
-	url = git@codeberg.org:JudahZF/custom-nix-packages.git
+	url = git@codeberg.org:JudahZF/nix-packages.git
 [submodule "raycast/yabai-workspaces"]
 	path = raycast/yabai-workspaces
 	url = ssh://git@codeberg.org/JudahZF/yabai-workspaces.git
