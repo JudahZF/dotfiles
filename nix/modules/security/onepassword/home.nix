@@ -1,9 +1,6 @@
 { pkgs, lib, ... }:
 lib.mkMerge [
-  {
-    home.sessionVariables = { SSH_AUTH_SOCK = "$HOME/.1password/agent.sock"; };
-    home.packages = with pkgs; [ _1password-cli ];
-  }
+  { home.packages = with pkgs; [ _1password-cli ]; }
   (lib.mkIf pkgs.stdenv.isDarwin {
     home.activation.onepasswordAgentSymlink =
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''

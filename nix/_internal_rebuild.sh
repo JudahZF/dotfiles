@@ -2,6 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+FLAKE_REF="$SCRIPT_DIR"
 
 # Detect OS and run appropriate rebuild command
 OS=$(uname -s)
@@ -22,10 +23,10 @@ if [[ "$OS" == "Darwin" ]]; then
   fi
 
   # macOS
-  sudo -H darwin-rebuild switch --flake "$SCRIPT_DIR" --max-jobs auto --cores 0
+  sudo -H darwin-rebuild switch --flake "$FLAKE_REF" --max-jobs auto --cores 0
 elif [[ "$OS" == "Linux" ]]; then
   # Linux
-  sudo -H nixos-rebuild switch --flake "$SCRIPT_DIR" --max-jobs auto --cores 0
+  sudo -H nixos-rebuild switch --flake "$FLAKE_REF" --max-jobs auto --cores 0
 else
   echo "Unsupported operating system: $OS"
   exit 1

@@ -1,24 +1,20 @@
 { ... }: {
   programs.ssh = {
     matchBlocks = {
-      all = {
-        match = "*";
-        setEnv = "TERM=xterm-256color";
-        IdentityAgent = "~/.1password/agent.sock";
-      };
+      "*" = { setEnv = { TERM = "xterm-256color"; }; };
       personalgit = {
         host = "personalgit codeberg.org";
-        hostName = "codeberg.org";
+        hostname = "codeberg.org";
         user = "git";
-        IdentityFile = "~/.ssh/personal.pub";
-        IdentitiesOnly = "yes";
+        identityFile = "~/.ssh/personal";
+        identitiesOnly = true;
       };
       workgit = {
         host = "workgit";
-        hostName = "github.com";
+        hostname = "github.com";
         user = "git";
-        IdentityFile = "~/.ssh/work.pub";
-        IdentitiesOnly = "yes";
+        identityFile = "~/.ssh/work.pub";
+        identitiesOnly = true;
       };
     };
   };

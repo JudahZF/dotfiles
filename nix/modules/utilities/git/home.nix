@@ -13,7 +13,7 @@
     ignores = [ ".env" ];
     signing = {
       format = "ssh";
-      key = "${config.home.homeDirectory}/.ssh/personal.pub";
+      key = "${config.home.homeDirectory}/.ssh/personal";
       signByDefault = true;
     };
     extraConfig = {
@@ -21,10 +21,6 @@
         email = "judah@judahfuller.com";
         name = "Judah Fuller";
       };
-      gpg.ssh.program = if pkgs.stdenv.isDarwin then
-        "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-      else
-        "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
       diff.tool = "difftastic";
       difftool.prompt = false;
       difftool.difftastic.cmd =
