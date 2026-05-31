@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   programs.ssh = {
     matchBlocks = {
       all = {
@@ -8,7 +7,7 @@
         IdentityAgent = "~/.1password/agent.sock";
       };
       personalgit = {
-        host = "personalgit";
+        host = "personalgit codeberg.org";
         hostName = "codeberg.org";
         user = "git";
         IdentityFile = "~/.ssh/personal.pub";
