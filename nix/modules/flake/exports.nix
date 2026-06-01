@@ -51,6 +51,7 @@
       dev = {
         imports = [
           ../dev/ai/default.nix
+          ../dev/bruno.nix
           ../dev/bootdev-cli.nix
           ../dev/cmux.nix
           ../dev/go/default.nix
@@ -225,6 +226,7 @@
         imports = [
           ../dev/ai/default.nix
           ../dev/ai/darwin.nix
+          ../dev/bruno.nix
           ../dev/bootdev-cli.nix
           ../dev/cmux.nix
           ../dev/go/default.nix
