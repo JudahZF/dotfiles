@@ -49,7 +49,7 @@ lib.mkMerge [
         showGUIonStartup = false;
         showPercentage = true;
         showPercentagePopover = true;
-        sleepInhibitCharge = true;
+        sleepInhibitCharge = false;
         useRealPercentage = false;
       };
     };
