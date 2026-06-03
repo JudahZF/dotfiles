@@ -99,6 +99,7 @@
           ../nixos/bluetooth.nix
           ../nixos/bootloader.nix
           ../nixos/docker.nix
+          ../nixos/electron-wayland.nix
           ../nixos/filesystems/btrfs.nix
           ../nixos/firmware.nix
           ../nixos/fwupd.nix

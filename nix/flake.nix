@@ -43,7 +43,7 @@
     };
 
     custom-packages = {
-      url = "path:./custom-packages";
+      url = "git+https://codeberg.org/JudahZF/nix-packages.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
