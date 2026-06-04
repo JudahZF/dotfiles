@@ -6,6 +6,7 @@ const PLAN_TOOLS = ["read", "grep", "find", "ls", PLAN_UPDATE_TOOL];
 const MUTATING_TOOLS = new Set(["bash", "edit", "write"]);
 const CUSTOM_TYPE = "plan-mode";
 const PLAN_STATE_TYPE = "plan-mode-state";
+const IMPLEMENT_PREVIEW_TYPE = "plan-mode-implement-preview";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -91,7 +92,7 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.registerCommand("implement", {
-    description: "Start implementing the current plan in a fresh session/context",
+    description: "Show the final plan, then start implementing it in a fresh session/context",
     handler: async (args, ctx) => {
       await ctx.waitForIdle();
 
@@ -101,10 +102,19 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
+      pi.appendEntry(IMPLEMENT_PREVIEW_TYPE, { plan: finalPlan });
+      pi.sendMessage({
+        customType: IMPLEMENT_PREVIEW_TYPE,
+        content: `Final implementation plan:\n\n${finalPlan}`,
+        display: true,
+        details: { plan: finalPlan },
+      });
+      ctx.ui.notify("Showing final plan before handing off to a fresh implementation session.", "info");
+
       const parentSession = ctx.sessionManager.getSessionFile();
       const extraInstructions = args.trim();
       const kickoff = [
-        "Implement the following plan. The previous planning conversation has been intentionally cleared from context; use only this final plan plus the files you inspect now.",
+        "Implement the following plan. Use only this final plan plus the files you inspect now.",
         extraInstructions ? `Additional user instructions: ${extraInstructions}` : undefined,
         "Final plan:",
         finalPlan,
