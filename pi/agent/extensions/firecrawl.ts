@@ -79,18 +79,30 @@ export default function (pi: ExtensionAPI) {
     name: "firecrawl_search",
     label: "Firecrawl Search",
     description: "Search the web with Firecrawl. Optionally scrape the search results.",
-    promptSnippet: "Search the web with Firecrawl when fresh web results are needed.",
-    promptGuidelines: ["Use firecrawl_search when the user asks for current web information or discovery across multiple pages."],
+    promptSnippet: "Search the web with Firecrawl when fresh web results are needed; use scrape: true to get page content without knowing Firecrawl's raw scrapeOptions shape.",
+    promptGuidelines: [
+      "Use firecrawl_search when the user asks for current web information, docs, technical references, or discovery across multiple pages.",
+      "Set scrape: true when snippets alone are not enough; use formats to request markdown, html, links, screenshot, or metadata.",
+    ],
     parameters: Type.Object({
       query: Type.String({ description: "Search query" }),
       limit: Type.Optional(Type.Number({ description: "Maximum number of results" })),
-      scrapeOptions: Type.Optional(Type.Object({}, { additionalProperties: true, description: "Optional Firecrawl scrapeOptions for search results" })),
+      scrape: Type.Optional(Type.Boolean({ description: "Scrape each result and include page content. Defaults to false unless scrapeOptions is provided." })),
+      formats: Type.Optional(Type.Array(Type.String(), { description: "Formats to use when scrape is true, e.g. markdown, html, links, screenshot, metadata" })),
+      onlyMainContent: Type.Optional(Type.Boolean({ description: "When scraping search results, only return each page's main content" })),
+      scrapeOptions: Type.Optional(Type.Object({}, { additionalProperties: true, description: "Advanced Firecrawl scrapeOptions for search results" })),
     }),
     async execute(_toolCallId, params, signal) {
+      const scrapeOptions = params.scrapeOptions ?? (params.scrape
+        ? {
+          formats: params.formats ?? ["markdown"],
+          onlyMainContent: params.onlyMainContent ?? true,
+        }
+        : undefined);
       const data = await firecrawlRequest("/search", {
         query: params.query,
         limit: params.limit ?? 5,
-        scrapeOptions: params.scrapeOptions,
+        scrapeOptions,
       }, signal);
 
       return {

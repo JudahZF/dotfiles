@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   imports = [
     ./exports.nix
     ./systems.nix
@@ -8,6 +7,7 @@
     ./colmena.nix
     ./desktop-packages.nix
     ./packages.nix
+    ./devshells.nix
     ./formatter.nix
   ];
 }

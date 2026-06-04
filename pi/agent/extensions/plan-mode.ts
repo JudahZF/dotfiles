@@ -2,7 +2,8 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Type } from "typebox";
 
 const PLAN_UPDATE_TOOL = "update_plan";
-const PLAN_TOOLS = ["read", "grep", "find", "ls", PLAN_UPDATE_TOOL];
+const FIRECRAWL_TOOLS = ["firecrawl_scrape", "firecrawl_search"];
+const PLAN_TOOLS = ["read", "grep", "find", "ls", ...FIRECRAWL_TOOLS, PLAN_UPDATE_TOOL];
 const MUTATING_TOOLS = new Set(["bash", "edit", "write"]);
 const CUSTOM_TYPE = "plan-mode";
 const PLAN_STATE_TYPE = "plan-mode-state";
@@ -37,7 +38,7 @@ function latestPlanFromEntries(ctx: { sessionManager: { getEntries(): unknown[] 
 }
 
 function planSystemPrompt(systemPrompt: string) {
-  return `${systemPrompt}\n\nPlanning mode is active. Do not implement or modify files. Think through the task, inspect files as needed, ask clarifying questions if necessary, and maintain the current implementation plan with the ${PLAN_UPDATE_TOOL} tool. Call ${PLAN_UPDATE_TOOL} whenever the plan materially changes so the stored plan is always the final handoff. Do not call mutating tools such as bash, edit, or write. When the user says to implement, tell them to run /implement so pi can start from a fresh context with only the final stored plan.`;
+  return `${systemPrompt}\n\nPlanning mode is active. Do not implement or modify files. Think through the task, inspect files and research with Firecrawl as needed, ask clarifying questions if necessary, and maintain the current implementation plan with the ${PLAN_UPDATE_TOOL} tool. Call ${PLAN_UPDATE_TOOL} whenever the plan materially changes so the stored plan is always the final handoff. Do not call mutating tools such as bash, edit, or write. When the user says to implement, tell them to run /implement so pi can start from a fresh context with only the final stored plan.`;
 }
 
 export default function (pi: ExtensionAPI) {
@@ -81,6 +82,31 @@ export default function (pi: ExtensionAPI) {
     ctx.ui.setStatus(CUSTOM_TYPE, undefined);
   }
 
+  function storedPlan(ctx: { sessionManager: { getEntries(): unknown[] } }) {
+    return (currentPlan ?? latestPlanFromEntries(ctx))?.trim();
+  }
+
+  function showStoredPlan(
+    ctx: { sessionManager: { getEntries(): unknown[] }; ui: { notify(message: string, level?: "info" | "warning" | "error" | "success"): void } },
+    options: { title: string; missingMessage: string; successMessage: string },
+  ) {
+    const finalPlan = storedPlan(ctx);
+    if (!finalPlan) {
+      ctx.ui.notify(options.missingMessage, "warning");
+      return;
+    }
+
+    pi.sendMessage({
+      customType: IMPLEMENT_PREVIEW_TYPE,
+      content: `${options.title}:\n\n${finalPlan}`,
+      display: true,
+      details: { plan: finalPlan },
+    });
+    ctx.ui.notify(options.successMessage, "info");
+
+    return finalPlan;
+  }
+
   pi.registerCommand("plan", {
     description: "Enable planning mode (read-only, plan-focused)",
     handler: async (args, ctx) => {
@@ -91,25 +117,31 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  pi.registerCommand("view", {
+    description: "Show the current/final stored implementation plan",
+    handler: async (_args, ctx) => {
+      await ctx.waitForIdle();
+      showStoredPlan(ctx, {
+        title: "Current implementation plan",
+        missingMessage: `No stored plan found. Ask the agent to call ${PLAN_UPDATE_TOOL} with the final plan first.`,
+        successMessage: "Showing current implementation plan.",
+      });
+    },
+  });
+
   pi.registerCommand("implement", {
     description: "Show the final plan, then start implementing it in a fresh session/context",
     handler: async (args, ctx) => {
       await ctx.waitForIdle();
 
-      const finalPlan = (currentPlan ?? latestPlanFromEntries(ctx))?.trim();
-      if (!finalPlan) {
-        ctx.ui.notify(`No stored plan found. Ask the agent to call ${PLAN_UPDATE_TOOL} with the final plan first.`, "warning");
-        return;
-      }
+      const finalPlan = showStoredPlan(ctx, {
+        title: "Final implementation plan",
+        missingMessage: `No stored plan found. Ask the agent to call ${PLAN_UPDATE_TOOL} with the final plan first.`,
+        successMessage: "Showing final plan before handing off to a fresh implementation session.",
+      });
+      if (!finalPlan) return;
 
       pi.appendEntry(IMPLEMENT_PREVIEW_TYPE, { plan: finalPlan });
-      pi.sendMessage({
-        customType: IMPLEMENT_PREVIEW_TYPE,
-        content: `Final implementation plan:\n\n${finalPlan}`,
-        display: true,
-        details: { plan: finalPlan },
-      });
-      ctx.ui.notify("Showing final plan before handing off to a fresh implementation session.", "info");
 
       const parentSession = ctx.sessionManager.getSessionFile();
       const extraInstructions = args.trim();

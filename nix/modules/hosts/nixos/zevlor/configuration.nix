@@ -33,11 +33,10 @@
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  # Steam/Proton use Mesa RADV by default; AMDVLK removed due to Big Picture/overlay compositing issues.
   hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
     rocmPackages.clr.icd
   ];
-  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   environment.systemPackages = with pkgs; [
     clinfo
     openrgb

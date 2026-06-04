@@ -2,6 +2,21 @@ if [[ -o interactive && "$TERM" != "dumb" ]] && command -v starship >/dev/null 2
   eval "$(starship init zsh)"
 fi
 
+# Enable nix-direnv for a project by running `use-flake` next to flake.nix.
+# This writes `.envrc` with `use flake` and runs `direnv allow` once.
+# For non-flake shells, create `.envrc` manually with `use nix` instead.
+nix-direnv-init() {
+  if [[ -e .envrc ]]; then
+    echo ".envrc already exists; not overwriting" >&2
+    return 1
+  fi
+
+  printf 'use flake\n' > .envrc
+  direnv allow
+}
+
+alias use-flake=nix-direnv-init
+
 if [[ -o interactive && "${DISABLE_FASTFETCH:-0}" != "1" ]] && command -v fastfetch >/dev/null 2>&1; then
   fastfetch
 fi

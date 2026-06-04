@@ -6,6 +6,16 @@ FLAKE_REF="$SCRIPT_DIR"
 
 # Detect OS and run appropriate rebuild command
 OS=$(uname -s)
+old_system=$(readlink -f /run/current-system 2>/dev/null || true)
+
+show_rebuild_diff() {
+  local new_system
+  new_system=$(readlink -f /run/current-system 2>/dev/null || true)
+
+  if command -v nvd >/dev/null 2>&1 && [[ -n "$old_system" && -n "$new_system" && "$old_system" != "$new_system" ]]; then
+    nvd diff "$old_system" "$new_system" || true
+  fi
+}
 
 if [[ "$OS" == "Darwin" ]]; then
   # Remove legacy skhd formula artifacts that conflict with the skhd-zig cask linking.
@@ -28,9 +38,11 @@ if [[ "$OS" == "Darwin" ]]; then
 
   # macOS
   sudo -H darwin-rebuild switch --flake "$FLAKE_REF" --max-jobs auto --cores 0
+  show_rebuild_diff
 elif [[ "$OS" == "Linux" ]]; then
   # Linux
   sudo -H nixos-rebuild switch --flake "$FLAKE_REF" --max-jobs auto --cores 0
+  show_rebuild_diff
 else
   echo "Unsupported operating system: $OS"
   exit 1

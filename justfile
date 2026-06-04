@@ -51,9 +51,16 @@ build-host host:
 # Build all configurations (runs flake check)
 build-all: check
 
-# Run flake check to validate all configurations
+# Run flake check to validate all configurations on all supported systems
 check:
+    nix flake check {{flake_dir}} --all-systems
+
+# Run flake check for the current system only
+check-current:
     nix flake check {{flake_dir}}
+
+# Run local validation checks
+validate: fmt-check lint-nix check-current
 
 # Build Raspberry Pi SD card image
 build-pi-image:
@@ -119,7 +126,28 @@ flake-outputs:
 
 # Format the Nix flake tree
 fmt:
-    nix fmt {{flake_dir}}
+    cd {{flake_dir}} && nix fmt
+
+# Enter the Nix dotfiles development shell
+dev:
+    nix develop {{flake_dir}}
+
+# Run Nix static analysis
+lint-nix:
+    statix check nix
+    deadnix --fail nix
+
+# Run Nix formatter in check mode
+fmt-check:
+    nixfmt --check nix
+
+# Inspect the dependency tree for a flake output
+nix-tree output="judah-neovim":
+    nix-tree {{flake_dir}}#{{output}}
+
+# Build with nicer progress output via nix-output-monitor
+nom-build output:
+    nom build {{flake_dir}}#{{output}}
 
 # Evaluate a host without building it
 eval-host host:
