@@ -7,6 +7,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
+      extraFlags = [ "--force" ];
     };
   };
 }

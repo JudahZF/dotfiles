@@ -8,11 +8,15 @@ FLAKE_REF="$SCRIPT_DIR"
 OS=$(uname -s)
 
 if [[ "$OS" == "Darwin" ]]; then
-  # Remove legacy koekeishiya/skhd artifacts that conflict with skhd-zig linking.
-  if command -v brew >/dev/null 2>&1 && brew list --formula 2>/dev/null | grep -qx "skhd"; then
-    echo "Removing legacy koekeishiya skhd formula to avoid skhd-zig link conflicts..."
-    brew unlink skhd >/dev/null 2>&1 || true
-    brew uninstall --formula skhd >/dev/null 2>&1 || true
+  # Remove legacy skhd formula artifacts that conflict with the skhd-zig cask linking.
+  if command -v brew >/dev/null 2>&1; then
+    for formula in skhd skhd-zig; do
+      if brew list --formula 2>/dev/null | grep -qx "$formula"; then
+        echo "Removing legacy $formula formula to avoid skhd-zig cask link conflicts..."
+        brew unlink "$formula" >/dev/null 2>&1 || true
+        brew uninstall --formula "$formula" >/dev/null 2>&1 || true
+      fi
+    done
   fi
 
   legacy_skhd_plist="$HOME/Library/LaunchAgents/com.koekeishiya.skhd.plist"

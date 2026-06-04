@@ -6,16 +6,20 @@
 }:
 lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
   homebrew = {
-    brews = [ "jackielii/tap/skhd-zig" ];
+    casks = [ "jackielii/tap/skhd-zig" ];
     taps = [ "jackielii/tap" ];
   };
 
   system.activationScripts = {
     cleanupLegacyKoekeishiyaSkhd.text = ''
-      if [ -x /opt/homebrew/bin/brew ] && /opt/homebrew/bin/brew list --formula | grep -qx "skhd"; then
-        echo "removing legacy koekeishiya skhd formula to prevent skhd-zig link conflicts..." >&2
-        /opt/homebrew/bin/brew unlink skhd >/dev/null 2>&1 || true
-        /opt/homebrew/bin/brew uninstall --formula skhd >/dev/null 2>&1 || true
+      if [ -x /opt/homebrew/bin/brew ]; then
+        for formula in skhd skhd-zig; do
+          if /opt/homebrew/bin/brew list --formula | grep -qx "$formula"; then
+            echo "removing legacy $formula formula to prevent skhd-zig cask link conflicts..." >&2
+            /opt/homebrew/bin/brew unlink "$formula" >/dev/null 2>&1 || true
+            /opt/homebrew/bin/brew uninstall --formula "$formula" >/dev/null 2>&1 || true
+          fi
+        done
       fi
     '';
 

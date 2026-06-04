@@ -293,6 +293,7 @@
           ../networking/tailscale/darwin.nix
           ../networking/unifi-identity-endpoint.nix
           ../networking/wifiman.nix
+          ../networking/windows-app.nix
           ../networking/wireshark-app.nix
         ];
       };
