@@ -141,6 +141,14 @@ lint-nix:
 fmt-check:
     nixfmt --check nix
 
+# Run a full repository secrets scan
+secrets-scan:
+    gitleaks git --redact --no-banner .
+
+# Configure this repo to use its local Git hooks immediately
+install-git-hooks:
+    git config core.hooksPath .githooks
+
 # Inspect the dependency tree for a flake output
 nix-tree output="judah-neovim":
     nix-tree {{flake_dir}}#{{output}}

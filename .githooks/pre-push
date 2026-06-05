@@ -1,0 +1,48 @@
+#!/bin/sh
+
+set -u
+
+repo_root=$(git rev-parse --show-toplevel) || exit 1
+cd "$repo_root" || exit 1
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  cat >&2 <<'EOF'
+error: gitleaks is required for pre-push secrets scanning but was not found on PATH.
+Install it or rebuild/apply this dotfiles configuration so gitleaks is available, then retry.
+EOF
+  exit 1
+fi
+
+zero_oid=0000000000000000000000000000000000000000
+had_input=0
+status=0
+
+while IFS=' ' read -r local_ref local_oid remote_ref remote_oid; do
+  had_input=1
+
+  case "$local_oid" in
+    "$zero_oid")
+      continue
+      ;;
+  esac
+
+  if [ "$remote_oid" = "$zero_oid" ]; then
+    log_opts=$local_oid
+  else
+    log_opts=$remote_oid..$local_oid
+  fi
+
+  echo "Scanning pushed commits for $local_ref -> $remote_ref with gitleaks..." >&2
+  if ! gitleaks git --redact --no-banner --log-opts="$log_opts" .; then
+    status=1
+  fi
+done
+
+if [ "$had_input" -eq 0 ]; then
+  echo "No pre-push input received; scanning HEAD with gitleaks..." >&2
+  if ! gitleaks git --redact --no-banner --log-opts=HEAD .; then
+    status=1
+  fi
+fi
+
+exit "$status"

@@ -1,10 +1,14 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
-{
+{ pkgs, lib, config, ... }: {
+  home.activation.configureDotfilesGitHooks =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      dotfilesDir="${config.home.homeDirectory}/dotfiles"
+      if [ -d "$dotfilesDir/.git" ]; then
+        ${
+          lib.getExe pkgs.git
+        } -C "$dotfilesDir" config core.hooksPath "$dotfilesDir/.githooks"
+      fi
+    '';
+
   programs.git = {
     enable = true;
     lfs.enable = true;
@@ -29,7 +33,8 @@
       };
       diff.tool = "difftastic";
       difftool.prompt = false;
-      difftool.difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
+      difftool.difftastic.cmd =
+        ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
@@ -41,15 +46,19 @@
         br = "branch";
         ci = "commit";
         st = "status";
-        glog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-        gloga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all";
+        glog =
+          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        gloga =
+          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all";
         amend = "commit --amend --no-edit";
         wip = "commit -am 'WIP'";
         undo = "reset HEAD~1 --mixed";
         unstage = "reset HEAD --";
         discard = "checkout --";
-        recent = "branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'";
-        cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d";
+        recent =
+          "branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'";
+        cleanup =
+          "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d";
         last = "log -1 HEAD";
         history = "log --oneline -20";
       };
