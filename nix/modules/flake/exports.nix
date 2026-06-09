@@ -187,6 +187,7 @@
           ../desktop/amphetamine.nix
           ../desktop/bartender.nix
           ../desktop/betterdisplay.nix
+          ../desktop/boring-notch.nix
           ../desktop/displaperture.nix
           ../desktop/ghostty.nix
           ../desktop/hiddenbar.nix

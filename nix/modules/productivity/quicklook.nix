@@ -4,7 +4,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
     "qlcolorcode"
     "qlmarkdown"
     "qlstephen"
-    "qlvideo"
+    "quicklook-video"
     "quicklook-json"
     "quicklookase"
   ];
