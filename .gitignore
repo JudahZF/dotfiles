@@ -1,5 +1,6 @@
 .DS_Store
 **/.DS_Store
+.direnv
 nix/result
 pi/agent/auth.json
 pi/agent/sessions/
