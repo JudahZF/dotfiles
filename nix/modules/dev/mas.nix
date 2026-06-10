@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.brews = [ "mas" ];
+  nix-zerobrew.brews = [ "mas" ];
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  homebrew = {
+  nix-zerobrew = {
     casks = [
       "cursor"
       "cursor-cli"
@@ -12,6 +12,5 @@
       "lm-studio"
       "steipete/tap/codexbar"
     ];
-    taps = [ "steipete/tap" ];
   };
 }

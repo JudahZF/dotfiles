@@ -1,7 +1,11 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.brews = [ "cocoapods" ];
-  homebrew.masApps = {
-    "Xcode" = 497799835;
+  nix-zerobrew.brews = [ "cocoapods" ];
+
+  programs.xcodes = {
+    enable = true;
+    versions = [ "27 beta" ];
+    selectVersion = "27 beta";
+    acceptLicense = true;
   };
 }

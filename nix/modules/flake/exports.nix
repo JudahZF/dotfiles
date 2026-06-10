@@ -156,7 +156,7 @@
           ../darwin/defaults.nix
           ../darwin/dock.nix
           ../darwin/finder.nix
-          ../darwin/homebrew.nix
+          ../darwin/zerobrew.nix
           ../darwin/keyboard.nix
           ../darwin/login.nix
           ../darwin/mouse.nix

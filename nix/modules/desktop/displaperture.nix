@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "displaperture" ];
+  nix-zerobrew.casks = [ "displaperture" ];
 }

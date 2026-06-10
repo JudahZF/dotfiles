@@ -55,6 +55,7 @@ in
       { nixpkgs.pkgs = pkgs; }
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-zerobrew.darwinModules.nix-zerobrew
+      inputs.nix-xcodes.darwinModules.default
       inputs.sops-nix.darwinModules.sops
       {
         networking.hostName = "gale";

@@ -1,3 +1,3 @@
 {
-  homebrew.casks = [ "TheBoredTeam/boring-notch/boring-notch" ];
+  nix-zerobrew.casks = [ "TheBoredTeam/boring-notch/boring-notch" ];
 }

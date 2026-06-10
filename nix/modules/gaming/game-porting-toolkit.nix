@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew = {
+  nix-zerobrew = {
     casks = [ "game-porting-toolkit" ];
-    taps = [ "Gcenx/homebrew-wine" ];
   };
 }

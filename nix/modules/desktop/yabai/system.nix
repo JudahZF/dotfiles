@@ -5,14 +5,13 @@
   ...
 }:
 lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
-  homebrew = {
+  nix-zerobrew = {
     brews = [
       {
         name = "yabai";
         args = [ "--HEAD" ];
       }
     ];
-    taps = [ "koekeishiya/formulae" ];
   };
 
   launchd.user.agents.yabai = {

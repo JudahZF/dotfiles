@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "unifi-identity-endpoint" ];
+  nix-zerobrew.casks = [ "unifi-identity-endpoint" ];
 }

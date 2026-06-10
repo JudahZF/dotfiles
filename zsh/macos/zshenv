@@ -1,4 +1,3 @@
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 export BTCA_KEY=ak_7JTBTEYW4CZ8GYKE3P8PG9A50XM0CR6B
 

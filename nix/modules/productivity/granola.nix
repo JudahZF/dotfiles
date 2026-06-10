@@ -1,4 +1,4 @@
 { ... }:
 {
-  homebrew.casks = [ "granola" ];
+  nix-zerobrew.casks = [ "granola" ];
 }

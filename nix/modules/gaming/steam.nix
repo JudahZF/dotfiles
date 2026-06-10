@@ -17,5 +17,5 @@
 
   environment.systemPackages = with pkgs; [ mangohud protonup-qt ];
 }) // (lib.optionalAttrs (system != null && lib.hasSuffix "-darwin" system) {
-  homebrew.casks = [ "steam" ];
+  nix-zerobrew.casks = [ "steam" ];
 })

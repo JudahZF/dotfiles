@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [
+  nix-zerobrew.casks = [
     "microsoft-office"
     "microsoft-teams"
   ];

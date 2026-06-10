@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew = {
+  nix-zerobrew = {
     brews = [ "macmon" ];
-    taps = [ "FelixKratz/formulae" ];
   };
 }

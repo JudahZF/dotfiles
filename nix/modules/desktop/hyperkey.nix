@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "hyperkey" ];
+  nix-zerobrew.casks = [ "hyperkey" ];
 }

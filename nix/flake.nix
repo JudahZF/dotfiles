@@ -48,8 +48,53 @@
     };
 
     nix-zerobrew = {
-      url = "github:JudahZF/nix-zerobrew";
+      url = "github:JudahZF/nix-zerobrew/v0.3.1-1";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
+    nix-xcodes = {
+      url = "git+https://codeberg.org/JudahZF/nix-xcodes.git";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
+    homebrew-bevanjkay-tap = {
+      url = "github:bevanjkay/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-gcenx-wine = {
+      url = "github:Gcenx/homebrew-wine";
+      flake = false;
+    };
+
+    homebrew-filosottile-musl-cross = {
+      url = "github:FiloSottile/homebrew-musl-cross";
+      flake = false;
+    };
+
+    homebrew-withgraphite-tap = {
+      url = "github:withgraphite/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-steipete-tap = {
+      url = "github:steipete/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-koekeishiya-formulae = {
+      url = "github:koekeishiya/homebrew-formulae";
+      flake = false;
+    };
+
+    homebrew-jackielii-tap = {
+      url = "github:jackielii/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-felixkratz-formulae = {
+      url = "github:FelixKratz/homebrew-formulae";
+      flake = false;
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

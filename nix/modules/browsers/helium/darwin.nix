@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "helium-browser" ];
+  nix-zerobrew.casks = [ "helium-browser" ];
 }

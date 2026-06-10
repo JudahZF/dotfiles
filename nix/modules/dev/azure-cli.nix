@@ -1,5 +1,5 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.brews = [ "azure-cli" ];
+  nix-zerobrew.brews = [ "azure-cli" ];
   environment.systemPackages = [ pkgs.kubelogin ];
 }

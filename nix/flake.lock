@@ -243,6 +243,134 @@
         "type": "github"
       }
     },
+    "homebrew-bevanjkay-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780991335,
+        "narHash": "sha256-GP6fj1Tr+kt8Fa8QxQ0Us2VFiU3zp06yvA9l6c9s4H0=",
+        "owner": "bevanjkay",
+        "repo": "homebrew-tap",
+        "rev": "76d98c2cde8d9ad11ad2d9def89e348e52b1615f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bevanjkay",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "homebrew-felixkratz-formulae": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780547371,
+        "narHash": "sha256-QGCVV5N1QC56GQK3ck2YJ6J6/S8SQ6rTElz69y58078=",
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "rev": "70b2071488b61c14f773ce9e1bf6626ee851981a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
+    "homebrew-filosottile-musl-cross": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768406031,
+        "narHash": "sha256-42BPsdnsz9HgSA3i+mBzMoBEegk50ZomLIW3EGuJIAk=",
+        "owner": "FiloSottile",
+        "repo": "homebrew-musl-cross",
+        "rev": "705df29f2bdb4ea5e7c2ade052c92506e8c3c74a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FiloSottile",
+        "repo": "homebrew-musl-cross",
+        "type": "github"
+      }
+    },
+    "homebrew-gcenx-wine": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780975686,
+        "narHash": "sha256-1bLevYt1DIigM2LZPe6L7CDfFXQV5NYSn28x97j11CA=",
+        "owner": "Gcenx",
+        "repo": "homebrew-wine",
+        "rev": "8fa0df79e4a1b7d4ab292958352feaceb4905bfb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gcenx",
+        "repo": "homebrew-wine",
+        "type": "github"
+      }
+    },
+    "homebrew-jackielii-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780828622,
+        "narHash": "sha256-+NeEnub2ZsA2CaadX/BxwAyQE+GB8QsrTIv7QOfVJx0=",
+        "owner": "jackielii",
+        "repo": "homebrew-tap",
+        "rev": "92e6394500a0a4a835d41e43cb8cff6350efa9f3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jackielii",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "homebrew-koekeishiya-formulae": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778274556,
+        "narHash": "sha256-ZT8PDRrrsHidlypL6oFw/A2LFmT06GZr0rT4ZxDOKbw=",
+        "owner": "koekeishiya",
+        "repo": "homebrew-formulae",
+        "rev": "9c0021f8454e82c3af6ca8b0af4548589920e6ed",
+        "type": "github"
+      },
+      "original": {
+        "owner": "koekeishiya",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
+    "homebrew-steipete-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780990769,
+        "narHash": "sha256-pR3Ik0ia8iHyuYTFB5SK6t3Os8cRBU7643r+iVyhRqs=",
+        "owner": "steipete",
+        "repo": "homebrew-tap",
+        "rev": "cbe951e4a2e55f32e9851c3c836998ecaa68805c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "steipete",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "homebrew-withgraphite-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778009275,
+        "narHash": "sha256-J9908mxYkECwfMVN4Lm6pvRfSwXbVPwpopuo1JxodKU=",
+        "owner": "withgraphite",
+        "repo": "homebrew-tap",
+        "rev": "3cd62c9405681abed697ab35e4ec43aa5353dcb8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "withgraphite",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "import-tree": {
       "locked": {
         "lastModified": 1778781969,
@@ -344,15 +472,16 @@
         "zerobrew-src": "zerobrew-src"
       },
       "locked": {
-        "lastModified": 1774264394,
-        "narHash": "sha256-6IMm961SV9a65gQXXkIRKcFUxYjY/S86SMarp5N2dzY=",
+        "lastModified": 1780994218,
+        "narHash": "sha256-Gm7isKxJLNe8GgtOcz9kn0s+wL2eSXXxFVlKzp/qspU=",
         "owner": "JudahZF",
         "repo": "nix-zerobrew",
-        "rev": "cc5894986b69385dc0b44fd1684391fa3240097e",
+        "rev": "1da77d09b70a97a6b59f7bf76f02fdc04b74d176",
         "type": "github"
       },
       "original": {
         "owner": "JudahZF",
+        "ref": "v0.3.1-1",
         "repo": "nix-zerobrew",
         "type": "github"
       }
@@ -581,6 +710,14 @@
         "flake-parts": "flake-parts_2",
         "helium-browser": "helium-browser",
         "home-manager": "home-manager",
+        "homebrew-bevanjkay-tap": "homebrew-bevanjkay-tap",
+        "homebrew-felixkratz-formulae": "homebrew-felixkratz-formulae",
+        "homebrew-filosottile-musl-cross": "homebrew-filosottile-musl-cross",
+        "homebrew-gcenx-wine": "homebrew-gcenx-wine",
+        "homebrew-jackielii-tap": "homebrew-jackielii-tap",
+        "homebrew-koekeishiya-formulae": "homebrew-koekeishiya-formulae",
+        "homebrew-steipete-tap": "homebrew-steipete-tap",
+        "homebrew-withgraphite-tap": "homebrew-withgraphite-tap",
         "import-tree": "import-tree",
         "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
@@ -606,11 +743,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771902481,
-        "narHash": "sha256-svI5ivzggtu4KhCdoab3xR5+Btop24o7yLFtIPXrsPM=",
+        "lastModified": 1780456895,
+        "narHash": "sha256-CvRZn3Ut0scqLJ1xwQFkZwKGVBUUNBPrFVXRTMZpbfU=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "5177426d9f8f7f1827001c9749b9a9c5570d456b",
+        "rev": "7cc96a6a3fd6613cafd633250a3934483479b9a1",
         "type": "github"
       },
       "original": {
@@ -780,16 +917,16 @@
     "zerobrew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1773515818,
-        "narHash": "sha256-qBbH4rdpRKYxkX58ljcQMxvo4BFDdTJpvVfjrb/z3fI=",
+        "lastModified": 1780118007,
+        "narHash": "sha256-x0ezVV0gxRTfs78UbAd/0xPmfZ8gm4LnmMUI9zSTS+Y=",
         "owner": "lucasgelfond",
         "repo": "zerobrew",
-        "rev": "9a7f5a8befd36962d5703a5a6df658ac46fc31e0",
+        "rev": "66737ad47727b22ccbec139b1cd7667b5a39c5e4",
         "type": "github"
       },
       "original": {
         "owner": "lucasgelfond",
-        "ref": "v0.2.1",
+        "ref": "v0.3.1",
         "repo": "zerobrew",
         "type": "github"
       }

@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "docker-desktop" ];
+  nix-zerobrew.casks = [ "docker-desktop" ];
 }

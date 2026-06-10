@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "wireshark-app" ];
+  nix-zerobrew.casks = [ "wireshark-app" ];
 }

@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "sketch" ];
+  nix-zerobrew.casks = [ "sketch" ];
 }
