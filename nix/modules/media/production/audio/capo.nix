@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  nix-zerobrew.masApps = {
+  homebrew.masApps = {
     "Capo" = 696977615;
   };
 }

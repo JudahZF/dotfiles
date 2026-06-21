@@ -1,6 +1,6 @@
 { ... }:
 {
-  nix-zerobrew = {
+  homebrew = {
     casks = [
       "cursor"
       "cursor-cli"

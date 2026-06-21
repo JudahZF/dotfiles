@@ -2,9 +2,8 @@
   description = "JF Flake";
   nixConfig = {
     extra-substituters = [ "https://noctalia.cachix.org" ];
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
+    extra-trusted-public-keys =
+      [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
   };
 
   inputs = {
@@ -28,12 +27,12 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+      url = "github:LnL7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
@@ -47,9 +46,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-zerobrew = {
-      url = "github:JudahZF/nix-zerobrew/v0.3.1-1";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
     };
 
     nix-xcodes = {
@@ -62,33 +68,8 @@
       flake = false;
     };
 
-    homebrew-gcenx-wine = {
-      url = "github:Gcenx/homebrew-wine";
-      flake = false;
-    };
-
-    homebrew-filosottile-musl-cross = {
-      url = "github:FiloSottile/homebrew-musl-cross";
-      flake = false;
-    };
-
-    homebrew-withgraphite-tap = {
-      url = "github:withgraphite/homebrew-tap";
-      flake = false;
-    };
-
-    homebrew-steipete-tap = {
-      url = "github:steipete/homebrew-tap";
-      flake = false;
-    };
-
-    homebrew-koekeishiya-formulae = {
-      url = "github:koekeishiya/homebrew-formulae";
-      flake = false;
-    };
-
-    homebrew-jackielii-tap = {
-      url = "github:jackielii/homebrew-tap";
+    homebrew-boring-notch = {
+      url = "github:TheBoredTeam/homebrew-boring-notch";
       flake = false;
     };
 
@@ -97,10 +78,45 @@
       flake = false;
     };
 
+    homebrew-filosottile-musl-cross = {
+      url = "github:FiloSottile/homebrew-musl-cross";
+      flake = false;
+    };
+
+    homebrew-gcenx-wine = {
+      url = "github:Gcenx/homebrew-wine";
+      flake = false;
+    };
+
+    homebrew-jackielii-tap = {
+      url = "github:jackielii/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-koekeishiya-formulae = {
+      url = "github:koekeishiya/homebrew-formulae";
+      flake = false;
+    };
+
+    homebrew-samtay-tui = {
+      url = "github:samtay/homebrew-tui";
+      flake = false;
+    };
+
+    homebrew-steipete-tap = {
+      url = "github:steipete/homebrew-tap";
+      flake = false;
+    };
+
+    homebrew-withgraphite-tap = {
+      url = "github:withgraphite/homebrew-tap";
+      flake = false;
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nix-xilinx = {
@@ -127,7 +143,7 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules/default.nix);
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    (inputs.import-tree ./modules/default.nix);
 }

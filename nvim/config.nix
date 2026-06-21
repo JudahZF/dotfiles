@@ -198,7 +198,6 @@
         gosum
         json
         json5
-        jsonc
         make
         markdown_inline
         regex
@@ -221,13 +220,11 @@
             cloak_pattern = "=.+";
           };
         };
-        keys = [
-          {
-            mode = "n";
-            key = "<leader>c";
-            action = ":CloakToggle<CR>";
-          }
-        ];
+        keys = [{
+          mode = "n";
+          key = "<leader>c";
+          action = ":CloakToggle<CR>";
+        }];
         lazy = true;
       };
 
@@ -240,6 +237,21 @@
         };
       };
     };
+
+    luaConfigPre = ''
+      -- nvim-lspconfig v2 warns whenever nvf's generated config uses the
+      -- legacy require('lspconfig').server.setup API. nvf still generates that
+      -- API today, so suppress just this noisy startup deprecation until nvf
+      -- migrates to vim.lsp.config.
+      local original_deprecate = vim.deprecate
+      vim.deprecate = function(name, alternative, version, plugin, backtrace)
+        if name == "The `require('lspconfig')` \"framework\"" and plugin == "nvim-lspconfig" then
+          return
+        end
+
+        return original_deprecate(name, alternative, version, plugin, backtrace)
+      end
+    '';
 
     luaConfigPost = ''
       -- Force transparency

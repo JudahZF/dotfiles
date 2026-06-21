@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  nix-zerobrew.casks = [ "resolume-arena" ];
+  homebrew.casks = [ "resolume-arena" ];
 }

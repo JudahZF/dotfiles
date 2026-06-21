@@ -1,3 +1,9 @@
+# macOS can export an Apple/ICU locale identifier via LC_ALL, e.g.
+# en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
+# GNU tools from Nix do not understand that form and print setlocale warnings.
+export LANG="en_GB.UTF-8"
+export LC_ALL="en_GB.UTF-8"
+
 export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 export BTCA_KEY=ak_7JTBTEYW4CZ8GYKE3P8PG9A50XM0CR6B
 

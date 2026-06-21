@@ -9,24 +9,26 @@
       fi
     '';
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      side-by-side = true;
+      line-numbers = true;
+    };
+  };
+
   programs.git = {
     enable = true;
     lfs.enable = true;
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        side-by-side = true;
-        line-numbers = true;
-      };
-    };
     ignores = [ ".env" ];
     signing = {
       format = "ssh";
       key = "${config.home.homeDirectory}/.ssh/personal";
       signByDefault = true;
     };
-    extraConfig = {
+    settings = {
       user = {
         email = "judah@judahfuller.com";
         name = "Judah Fuller";

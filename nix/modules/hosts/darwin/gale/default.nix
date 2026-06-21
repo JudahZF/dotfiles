@@ -1,36 +1,23 @@
-{
-  inputs,
-  self,
-  mkPkgs,
-  mkUnstablePkgs,
-  lndirOverlay,
-  flakeOverlays,
-  ...
-}:
+{ inputs, self, mkPkgs, mkUnstablePkgs, flakeOverlays, ... }:
 let
   system = "aarch64-darwin";
   username = "judahfuller";
+  pkgs-unstable = mkUnstablePkgs system;
   pkgs = mkPkgs {
     inherit system;
     darwin = true;
-    overlays = [ lndirOverlay ] ++ flakeOverlays;
+    overlays = flakeOverlays;
     extraConfig = {
-      permittedInsecurePackages = [ "python3.12-ecdsa-0.19.1" ];
+      permittedInsecurePackages = [ "python3.13-ecdsa-0.19.2" ];
     };
   };
-in
-{
+in {
   flake.darwinConfigurations.gale = inputs.nix-darwin.lib.darwinSystem {
     inherit system;
     specialArgs = {
-      inherit
-        inputs
-        self
-        system
-        username
-        ;
+      inherit inputs self system username;
       dotfiles = inputs.dotfiles;
-      pkgs-unstable = mkUnstablePkgs system;
+      inherit pkgs-unstable;
     };
     modules = [
       ./configuration.nix
@@ -54,7 +41,7 @@ in
       self.darwinModules.utilities
       { nixpkgs.pkgs = pkgs; }
       inputs.home-manager.darwinModules.home-manager
-      inputs.nix-zerobrew.darwinModules.nix-zerobrew
+      inputs.nix-homebrew.darwinModules.nix-homebrew
       inputs.nix-xcodes.darwinModules.default
       inputs.sops-nix.darwinModules.sops
       {
@@ -64,25 +51,17 @@ in
         home-manager.extraSpecialArgs = {
           inherit inputs self;
           dotfiles = inputs.dotfiles;
-          pkgs-unstable = mkUnstablePkgs system;
+          inherit pkgs-unstable;
         };
-        home-manager.users.${username}.imports = [
-          inputs.zen-browser.homeModules.beta
-          self.homeModules.user-judahf
-        ];
+        home-manager.users.${username}.imports =
+          [ inputs.zen-browser.homeModules.beta self.homeModules.user-judahf ];
       }
       {
-        nix-zerobrew = {
+        nix-homebrew = {
           enable = true;
           enableRosetta = true;
-          autoMigrate = false;
+          autoMigrate = true;
           user = username;
-          package = inputs.nix-zerobrew.packages.${system}.zerobrew;
-          packageRosetta = inputs.nix-zerobrew.packages.x86_64-darwin.zerobrew;
-          prefixes = {
-            "/opt/zerobrew".linkDir = "/opt/homebrew";
-            "/usr/local/zerobrew".linkDir = "/usr/local";
-          };
         };
       }
     ];

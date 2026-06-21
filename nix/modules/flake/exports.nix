@@ -1,7 +1,10 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   flake = {
     nixosModules = {
-      browsers = { imports = [ ../browsers/helium/system.nix ]; };
+      browsers = {
+        imports = [ ../browsers/helium/system.nix ];
+      };
       utilities = {
         imports = [
           ../utilities/git/default.nix
@@ -78,9 +81,14 @@
         ];
       };
       neovim = import ../dev/editors/neovim/module.nix;
-      networking = { imports = [ ../networking/remmina.nix ]; };
+      networking = {
+        imports = [ ../networking/remmina.nix ];
+      };
       nix-config = {
-        imports = [ ../nix-config/nix.nix ../nix-config/nixpkgs.nix ];
+        imports = [
+          ../nix-config/nix.nix
+          ../nix-config/nixpkgs.nix
+        ];
       };
       nixos = {
         imports = [
@@ -96,19 +104,30 @@
           ../nixos/kernel.nix
           ../nixos/localisation.nix
           ../nixos/network.nix
-          ({ pkgs, lib, ... }:
+          (
+            { pkgs, lib, ... }:
             lib.mkIf pkgs.stdenv.isLinux {
               environment.systemPackages = [ pkgs.powertop ];
               powerManagement.powertop.enable = true;
-            })
+            }
+          )
           ../nixos/ssh.nix
           ../networking/tailscale/system.nix
         ];
       };
-      security = { imports = [ ../security/onepassword/nixos.nix ]; };
-      productivity = { imports = [ ../productivity/obsidian.nix ]; };
+      security = {
+        imports = [ ../security/onepassword/nixos.nix ];
+      };
+      productivity = {
+        imports = [ ../productivity/obsidian.nix ];
+      };
       secrets = import ../secrets/sops.nix;
-      shell = { imports = [ ../shell/bash.nix ../shell/zsh.nix ]; };
+      shell = {
+        imports = [
+          ../shell/bash.nix
+          ../shell/zsh.nix
+        ];
+      };
     };
 
     darwinModules = {
@@ -156,8 +175,26 @@
           ../darwin/defaults.nix
           ../darwin/dock.nix
           ../darwin/finder.nix
-          ../darwin/zerobrew.nix
+          ../darwin/homebrew.nix
           ../darwin/keyboard.nix
+          (
+            { ... }:
+            {
+              # macOS can publish Apple/ICU locale identifiers such as
+              # en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
+              # Bash/GNU tools from Nix do not understand that form and warn before shell
+              # startup files can correct it, so set a POSIX locale in launchd too.
+              launchd.user.envVariables = {
+                LANG = "en_GB.UTF-8";
+                LC_ALL = "en_GB.UTF-8";
+              };
+
+              environment.variables = {
+                LANG = "en_GB.UTF-8";
+                LC_ALL = "en_GB.UTF-8";
+              };
+            }
+          )
           ../darwin/login.nix
           ../darwin/mouse.nix
           ../darwin/screen_capture.nix
@@ -187,6 +224,7 @@
           ../desktop/amphetamine.nix
           ../desktop/bartender.nix
           ../desktop/betterdisplay.nix
+          ../desktop/bleunlock.nix
           ../desktop/boring-notch.nix
           ../desktop/displaperture.nix
           ../desktop/ghostty.nix
@@ -255,7 +293,9 @@
           ../libraries/tree-sitter.nix
         ];
       };
-      media = { imports = [ ../media ]; };
+      media = {
+        imports = [ ../media ];
+      };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
         imports = [
@@ -271,7 +311,10 @@
         ];
       };
       nix-config = {
-        imports = [ ../nix-config/nix.nix ../nix-config/nixpkgs.nix ];
+        imports = [
+          ../nix-config/nix.nix
+          ../nix-config/nixpkgs.nix
+        ];
       };
       productivity = {
         imports = [
@@ -294,11 +337,18 @@
         ];
       };
       secrets = import ../secrets/sops.nix;
-      shell = { imports = [ ../shell/bash.nix ../shell/zsh.nix ]; };
+      shell = {
+        imports = [
+          ../shell/bash.nix
+          ../shell/zsh.nix
+        ];
+      };
     };
 
     homeModules = {
-      browsers = { imports = [ ../browsers/zen/home.nix ]; };
+      browsers = {
+        imports = [ ../browsers/zen/home.nix ];
+      };
       utilities = {
         imports = [
           ../utilities/atuin.nix
@@ -317,8 +367,12 @@
           ../utilities/zoxide/home.nix
         ];
       };
-      desktop = { imports = [ ../desktop/noctalia/home.nix ]; };
-      hyprland = { imports = [ ../desktop/hyprland/home.nix ]; };
+      desktop = {
+        imports = [ ../desktop/noctalia/home.nix ];
+      };
+      hyprland = {
+        imports = [ ../desktop/hyprland/home.nix ];
+      };
       home = {
         imports = [
           ../home/base.nix
@@ -326,9 +380,13 @@
           ../home/state-version.nix
         ];
       };
-      media = { imports = [ ]; };
+      media = {
+        imports = [ ];
+      };
       neovim = import ../dev/editors/neovim/module.nix;
-      security = { imports = [ ../security/onepassword/home.nix ]; };
+      security = {
+        imports = [ ../security/onepassword/home.nix ];
+      };
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;
       user-beckf = import ../users/beckf;

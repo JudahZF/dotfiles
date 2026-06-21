@@ -1,4 +1,9 @@
-{ lib, pkgs, system ? null, ... }:
+{
+  lib,
+  pkgs,
+  system ? null,
+  ...
+}:
 (lib.optionalAttrs (system != null && lib.hasSuffix "-linux" system) {
   # Steam/Proton launchers expect host OpenGL/Vulkan libraries to be available
   # through /run/opengl-driver. 32-bit support is also required by Steam's
@@ -15,7 +20,11 @@
 
   programs.gamemode.enable = true;
 
-  environment.systemPackages = with pkgs; [ mangohud protonup-qt ];
-}) // (lib.optionalAttrs (system != null && lib.hasSuffix "-darwin" system) {
-  nix-zerobrew.casks = [ "steam" ];
+  environment.systemPackages = with pkgs; [
+    mangohud
+    protonup-qt
+  ];
+})
+// (lib.optionalAttrs (system != null && lib.hasSuffix "-darwin" system) {
+  homebrew.casks = [ "steam" ];
 })

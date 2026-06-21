@@ -1,5 +1,8 @@
-{ pkgs, ... }: {
-  environment.shellAliases = { lg = "lazygit"; };
+{ pkgs, ... }:
+{
+  environment.shellAliases = {
+    lg = "lazygit";
+  };
   environment.systemPackages = with pkgs; [
     git
     git-cliff
@@ -7,5 +10,6 @@
     git-lfs
     gitleaks
     lazygit
+    tea
   ];
 }

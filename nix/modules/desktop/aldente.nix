@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 lib.mkMerge [
   (lib.mkIf pkgs.stdenv.isDarwin {
-    nix-zerobrew.casks = [ "aldente" ];
+    homebrew.casks = [ "aldente" ];
     system.defaults.CustomUserPreferences = {
       "com.apphousekitchen.aldente-pro.plist" = {
         automaticDischarge = false;

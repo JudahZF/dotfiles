@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  nix-zerobrew.casks = [ "4k-video-downloader" ];
+  homebrew.casks = [ "4k-video-downloader" ];
 }

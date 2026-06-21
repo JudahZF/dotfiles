@@ -1,4 +1,4 @@
 { ... }:
 {
-  nix-zerobrew.casks = [ "datagrip" ];
+  homebrew.casks = [ "datagrip" ];
 }

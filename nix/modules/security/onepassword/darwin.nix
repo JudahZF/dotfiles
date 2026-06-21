@@ -5,5 +5,5 @@
     _1password-cli
   ];
 
-  nix-zerobrew.casks = [ "1password" ];
+  homebrew.casks = [ "1password" ];
 }

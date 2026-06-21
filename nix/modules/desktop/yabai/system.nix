@@ -5,7 +5,7 @@
   ...
 }:
 lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
-  nix-zerobrew = {
+  homebrew = {
     brews = [
       {
         name = "yabai";
@@ -20,7 +20,7 @@ lib.mkIf (pkgs.stdenv.isDarwin && username != null) {
       ProgramArguments = [ "/opt/homebrew/bin/yabai" ];
       EnvironmentVariables = {
         HOME = "/Users/${username}";
-        PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
       RunAtLoad = true;
       KeepAlive = {

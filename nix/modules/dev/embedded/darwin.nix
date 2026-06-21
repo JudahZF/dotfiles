@@ -1,4 +1,4 @@
 { ... }:
 {
-  nix-zerobrew.casks = [ "silicon-labs-vcp-driver" ];
+  homebrew.casks = [ "silicon-labs-vcp-driver" ];
 }

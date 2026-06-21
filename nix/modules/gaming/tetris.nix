@@ -1,4 +1,4 @@
 { pkgs, lib, ... }:
 lib.mkIf pkgs.stdenv.isDarwin {
-  nix-zerobrew.brews = [ "samtay/tui/tetris" ];
+  homebrew.brews = [ "samtay/tui/tetris" ];
 }

@@ -1,30 +1,41 @@
 { osConfig ? null, ... }:
 let
-  hostname = if osConfig == null then "" else osConfig.networking.hostName or "";
-  defaultIdentityFile = if hostname == "popper" then "~/.ssh/work" else "~/.ssh/personal";
-in
-{
+  hostname =
+    if osConfig == null then "" else osConfig.networking.hostName or "";
+  defaultIdentityFile =
+    if hostname == "popper" then "~/.ssh/work" else "~/.ssh/personal";
+in {
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
 
-    matchBlocks = {
+    settings = {
       "*" = {
-        identityFile = defaultIdentityFile;
-        setEnv = { TERM = "xterm-256color"; };
+        IdentityFile = defaultIdentityFile;
+        SetEnv = { TERM = "xterm-256color"; };
+
+        ForwardAgent = false;
+        AddKeysToAgent = "no";
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
       };
-      personalgit = {
-        host = "personalgit codeberg.org";
-        hostname = "codeberg.org";
-        user = "git";
-        identityFile = "~/.ssh/personal";
-        identitiesOnly = true;
+      "personalgit codeberg.org" = {
+        HostName = "codeberg.org";
+        User = "git";
+        IdentityFile = "~/.ssh/personal";
+        IdentitiesOnly = true;
       };
       workgit = {
-        host = "workgit";
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/work";
-        identitiesOnly = true;
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/work";
+        IdentitiesOnly = true;
       };
     };
   };
