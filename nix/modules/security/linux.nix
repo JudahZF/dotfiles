@@ -14,7 +14,7 @@ lib.mkIf pkgs.stdenv.isLinux {
       PasswordAuthentication = false;
       PermitEmptyPasswords = false;
       PermitRootLogin = "no";
-      UseDNS = false;
+      UseDns = false;
       X11Forwarding = false;
     };
   };
