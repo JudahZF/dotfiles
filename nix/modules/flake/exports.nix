@@ -391,6 +391,7 @@
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;
       user-beckf = import ../users/beckf;
+      user-bigchurch = import ../users/bigchurch;
     };
   };
 }
