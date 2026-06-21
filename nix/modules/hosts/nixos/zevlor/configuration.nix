@@ -4,8 +4,7 @@
   dotfiles,
   self,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware.nix
     ./niri.nix
@@ -31,8 +30,8 @@
   ];
 
   # GPU
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  boot.initrd.kernelModules = ["amdgpu"];
+  systemd.tmpfiles.rules = ["L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"];
   # Steam/Proton use Mesa RADV by default; AMDVLK removed due to Big Picture/overlay compositing issues.
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
@@ -66,21 +65,19 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs dotfiles self; };
+    extraSpecialArgs = {inherit inputs dotfiles self;};
     users.judahf = {
       imports = [
         inputs.zen-browser.homeModules.beta
         self.homeModules.user-judahf
         self.homeModules.desktop
-        self.homeModules.hyprland
-        ./hyprland.nix
       ];
     };
     users.richf = {
-      imports = [ self.homeModules.user-richf ];
+      imports = [self.homeModules.user-richf];
     };
     users.beckf = {
-      imports = [ self.homeModules.user-beckf ];
+      imports = [self.homeModules.user-beckf];
     };
   };
 
@@ -95,7 +92,7 @@
       "input"
       "plugdev"
     ];
-    packages = with pkgs; [ home-manager ];
+    packages = with pkgs; [home-manager];
   };
 
   users.users.richf = {
@@ -105,7 +102,7 @@
       "video"
       "input"
     ];
-    packages = with pkgs; [ home-manager ];
+    packages = with pkgs; [home-manager];
   };
 
   users.users.beckf = {
@@ -115,7 +112,7 @@
       "video"
       "input"
     ];
-    packages = with pkgs; [ home-manager ];
+    packages = with pkgs; [home-manager];
   };
 
   users.defaultUserShell = pkgs.zsh;

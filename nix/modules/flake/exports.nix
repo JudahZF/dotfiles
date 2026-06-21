@@ -1,9 +1,8 @@
-{ inputs, ... }:
-{
+{inputs, ...}: {
   flake = {
     nixosModules = {
       browsers = {
-        imports = [ ../browsers/helium/system.nix ];
+        imports = [../browsers/helium/system.nix];
       };
       utilities = {
         imports = [
@@ -38,9 +37,8 @@
       };
       desktop = {
         imports = [
-          ../desktop/gnome.nix
+          ../desktop/plasma.nix
           ../desktop/grim.nix
-          ../desktop/hyprland/system.nix
           ../desktop/niri/system.nix
           ../desktop/login.nix
           ../desktop/noctalia/system.nix
@@ -82,7 +80,7 @@
       };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
-        imports = [ ../networking/remmina.nix ];
+        imports = [../networking/remmina.nix];
       };
       nix-config = {
         imports = [
@@ -105,21 +103,28 @@
           ../nixos/localisation.nix
           ../nixos/network.nix
           (
-            { pkgs, lib, ... }:
-            lib.mkIf pkgs.stdenv.isLinux {
-              environment.systemPackages = [ pkgs.powertop ];
-              powerManagement.powertop.enable = true;
-            }
+            {
+              pkgs,
+              lib,
+              ...
+            }:
+              lib.mkIf pkgs.stdenv.isLinux {
+                environment.systemPackages = [pkgs.powertop];
+                powerManagement.powertop.enable = true;
+              }
           )
           ../nixos/ssh.nix
           ../networking/tailscale/system.nix
         ];
       };
       security = {
-        imports = [ ../security/onepassword/nixos.nix ];
+        imports = [
+          ../security/linux.nix
+          ../security/onepassword/nixos.nix
+        ];
       };
       productivity = {
-        imports = [ ../productivity/obsidian.nix ];
+        imports = [../productivity/obsidian.nix];
       };
       secrets = import ../secrets/sops.nix;
       shell = {
@@ -178,8 +183,7 @@
           ../darwin/homebrew.nix
           ../darwin/keyboard.nix
           (
-            { ... }:
-            {
+            {...}: {
               # macOS can publish Apple/ICU locale identifiers such as
               # en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
               # Bash/GNU tools from Nix do not understand that form and warn before shell
@@ -294,7 +298,7 @@
         ];
       };
       media = {
-        imports = [ ../media ];
+        imports = [../media];
       };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
@@ -347,7 +351,7 @@
 
     homeModules = {
       browsers = {
-        imports = [ ../browsers/zen/home.nix ];
+        imports = [../browsers/zen/home.nix];
       };
       utilities = {
         imports = [
@@ -368,10 +372,7 @@
         ];
       };
       desktop = {
-        imports = [ ../desktop/noctalia/home.nix ];
-      };
-      hyprland = {
-        imports = [ ../desktop/hyprland/home.nix ];
+        imports = [../desktop/noctalia/home.nix];
       };
       home = {
         imports = [
@@ -381,11 +382,11 @@
         ];
       };
       media = {
-        imports = [ ];
+        imports = [];
       };
       neovim = import ../dev/editors/neovim/module.nix;
       security = {
-        imports = [ ../security/onepassword/home.nix ];
+        imports = [../security/onepassword/home.nix];
       };
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;

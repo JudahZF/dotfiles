@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 lib.mkIf pkgs.stdenv.isLinux {
-  services.displayManager.ly.enable = true;
+  # Display manager is configured by the selected desktop module.
 }

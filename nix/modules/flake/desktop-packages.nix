@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  lndirOverlay,
   ...
 }:
 {
@@ -9,7 +8,7 @@
     { pkgs, system, ... }:
     let
       mkNiriConfig = import ../desktop/niri/settings.nix { inherit lib; };
-      wrappedPkgs = pkgs.extend lndirOverlay;
+      wrappedPkgs = pkgs;
     in
     {
       packages = lib.optionalAttrs pkgs.stdenv.isLinux (
@@ -30,6 +29,7 @@
               "config.kdl".content = mkNiriConfig {
                 inherit host outputs;
                 noctaliaPackage = noctalia-shell-wrapped;
+                xwaylandSatellitePackage = wrappedPkgs.xwayland-satellite;
               };
             };
         in

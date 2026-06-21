@@ -3,7 +3,6 @@
   self,
   mkPkgs,
   mkUnstablePkgs,
-  lndirOverlay,
   flakeOverlays,
   ...
 }:
@@ -15,7 +14,7 @@ in
     inherit system;
     pkgs = mkPkgs {
       inherit system;
-      overlays = [ lndirOverlay ] ++ flakeOverlays;
+      overlays = flakeOverlays;
     };
     specialArgs = {
       inherit inputs self system;

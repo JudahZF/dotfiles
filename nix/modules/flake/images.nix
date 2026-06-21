@@ -2,7 +2,6 @@
   inputs,
   mkPkgs,
   mkUnstablePkgs,
-  lndirOverlay,
   lib,
   ...
 }:
@@ -18,7 +17,6 @@
           dotfiles = inputs.dotfiles;
           pkgs = mkPkgs {
             system = "aarch64-linux";
-            overlays = [ lndirOverlay ];
           };
           pkgs-unstable = mkUnstablePkgs "aarch64-linux";
         };

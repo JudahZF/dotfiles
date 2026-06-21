@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   programs.waybar = {
     enable = true;
     settings.main = {
@@ -9,9 +8,7 @@
       spacing = 0;
       "height" = 26;
 
-      modules-left = [
-        "hyprland/workspaces"
-      ];
+      modules-left = [];
       modules-center = [
         "clock"
       ];
@@ -23,31 +20,6 @@
         "cpu"
         "battery"
       ];
-
-      "hyprland/workspaces" = {
-        on-click = "activate";
-        format = "{icon}";
-        format-icons = {
-          default = "";
-          "1" = "1";
-          "2" = "2";
-          "3" = "3";
-          "4" = "4";
-          "5" = "5";
-          "6" = "6";
-          "7" = "7";
-          "8" = "8";
-          "9" = "9";
-          "active" = "󱓻";
-        };
-        persistent-workspaces = {
-          "1" = [ ];
-          "2" = [ ];
-          "3" = [ ];
-          "4" = [ ];
-          "5" = [ ];
-        };
-      };
 
       cpu = {
         interval = 5;
@@ -166,17 +138,6 @@
 
       .modules-right {
         margin-right: 8px;
-      }
-
-      #workspaces button {
-        all: initial;
-        padding: 0 6px;
-        margin: 0 1.5px;
-        min-width: 9px;
-      }
-
-      #workspaces button.empty {
-        opacity: 0.5;
       }
 
       #cpu,

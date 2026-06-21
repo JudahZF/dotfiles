@@ -1,4 +1,4 @@
-{ pkgs, self, ... }:
-{
-  programs.niri.package = self.packages.${pkgs.system}.niri-zevlor;
+{ pkgs, self, ... }: {
+  programs.niri.package =
+    self.packages.${pkgs.stdenv.hostPlatform.system}.niri-zevlor;
 }

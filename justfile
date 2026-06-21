@@ -139,7 +139,7 @@ lint-nix:
 
 # Run Nix formatter in check mode
 fmt-check:
-    nixfmt --check nix
+    alejandra --check nix
 
 # Run a full repository secrets scan
 secrets-scan:

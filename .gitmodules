@@ -7,6 +7,3 @@
 [submodule "raycast/yabai-workspaces"]
 	path = raycast/yabai-workspaces
 	url = ssh://git@codeberg.org/JudahZF/yabai-workspaces.git
-[submodule "raycast/superlist"]
-	path = raycast/superlist
-	url = ssh://git@codeberg.org/JudahZF/superlist-raycast.git

@@ -1,9 +1,7 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     gradle
-    nixfmt-classic
-    nixfmt-rfc-style
+    alejandra
     phpactor
     swiftformat
   ];

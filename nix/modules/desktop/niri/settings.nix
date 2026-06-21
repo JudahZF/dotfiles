@@ -20,9 +20,11 @@ in
   host,
   outputs,
   noctaliaPackage,
+  xwaylandSatellitePackage,
 }:
 let
   noctaliaExe = lib.getExe noctaliaPackage;
+  xwaylandSatelliteExe = lib.getExe xwaylandSatellitePackage;
 in
 ''
   input {
@@ -67,6 +69,10 @@ in
   prefer-no-csd
   screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
+  xwayland-satellite {
+      path "${xwaylandSatelliteExe}"
+  }
+
   spawn-at-startup "${noctaliaExe}" "--no-duplicate"
 
   window-rule {
@@ -76,6 +82,11 @@ in
 
   layer-rule {
       match namespace="^noctalia-wallpaper-.*$"
+      place-within-backdrop true
+  }
+
+  layer-rule {
+      match namespace="^noctalia-background-.*$"
       place-within-backdrop true
   }
 
