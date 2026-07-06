@@ -8,7 +8,7 @@ lib.mkIf pkgs.stdenv.isLinux {
   services.openssh = {
     enable = true;
     settings = {
-      AllowUsers = ["judahf"];
+      AllowUsers = [ "judahf" ];
       GSSAPIAuthentication = false;
       KbdInteractiveAuthentication = false;
       PasswordAuthentication = false;
@@ -36,18 +36,18 @@ lib.mkIf pkgs.stdenv.isLinux {
     wheelNeedsPassword = true;
     extraRules = [
       {
-        users = ["judahf"];
+        users = [ "judahf" ];
         commands = [
           {
             command = "ALL";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
         ];
       }
     ];
   };
 
-  environment.systemPackages = [pkgs.libnotify];
+  environment.systemPackages = [ pkgs.libnotify ];
 
   systemd = {
     services.update-dotfiles-flake = {
@@ -92,7 +92,7 @@ lib.mkIf pkgs.stdenv.isLinux {
 
     timers.update-dotfiles-flake = {
       description = "Daily dotfiles pull and flake lock update";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = "02:30";
         RandomizedDelaySec = "30min";
@@ -118,7 +118,7 @@ lib.mkIf pkgs.stdenv.isLinux {
 
       timers.nixos-reboot-needed-notify = {
         description = "Check whether NixOS updates require a reboot";
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "04:45";
           RandomizedDelaySec = "30min";

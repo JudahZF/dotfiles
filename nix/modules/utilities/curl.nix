@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.curl ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.curl ]; }

@@ -1,6 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./custom-dock.nix
-  ];
-}
+{ ... }: { imports = [ ./custom-dock.nix ]; }

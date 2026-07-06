@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.zellij ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.zellij ]; }

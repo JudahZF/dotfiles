@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ postman ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ postman ]; }

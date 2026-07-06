@@ -1,14 +1,19 @@
-{ config, lib, pkgs, self, ... }:
-lib.mkIf pkgs.stdenv.isLinux (let
-  wallpapersSource = pkgs.writeText "noctalia-wallpapers.json" ''
-    {}
-  '';
-in {
-  home.packages =
-    [ self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell-wrapped ];
+{
+  lib,
+  pkgs,
+  self,
+  ...
+}:
+lib.mkIf pkgs.stdenv.isLinux (
+  let
+    wallpapersSource = pkgs.writeText "noctalia-wallpapers.json" ''
+      {}
+    '';
+  in
+  {
+    home.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell-wrapped ];
 
-  home.activation.noctaliaManagedFiles =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home.activation.noctaliaManagedFiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p "$HOME/.config/noctalia" "$HOME/.cache/noctalia"
       cp ${./settings.json} "$HOME/.config/noctalia/settings.json"
       chmod u+w "$HOME/.config/noctalia/settings.json"
@@ -18,4 +23,5 @@ in {
         chmod u+w "$HOME/.cache/noctalia/wallpapers.json"
       fi
     '';
-})
+  }
+)

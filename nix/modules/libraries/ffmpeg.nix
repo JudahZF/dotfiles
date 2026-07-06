@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.ffmpeg ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.ffmpeg ]; }

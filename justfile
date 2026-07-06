@@ -34,18 +34,18 @@ clean:
 
 # Build a specific NixOS host configuration
 build host:
-    nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel
+    nix build {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.build.toplevel
 
 # Build a specific Darwin host configuration
 build-darwin host="gale":
-    nix build {{flake_dir}}#darwinConfigurations.{{host}}.config.system.build.toplevel
+    nix build {{ flake_dir }}#darwinConfigurations.{{ host }}.config.system.build.toplevel
 
 # Build any host by name, dispatching to the correct flake output
 build-host host:
-    case "{{host}}" in \
-      gale) nix build {{flake_dir}}#darwinConfigurations.{{host}}.config.system.build.toplevel ;; \
-      popper|zevlor|jfpi) nix build {{flake_dir}}#nixosConfigurations.{{host}}.config.system.build.toplevel ;; \
-      *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
+    case "{{ host }}" in \
+      gale) nix build {{ flake_dir }}#darwinConfigurations.{{ host }}.config.system.build.toplevel ;; \
+      popper|zevlor|jfpi) nix build {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.build.toplevel ;; \
+      *) echo "Unknown host: {{ host }}" >&2; exit 1 ;; \
     esac
 
 # Build all configurations (runs flake check)
@@ -53,26 +53,26 @@ build-all: check
 
 # Run flake check to validate all configurations on all supported systems
 check:
-    nix flake check {{flake_dir}} --all-systems
+    nix flake check {{ flake_dir }} --all-systems
 
 # Run flake check for the current system only
 check-current:
-    nix flake check {{flake_dir}}
+    nix flake check {{ flake_dir }}
 
 # Run local validation checks
 validate: fmt-check lint-nix check-current
 
 # Build Raspberry Pi SD card image
 build-pi-image:
-    nix build {{flake_dir}}#images.jfpi
+    nix build {{ flake_dir }}#images.jfpi
 
 # Build the wrapped Neovim package for the current system
 build-neovim:
-    nix build {{flake_dir}}#judah-neovim
+    nix build {{ flake_dir }}#judah-neovim
 
 # Build a specific flake check output
 build-check system check_name:
-    nix build {{flake_dir}}#checks.{{system}}.{{check_name}}
+    nix build {{ flake_dir }}#checks.{{ system }}.{{ check_name }}
 
 # ─────────────────────────────────────────────────────────────
 # Server Deployment (Colmena)
@@ -80,15 +80,15 @@ build-check system check_name:
 
 # Deploy to a specific server
 deploy host:
-    colmena apply --config {{flake_dir}} --on {{host}}
+    colmena apply --config {{ flake_dir }} --on {{ host }}
 
 # Deploy to all servers
 deploy-all:
-    colmena apply --config {{flake_dir}}
+    colmena apply --config {{ flake_dir }}
 
 # Preview deployment changes for a specific server
 deploy-dry-run host:
-    colmena apply --config {{flake_dir}} --on {{host}} --dry-activate
+    colmena apply --config {{ flake_dir }} --on {{ host }} --dry-activate
 
 # ─────────────────────────────────────────────────────────────
 # macOS (Yabai)
@@ -110,7 +110,7 @@ yabai-load:
 
 # Garbage collect generations older than specified days
 gc days="7":
-    nix-collect-garbage --delete-older-than {{days}}d
+    nix-collect-garbage --delete-older-than {{ days }}d
 
 # Optimize nix store
 optimize:
@@ -118,32 +118,32 @@ optimize:
 
 # Show flake metadata
 flake-info:
-    nix flake metadata {{flake_dir}}
+    nix flake metadata {{ flake_dir }}
 
 # Show flake outputs
 flake-outputs:
-    nix flake show {{flake_dir}} --no-write-lock-file
+    nix flake show {{ flake_dir }} --no-write-lock-file
 
 # Format the Nix flake tree
 fmt:
-    cd {{flake_dir}} && nix fmt
+    nix develop {{ flake_dir }} -c nixfmt nix
 
 # Enter the Nix dotfiles development shell
 dev:
-    nix develop {{flake_dir}}
+    nix develop {{ flake_dir }}
 
 # Run Nix static analysis
 lint-nix:
-    statix check nix
-    deadnix --fail nix
+    nix develop {{ flake_dir }} -c statix check nix
+    nix develop {{ flake_dir }} -c deadnix --fail nix
 
 # Run Nix formatter in check mode
 fmt-check:
-    alejandra --check nix
+    nix develop {{ flake_dir }} -c nixfmt --check nix
 
 # Run a full repository secrets scan
 secrets-scan:
-    gitleaks git --redact --no-banner .
+    nix develop {{ flake_dir }} -c gitleaks git --redact --no-banner --baseline-path .gitleaks-baseline.json .
 
 # Configure this repo to use its local Git hooks immediately
 install-git-hooks:
@@ -151,18 +151,18 @@ install-git-hooks:
 
 # Inspect the dependency tree for a flake output
 nix-tree output="judah-neovim":
-    nix-tree {{flake_dir}}#{{output}}
+    nix-tree {{ flake_dir }}#{{ output }}
 
 # Build with nicer progress output via nix-output-monitor
 nom-build output:
-    nom build {{flake_dir}}#{{output}}
+    nom build {{ flake_dir }}#{{ output }}
 
 # Evaluate a host without building it
 eval-host host:
-    case "{{host}}" in \
-      gale) nix eval {{flake_dir}}#darwinConfigurations.{{host}}.config.system.name ;; \
-      popper|zevlor|jfpi) nix eval {{flake_dir}}#nixosConfigurations.{{host}}.config.system.name ;; \
-      *) echo "Unknown host: {{host}}" >&2; exit 1 ;; \
+    case "{{ host }}" in \
+      gale) nix eval {{ flake_dir }}#darwinConfigurations.{{ host }}.config.system.name ;; \
+      popper|zevlor|jfpi) nix eval {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.name ;; \
+      *) echo "Unknown host: {{ host }}" >&2; exit 1 ;; \
     esac
 
 # List available host configurations

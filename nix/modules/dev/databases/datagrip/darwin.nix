@@ -1,4 +1,1 @@
-{ ... }:
-{
-  homebrew.casks = [ "datagrip" ];
-}
+_: { homebrew.casks = [ "datagrip" ]; }

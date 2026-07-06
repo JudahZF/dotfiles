@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   programs.fzf = {
     enable = true;
     # Home Manager's generated fzf zsh integration currently emits

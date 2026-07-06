@@ -1,7 +1,7 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     gradle
-    alejandra
+    nixfmt
     phpactor
     swiftformat
   ];

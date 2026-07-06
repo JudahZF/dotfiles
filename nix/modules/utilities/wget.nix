@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.wget ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.wget ]; }

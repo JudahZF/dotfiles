@@ -4,7 +4,8 @@
   dotfiles,
   self,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware.nix
     ./niri.nix
@@ -30,8 +31,8 @@
   ];
 
   # GPU
-  boot.initrd.kernelModules = ["amdgpu"];
-  systemd.tmpfiles.rules = ["L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
   # Steam/Proton use Mesa RADV by default; AMDVLK removed due to Big Picture/overlay compositing issues.
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
@@ -65,57 +66,63 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs dotfiles self;};
-    users.judahf = {
-      imports = [
-        inputs.zen-browser.homeModules.beta
-        self.homeModules.user-judahf
-        self.homeModules.desktop
-      ];
+    extraSpecialArgs = { inherit inputs dotfiles self; };
+    users = {
+      judahf = {
+        imports = [
+          inputs.zen-browser.homeModules.beta
+          self.homeModules.user-judahf
+          self.homeModules.desktop
+        ];
+      };
+      richf = {
+        imports = [ self.homeModules.user-richf ];
+      };
+      beckf = {
+        imports = [ self.homeModules.user-beckf ];
+      };
     };
-    users.richf = {
-      imports = [self.homeModules.user-richf];
+  };
+
+  users = {
+    users = {
+      judahf = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel"
+          "docker"
+          "networkmanager"
+          "render"
+          "video"
+          "input"
+          "plugdev"
+        ];
+        packages = with pkgs; [ home-manager ];
+      };
+
+      richf = {
+        isNormalUser = true;
+        extraGroups = [
+          "networkmanager"
+          "video"
+          "input"
+        ];
+        packages = with pkgs; [ home-manager ];
+      };
+
+      beckf = {
+        isNormalUser = true;
+        extraGroups = [
+          "networkmanager"
+          "video"
+          "input"
+        ];
+        packages = with pkgs; [ home-manager ];
+      };
     };
-    users.beckf = {
-      imports = [self.homeModules.user-beckf];
-    };
-  };
 
-  users.users.judahf = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "docker"
-      "networkmanager"
-      "render"
-      "video"
-      "input"
-      "plugdev"
-    ];
-    packages = with pkgs; [home-manager];
+    defaultUserShell = pkgs.zsh;
   };
-
-  users.users.richf = {
-    isNormalUser = true;
-    extraGroups = [
-      "networkmanager"
-      "video"
-      "input"
-    ];
-    packages = with pkgs; [home-manager];
-  };
-
-  users.users.beckf = {
-    isNormalUser = true;
-    extraGroups = [
-      "networkmanager"
-      "video"
-      "input"
-    ];
-    packages = with pkgs; [home-manager];
-  };
-
-  users.defaultUserShell = pkgs.zsh;
 
   system.stateVersion = "25.05";
 }

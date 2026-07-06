@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ bruno ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ bruno ]; }

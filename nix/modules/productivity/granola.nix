@@ -1,4 +1,1 @@
-{ ... }:
-{
-  homebrew.casks = [ "granola" ];
-}
+_: { homebrew.casks = [ "granola" ]; }

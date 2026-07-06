@@ -7,6 +7,26 @@ on:
     branches: [main]
 
 jobs:
+  quality:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Check formatting
+        run: nix develop ./nix -c just fmt-check
+
+      - name: Lint Nix
+        run: nix develop ./nix -c just lint-nix
+
+      - name: Scan secrets
+        run: nix develop ./nix -c just secrets-scan
+
   check-linux:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:

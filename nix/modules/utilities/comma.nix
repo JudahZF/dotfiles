@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.comma ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.comma ]; }

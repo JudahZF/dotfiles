@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.zoxide ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.zoxide ]; }

@@ -7,9 +7,11 @@
   ...
 }:
 lib.mkIf pkgs.stdenv.isLinux {
-  boot.blacklistedKernelModules = [ "hid-thrustmaster" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.hid-tmff2 ];
-  boot.kernelModules = [ "hid-tmff2" ];
+  boot = {
+    blacklistedKernelModules = [ "hid-thrustmaster" ];
+    extraModulePackages = [ config.boot.kernelPackages.hid-tmff2 ];
+    kernelModules = [ "hid-tmff2" ];
+  };
 
   services.udev.extraRules = ''
     SUBSYSTEM=="input", ATTRS{idVendor}=="044f", MODE="0660", GROUP="input"

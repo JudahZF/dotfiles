@@ -1,4 +1,4 @@
-{...}: {
+_: {
   programs.waybar = {
     enable = true;
     settings.main = {
@@ -8,7 +8,7 @@
       spacing = 0;
       "height" = 26;
 
-      modules-left = [];
+      modules-left = [ ];
       modules-center = [
         "clock"
       ];

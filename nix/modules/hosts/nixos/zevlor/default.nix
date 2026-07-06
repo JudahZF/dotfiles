@@ -20,7 +20,7 @@ in
       inherit inputs self system;
       name = "zevlor";
       username = "judahf";
-      dotfiles = inputs.dotfiles;
+      inherit (inputs) dotfiles;
       pkgs-unstable = mkUnstablePkgs system;
     };
     modules = [

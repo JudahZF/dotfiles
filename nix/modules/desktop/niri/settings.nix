@@ -17,10 +17,10 @@ let
     '';
 in
 {
-  host,
   outputs,
   noctaliaPackage,
   xwaylandSatellitePackage,
+  ...
 }:
 let
   noctaliaExe = lib.getExe noctaliaPackage;

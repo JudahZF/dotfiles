@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ ghidra ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ ghidra ]; }

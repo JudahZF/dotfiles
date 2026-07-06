@@ -15,7 +15,7 @@
         inherit inputs;
         system = "x86_64-linux";
         username = "judahf";
-        dotfiles = inputs.dotfiles;
+        inherit (inputs) dotfiles;
         pkgs-unstable = mkUnstablePkgs "x86_64-linux";
       };
     };

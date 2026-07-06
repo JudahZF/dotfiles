@@ -1,4 +1,2 @@
 { pkgs, lib, ... }:
-lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "blackhole-64ch" ];
-}
+lib.mkIf pkgs.stdenv.isDarwin { homebrew.casks = [ "blackhole-64ch" ]; }

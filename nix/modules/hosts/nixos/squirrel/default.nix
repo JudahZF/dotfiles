@@ -5,9 +5,11 @@
   mkUnstablePkgs,
   flakeOverlays,
   ...
-}: let
+}:
+let
   system = "x86_64-linux";
-in {
+in
+{
   flake.nixosConfigurations.squirrel = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     pkgs = mkPkgs {

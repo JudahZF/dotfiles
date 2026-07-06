@@ -1,3 +1,1 @@
-{
-  homebrew.casks = [ "TheBoredTeam/boring-notch/boring-notch" ];
-}
+{ homebrew.casks = [ "TheBoredTeam/boring-notch/boring-notch" ]; }

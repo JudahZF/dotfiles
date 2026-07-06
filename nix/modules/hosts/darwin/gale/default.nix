@@ -1,4 +1,11 @@
-{ inputs, self, mkPkgs, mkUnstablePkgs, flakeOverlays, ... }:
+{
+  inputs,
+  self,
+  mkPkgs,
+  mkUnstablePkgs,
+  flakeOverlays,
+  ...
+}:
 let
   system = "aarch64-darwin";
   username = "judahfuller";
@@ -11,12 +18,18 @@ let
       permittedInsecurePackages = [ "python3.13-ecdsa-0.19.2" ];
     };
   };
-in {
+in
+{
   flake.darwinConfigurations.gale = inputs.nix-darwin.lib.darwinSystem {
     inherit system;
     specialArgs = {
-      inherit inputs self system username;
-      dotfiles = inputs.dotfiles;
+      inherit
+        inputs
+        self
+        system
+        username
+        ;
+      inherit (inputs) dotfiles;
       inherit pkgs-unstable;
     };
     modules = [
@@ -40,21 +53,26 @@ in {
       self.darwinModules.shell
       self.darwinModules.utilities
       { nixpkgs.pkgs = pkgs; }
+      { environment.systemPackages = [ inputs.maclocker.packages.${system}.maclocker ]; }
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
       inputs.nix-xcodes.darwinModules.default
       inputs.sops-nix.darwinModules.sops
       {
         networking.hostName = "gale";
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = {
-          inherit inputs self;
-          dotfiles = inputs.dotfiles;
-          inherit pkgs-unstable;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = {
+            inherit inputs self;
+            inherit (inputs) dotfiles;
+            inherit pkgs-unstable;
+          };
+          users.${username}.imports = [
+            inputs.zen-browser.homeModules.beta
+            self.homeModules.user-judahf
+          ];
         };
-        home-manager.users.${username}.imports =
-          [ inputs.zen-browser.homeModules.beta self.homeModules.user-judahf ];
       }
       {
         nix-homebrew = {

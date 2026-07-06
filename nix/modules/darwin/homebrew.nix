@@ -1,4 +1,10 @@
-{ config, inputs, pkgs, lib, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 let
   taps = {
     "bevanjkay/homebrew-tap" = inputs.homebrew-bevanjkay-tap;
@@ -14,7 +20,8 @@ let
     "TheBoredTeam/homebrew-boring-notch" = inputs.homebrew-boring-notch;
     "withgraphite/homebrew-tap" = inputs.homebrew-withgraphite-tap;
   };
-in lib.mkIf pkgs.stdenv.isDarwin {
+in
+lib.mkIf pkgs.stdenv.isDarwin {
   nix-homebrew = {
     mutableTaps = false;
     inherit taps;

@@ -1,6 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./editors/neovim/default.nix
-  ];
-}
+{ ... }: { imports = [ ./editors/neovim/default.nix ]; }

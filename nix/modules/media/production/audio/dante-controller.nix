@@ -1,4 +1,2 @@
 { pkgs, lib, ... }:
-lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "dante-controller" ];
-}
+lib.mkIf pkgs.stdenv.isDarwin { homebrew.casks = [ "dante-controller" ]; }

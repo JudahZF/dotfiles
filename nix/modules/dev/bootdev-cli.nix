@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.bootdev-cli ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.bootdev-cli ]; }

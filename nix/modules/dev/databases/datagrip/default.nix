@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.jetbrains.datagrip ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.jetbrains.datagrip ]; }

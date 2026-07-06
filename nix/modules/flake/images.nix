@@ -14,7 +14,7 @@
           inherit inputs;
           system = "aarch64-linux";
           username = "judahf";
-          dotfiles = inputs.dotfiles;
+          inherit (inputs) dotfiles;
           pkgs = mkPkgs {
             system = "aarch64-linux";
           };

@@ -1,10 +1,12 @@
-{ osConfig ? null, ... }:
+{
+  osConfig ? null,
+  ...
+}:
 let
-  hostname =
-    if osConfig == null then "" else osConfig.networking.hostName or "";
-  defaultIdentityFile =
-    if hostname == "popper" then "~/.ssh/work" else "~/.ssh/personal";
-in {
+  hostname = if osConfig == null then "" else osConfig.networking.hostName or "";
+  defaultIdentityFile = if hostname == "popper" then "~/.ssh/work" else "~/.ssh/personal";
+in
+{
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
@@ -12,7 +14,9 @@ in {
     settings = {
       "*" = {
         IdentityFile = defaultIdentityFile;
-        SetEnv = { TERM = "xterm-256color"; };
+        SetEnv = {
+          TERM = "xterm-256color";
+        };
 
         ForwardAgent = false;
         AddKeysToAgent = "no";
@@ -30,6 +34,10 @@ in {
         User = "git";
         IdentityFile = "~/.ssh/personal";
         IdentitiesOnly = true;
+      };
+      "192.168.1.33" = {
+        User = "judahf";
+        IdentityFile = "~/.ssh/work";
       };
       workgit = {
         HostName = "github.com";

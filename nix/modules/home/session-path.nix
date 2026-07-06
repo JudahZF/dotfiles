@@ -1,4 +1,1 @@
-{ ... }:
-{
-  home.sessionPath = [ "$HOME/.bun/bin" ];
-}
+_: { home.sessionPath = [ "$HOME/.bun/bin" ]; }

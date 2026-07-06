@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ cmake ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ cmake ]; }

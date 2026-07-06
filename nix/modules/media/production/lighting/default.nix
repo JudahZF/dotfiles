@@ -1,6 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./lightkey.nix
-  ];
-}
+{ ... }: { imports = [ ./lightkey.nix ]; }

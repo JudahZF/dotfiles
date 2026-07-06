@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  fonts.packages = [ pkgs.nerd-fonts.hack ];
-}
+{ pkgs, ... }: { fonts.packages = [ pkgs.nerd-fonts.hack ]; }

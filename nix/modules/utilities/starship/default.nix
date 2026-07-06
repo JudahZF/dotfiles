@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.starship ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.starship ]; }

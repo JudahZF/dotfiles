@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.fzf ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.fzf ]; }

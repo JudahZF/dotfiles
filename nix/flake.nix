@@ -1,11 +1,5 @@
 {
   description = "JF Flake";
-  nixConfig = {
-    extra-substituters = [ "https://noctalia.cachix.org" ];
-    extra-trusted-public-keys =
-      [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
-  };
-
   inputs = {
     dotfiles = {
       url = "path:..";
@@ -39,6 +33,11 @@
     nix-index-database = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-index-database";
+    };
+
+    maclocker = {
+      url = "github:JudahZF/maclocker/v1.0";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
     custom-packages = {
@@ -134,7 +133,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    t3code.url = "github:Sawrz/t3code-nix";
     walker = {
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
@@ -143,7 +141,7 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; }
-    (inputs.import-tree ./modules/default.nix);
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules/default.nix);
 }

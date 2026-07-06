@@ -1,4 +1,1 @@
-{ ... }:
-{
-  homebrew.casks = [ "silicon-labs-vcp-driver" ];
-}
+_: { homebrew.casks = [ "silicon-labs-vcp-driver" ]; }

@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   programs.starship = {
     enable = true;
     # Initialized explicitly from zsh/macos/zshrc so the prompt is present even

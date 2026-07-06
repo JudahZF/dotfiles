@@ -1,10 +1,4 @@
-{
-  inputs,
-  pkgs,
-  config,
-  ...
-}:
-{
+{ pkgs, config, ... }: {
   programs.zen-browser = {
     enable = true;
     darwinDefaultsId = "app.zen-browser.zen";

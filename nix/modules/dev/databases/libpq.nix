@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.libpq ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.libpq ]; }

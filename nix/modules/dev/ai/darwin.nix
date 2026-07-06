@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   homebrew = {
     casks = [
       "cursor"

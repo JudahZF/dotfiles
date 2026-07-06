@@ -4,5 +4,8 @@
   "defaultModel": "gpt-5.5",
   "theme": "github-dark-default",
   "hideThinkingBlock": false,
-  "defaultThinkingLevel": "low"
+  "defaultThinkingLevel": "xhigh",
+  "packages": [
+    "git:github.com/DietrichGebert/ponytail@v4.8.4"
+  ]
 }

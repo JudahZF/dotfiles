@@ -29,7 +29,13 @@ in
   # bubblewrap is built without setuid support, causing:
   #   bwrap: setuid use of bubblewrap is not supported in this build
   # User namespaces work here, so force the wrapper to be non-setuid.
-  security.wrappers.bwrap.setuid = lib.mkForce false;
+  security.wrappers.bwrap = {
+    source = lib.getExe pkgs.bubblewrap;
+    owner = "root";
+    group = "root";
+    permissions = "0755";
+    setuid = lib.mkForce false;
+  };
 
   programs.gamemode.enable = true;
   hardware.steam-hardware.enable = true;

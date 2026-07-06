@@ -1,4 +1,1 @@
-{ ... }:
-{
-  home.enableNixpkgsReleaseCheck = false;
-}
+_: { home.enableNixpkgsReleaseCheck = false; }

@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.tree-sitter ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.tree-sitter ]; }

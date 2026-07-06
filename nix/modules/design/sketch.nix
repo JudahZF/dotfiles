@@ -1,4 +1,2 @@
 { pkgs, lib, ... }:
-lib.mkIf pkgs.stdenv.isDarwin {
-  homebrew.casks = [ "sketch" ];
-}
+lib.mkIf pkgs.stdenv.isDarwin { homebrew.casks = [ "sketch" ]; }

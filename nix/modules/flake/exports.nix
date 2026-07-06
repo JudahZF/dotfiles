@@ -1,8 +1,8 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   flake = {
     nixosModules = {
       browsers = {
-        imports = [../browsers/helium/system.nix];
+        imports = [ ../browsers/helium/system.nix ];
       };
       utilities = {
         imports = [
@@ -80,7 +80,7 @@
       };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
-        imports = [../networking/remmina.nix];
+        imports = [ ../networking/remmina.nix ];
       };
       nix-config = {
         imports = [
@@ -108,10 +108,10 @@
               lib,
               ...
             }:
-              lib.mkIf pkgs.stdenv.isLinux {
-                environment.systemPackages = [pkgs.powertop];
-                powerManagement.powertop.enable = true;
-              }
+            lib.mkIf pkgs.stdenv.isLinux {
+              environment.systemPackages = [ pkgs.powertop ];
+              powerManagement.powertop.enable = true;
+            }
           )
           ../nixos/ssh.nix
           ../networking/tailscale/system.nix
@@ -124,7 +124,7 @@
         ];
       };
       productivity = {
-        imports = [../productivity/obsidian.nix];
+        imports = [ ../productivity/obsidian.nix ];
       };
       secrets = import ../secrets/sops.nix;
       shell = {
@@ -182,23 +182,21 @@
           ../darwin/finder.nix
           ../darwin/homebrew.nix
           ../darwin/keyboard.nix
-          (
-            {...}: {
-              # macOS can publish Apple/ICU locale identifiers such as
-              # en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
-              # Bash/GNU tools from Nix do not understand that form and warn before shell
-              # startup files can correct it, so set a POSIX locale in launchd too.
-              launchd.user.envVariables = {
-                LANG = "en_GB.UTF-8";
-                LC_ALL = "en_GB.UTF-8";
-              };
+          (_: {
+            # macOS can publish Apple/ICU locale identifiers such as
+            # en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
+            # Bash/GNU tools from Nix do not understand that form and warn before shell
+            # startup files can correct it, so set a POSIX locale in launchd too.
+            launchd.user.envVariables = {
+              LANG = "en_GB.UTF-8";
+              LC_ALL = "en_GB.UTF-8";
+            };
 
-              environment.variables = {
-                LANG = "en_GB.UTF-8";
-                LC_ALL = "en_GB.UTF-8";
-              };
-            }
-          )
+            environment.variables = {
+              LANG = "en_GB.UTF-8";
+              LC_ALL = "en_GB.UTF-8";
+            };
+          })
           ../darwin/login.nix
           ../darwin/mouse.nix
           ../darwin/screen_capture.nix
@@ -298,7 +296,7 @@
         ];
       };
       media = {
-        imports = [../media];
+        imports = [ ../media ];
       };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
@@ -328,6 +326,7 @@
           ../productivity/home-assistant-companion.nix
           ../productivity/keka.nix
           ../productivity/microsoft-office.nix
+          ../productivity/numbers.nix
           ../productivity/obsidian.nix
           ../productivity/quicklook.nix
           ../productivity/wispr-flow.nix
@@ -351,7 +350,7 @@
 
     homeModules = {
       browsers = {
-        imports = [../browsers/zen/home.nix];
+        imports = [ ../browsers/zen/home.nix ];
       };
       utilities = {
         imports = [
@@ -372,7 +371,7 @@
         ];
       };
       desktop = {
-        imports = [../desktop/noctalia/home.nix];
+        imports = [ ../desktop/noctalia/home.nix ];
       };
       home = {
         imports = [
@@ -382,11 +381,11 @@
         ];
       };
       media = {
-        imports = [];
+        imports = [ ];
       };
       neovim = import ../dev/editors/neovim/module.nix;
       security = {
-        imports = [../security/onepassword/home.nix];
+        imports = [ ../security/onepassword/home.nix ];
       };
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;

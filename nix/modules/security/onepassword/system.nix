@@ -1,6 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./nixos.nix
-  ];
-}
+{ ... }: { imports = [ ./nixos.nix ]; }

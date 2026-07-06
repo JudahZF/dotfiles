@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   imports = [
     ./4k-video-downloader.nix
     ./final-cut-pro.nix

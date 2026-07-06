@@ -3,7 +3,8 @@
   dotfiles,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     self.homeModules.home
     self.homeModules.utilities

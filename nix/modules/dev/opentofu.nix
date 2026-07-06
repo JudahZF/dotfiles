@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.opentofu ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.opentofu ]; }

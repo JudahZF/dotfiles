@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ protobuf ];
-}
+{ pkgs, ... }: { environment.systemPackages = with pkgs; [ protobuf ]; }

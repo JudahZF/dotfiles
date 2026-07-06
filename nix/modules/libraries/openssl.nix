@@ -1,4 +1,1 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = [ pkgs.openssl ];
-}
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.openssl ]; }

@@ -1,4 +1,1 @@
-{ ... }:
-{
-  homebrew.casks = [ "bleunlock" ];
-}
+_: { homebrew.casks = [ "bleunlock" ]; }
