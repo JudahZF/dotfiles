@@ -25,7 +25,6 @@
           ../hosts/nixos/jfpi/configuration.nix
           inputs.nixos-hardware.nixosModules.raspberry-pi-5
           inputs.nix-index-database.nixosModules.nix-index
-          inputs.sops-nix.nixosModules.sops
           { sdImage.compressImage = true; }
         ];
       }).config.system.build.sdImage;

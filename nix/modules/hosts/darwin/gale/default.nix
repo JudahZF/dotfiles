@@ -49,7 +49,6 @@ in
       self.darwinModules.nix-config
       self.darwinModules.productivity
       self.darwinModules.security
-      self.darwinModules.secrets
       self.darwinModules.shell
       self.darwinModules.utilities
       { nixpkgs.pkgs = pkgs; }
@@ -57,7 +56,6 @@ in
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
       inputs.nix-xcodes.darwinModules.default
-      inputs.sops-nix.darwinModules.sops
       {
         networking.hostName = "gale";
         home-manager = {

@@ -40,9 +40,7 @@
               old.postInstall;
         });
       };
-    in
-    {
-      inherit lndirOverlay unfreeConfig;
+
       flakeOverlays = [
         inputs.nix-xilinx.overlay
         inputs.firefox-addons.overlays.default
@@ -67,5 +65,48 @@
           config = unfreeConfig;
           overlays = [ piCodingAgentOverlay ];
         };
+
+      # Shared NixOS host builder used by popper/squirrel/zevlor.
+      # Host modules pass name + host-specific modules; common specialArgs and
+      # shared modules (nix-index) are applied here.
+      mkNixosHost =
+        {
+          self,
+          name,
+          system ? "x86_64-linux",
+          username ? "judahf",
+          modules ? [ ],
+        }:
+        inputs.nixpkgs.lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs {
+            inherit system;
+            overlays = flakeOverlays;
+          };
+          specialArgs = {
+            inherit
+              inputs
+              self
+              system
+              username
+              ;
+            inherit (inputs) dotfiles;
+            inherit name;
+            pkgs-unstable = mkUnstablePkgs system;
+          };
+          modules = modules ++ [
+            inputs.nix-index-database.nixosModules.nix-index
+          ];
+        };
+    in
+    {
+      inherit
+        lndirOverlay
+        unfreeConfig
+        flakeOverlays
+        mkPkgs
+        mkUnstablePkgs
+        mkNixosHost
+        ;
     };
 }

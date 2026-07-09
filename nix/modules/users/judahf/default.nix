@@ -8,7 +8,7 @@
     ./agents.nix
     ./identity.nix
     ./darwin-home.nix
-    ./linux-home.nix
+    ./shell-home.nix
     ./pi.nix
   ];
 }

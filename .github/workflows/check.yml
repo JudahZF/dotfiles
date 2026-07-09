@@ -40,6 +40,7 @@ jobs:
         run: |
           cd nix
           nix build .#checks.x86_64-linux.popper --dry-run
+          nix build .#checks.x86_64-linux.squirrel --dry-run
           nix build .#checks.x86_64-linux.zevlor --dry-run
 
   check-darwin:

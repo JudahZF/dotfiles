@@ -30,6 +30,8 @@ lib.mkIf pkgs.stdenv.isLinux {
     ];
   };
 
+  # Personal-machine convenience: passwordless sudo for judahf.
+  # Scope to rebuild/deploy commands if these hosts leave a trusted network.
   security.sudo = {
     enable = true;
     execWheelOnly = true;

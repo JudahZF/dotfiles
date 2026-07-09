@@ -20,7 +20,6 @@
     self.nixosModules.nixos
     self.nixosModules.productivity
     self.nixosModules.security
-    self.nixosModules.secrets
     self.nixosModules.shell
     self.nixosModules.utilities
     inputs.home-manager.nixosModules.home-manager
@@ -78,5 +77,6 @@
     defaultUserShell = pkgs.zsh;
   };
 
+  # Reflects original install (newer than popper/zevlor); do not normalize.
   system.stateVersion = "26.05";
 }

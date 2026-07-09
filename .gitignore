@@ -2,6 +2,9 @@
 **/.DS_Store
 .direnv
 nix/result
+result
+result-*
+$HOME/
 pi/agent/auth.json
 pi/agent/sessions/
 pi/agent/node_modules/

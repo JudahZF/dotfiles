@@ -1,32 +1,75 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+let
+  sharedUtilities = [
+    ../utilities/git/default.nix
+    ../utilities/btop/default.nix
+    ../utilities/comma.nix
+    ../utilities/coreutils.nix
+    ../utilities/curl.nix
+    ../utilities/difftastic.nix
+    ../utilities/dua.nix
+    ../utilities/entr.nix
+    ../utilities/fastfetch/default.nix
+    ../utilities/fd/default.nix
+    ../utilities/fzf/default.nix
+    ../utilities/just.nix
+    ../utilities/ripgrep/default.nix
+    ../utilities/starship/default.nix
+    ../utilities/unzip.nix
+    ../utilities/zip.nix
+    ../utilities/wget.nix
+    ../utilities/zellij.nix
+    ../utilities/zoxide/default.nix
+    ../utilities/legacy-common.nix
+  ];
+
+  sharedDev = [
+    ../dev/ai/default.nix
+    ../dev/bruno.nix
+    ../dev/bootdev-cli.nix
+    ../dev/cmux.nix
+    ../dev/go/default.nix
+    ../dev/rust.nix
+    ../dev/python/default.nix
+    ../dev/node/default.nix
+    ../dev/opentofu.nix
+    ../dev/databases/default.nix
+    ../dev/editors/default.nix
+    ../dev/editors/neovim/module.nix
+    ../dev/zig.nix
+    ../dev/reverse-engineering/default.nix
+    ../dev/utilities/default.nix
+    ../dev/lua/default.nix
+    ../dev/cmake.nix
+    ../dev/postman.nix
+    ../dev/protobuf.nix
+    ../dev/legacy-tools.nix
+  ];
+
+  sharedLibraries = [
+    ../libraries/ffmpeg.nix
+    ../libraries/openssl.nix
+    ../libraries/tree-sitter.nix
+  ];
+
+  sharedShell = [
+    ../shell/bash.nix
+    ../shell/zsh.nix
+  ];
+
+  sharedNixConfig = [
+    ../nix-config/nix.nix
+    ../nix-config/nixpkgs.nix
+  ];
+in
+{
   flake = {
     nixosModules = {
       browsers = {
         imports = [ ../browsers/helium/system.nix ];
       };
       utilities = {
-        imports = [
-          ../utilities/git/default.nix
-          ../utilities/btop/default.nix
-          ../utilities/comma.nix
-          ../utilities/coreutils.nix
-          ../utilities/curl.nix
-          ../utilities/difftastic.nix
-          ../utilities/dua.nix
-          ../utilities/entr.nix
-          ../utilities/fastfetch/default.nix
-          ../utilities/fd/default.nix
-          ../utilities/fzf/default.nix
-          ../utilities/just.nix
-          ../utilities/ripgrep/default.nix
-          ../utilities/starship/default.nix
-          ../utilities/unzip.nix
-          ../utilities/zip.nix
-          ../utilities/wget.nix
-          ../utilities/zellij.nix
-          ../utilities/zoxide/default.nix
-          ../utilities/legacy-common.nix
-        ];
+        imports = sharedUtilities;
       };
       communication = {
         imports = [
@@ -45,48 +88,21 @@
         ];
       };
       dev = {
-        imports = [
-          ../dev/ai/default.nix
-          ../dev/bruno.nix
-          ../dev/bootdev-cli.nix
-          ../dev/cmux.nix
-          ../dev/go/default.nix
-          ../dev/rust.nix
-          ../dev/python/default.nix
-          ../dev/node/default.nix
-          ../dev/opentofu.nix
+        imports = sharedDev ++ [
           ../dev/embedded/default.nix
-          ../dev/databases/default.nix
-          ../dev/editors/default.nix
-          ../dev/editors/neovim/module.nix
-          ../dev/zig.nix
-          ../dev/reverse-engineering/default.nix
-          ../dev/utilities/default.nix
-          ../dev/lua/default.nix
-          ../dev/cmake.nix
-          ../dev/postman.nix
-          ../dev/protobuf.nix
-          ../dev/legacy-tools.nix
         ];
       };
       fonts = import ../fonts/nerd-fonts;
       home-manager-system = import ../home/system-manager.nix;
       libraries = {
-        imports = [
-          ../libraries/ffmpeg.nix
-          ../libraries/openssl.nix
-          ../libraries/tree-sitter.nix
-        ];
+        imports = sharedLibraries;
       };
       neovim = import ../dev/editors/neovim/module.nix;
       networking = {
         imports = [ ../networking/remmina.nix ];
       };
       nix-config = {
-        imports = [
-          ../nix-config/nix.nix
-          ../nix-config/nixpkgs.nix
-        ];
+        imports = sharedNixConfig;
       };
       nixos = {
         imports = [
@@ -126,12 +142,8 @@
       productivity = {
         imports = [ ../productivity/obsidian.nix ];
       };
-      secrets = import ../secrets/sops.nix;
       shell = {
-        imports = [
-          ../shell/bash.nix
-          ../shell/zsh.nix
-        ];
+        imports = sharedShell;
       };
     };
 
@@ -144,28 +156,7 @@
         ];
       };
       utilities = {
-        imports = [
-          ../utilities/git/default.nix
-          ../utilities/btop/default.nix
-          ../utilities/comma.nix
-          ../utilities/coreutils.nix
-          ../utilities/curl.nix
-          ../utilities/difftastic.nix
-          ../utilities/dua.nix
-          ../utilities/entr.nix
-          ../utilities/fastfetch/default.nix
-          ../utilities/fd/default.nix
-          ../utilities/fzf/default.nix
-          ../utilities/just.nix
-          ../utilities/ripgrep/default.nix
-          ../utilities/starship/default.nix
-          ../utilities/unzip.nix
-          ../utilities/zip.nix
-          ../utilities/wget.nix
-          ../utilities/zellij.nix
-          ../utilities/zoxide/default.nix
-          ../utilities/legacy-common.nix
-        ];
+        imports = sharedUtilities;
       };
       communication = {
         imports = [
@@ -240,31 +231,12 @@
         ];
       };
       dev = {
-        imports = [
-          ../dev/ai/default.nix
+        imports = sharedDev ++ [
           ../dev/ai/darwin.nix
-          ../dev/bruno.nix
-          ../dev/bootdev-cli.nix
-          ../dev/cmux.nix
-          ../dev/go/default.nix
-          ../dev/rust.nix
-          ../dev/python/default.nix
-          ../dev/node/default.nix
-          ../dev/opentofu.nix
           ../dev/embedded/embedded.nix
           ../dev/embedded/darwin.nix
-          ../dev/databases/default.nix
           ../dev/databases/datagrip/darwin.nix
           ../dev/dotnet.nix
-          ../dev/editors/default.nix
-          ../dev/editors/neovim/module.nix
-          ../dev/zig.nix
-          ../dev/reverse-engineering/default.nix
-          ../dev/utilities/default.nix
-          ../dev/lua/default.nix
-          ../dev/cmake.nix
-          ../dev/postman.nix
-          ../dev/protobuf.nix
           ../dev/azure-cli.nix
           ../dev/balenaetcher.nix
           ../dev/docker-desktop.nix
@@ -275,7 +247,6 @@
           ../dev/raspberry-pi-imager.nix
           ../dev/utm.nix
           ../dev/xcode.nix
-          ../dev/legacy-tools.nix
         ];
       };
       fonts = import ../fonts/nerd-fonts;
@@ -289,11 +260,7 @@
       };
       home-manager-system = import ../home/system-manager.nix;
       libraries = {
-        imports = [
-          ../libraries/ffmpeg.nix
-          ../libraries/openssl.nix
-          ../libraries/tree-sitter.nix
-        ];
+        imports = sharedLibraries;
       };
       media = {
         imports = [ ../media ];
@@ -313,10 +280,7 @@
         ];
       };
       nix-config = {
-        imports = [
-          ../nix-config/nix.nix
-          ../nix-config/nixpkgs.nix
-        ];
+        imports = sharedNixConfig;
       };
       productivity = {
         imports = [
@@ -339,12 +303,8 @@
           ../security/private-internet-access.nix
         ];
       };
-      secrets = import ../secrets/sops.nix;
       shell = {
-        imports = [
-          ../shell/bash.nix
-          ../shell/zsh.nix
-        ];
+        imports = sharedShell;
       };
     };
 

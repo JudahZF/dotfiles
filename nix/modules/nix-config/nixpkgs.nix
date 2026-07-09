@@ -1,3 +1,4 @@
 _: {
-  # nixpkgs options are configured via the read-only pkgs module in lib/helpers.nix
+  # nixpkgs is configured via mkPkgs / unfreeConfig in flake/systems.nix
+  # and applied per-host through specialArgs / nixpkgs.pkgs.
 }

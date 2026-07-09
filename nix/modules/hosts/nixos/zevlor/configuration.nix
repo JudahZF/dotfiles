@@ -23,7 +23,6 @@
     self.nixosModules.nixos
     self.nixosModules.productivity
     self.nixosModules.security
-    self.nixosModules.secrets
     self.nixosModules.shell
     self.nixosModules.utilities
     ../../../nixos/thrustmaster.nix
@@ -124,5 +123,6 @@
     defaultUserShell = pkgs.zsh;
   };
 
+  # Reflects original install; do not bump with channel upgrades.
   system.stateVersion = "25.05";
 }

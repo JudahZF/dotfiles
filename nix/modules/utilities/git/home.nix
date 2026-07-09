@@ -26,16 +26,7 @@
     enable = true;
     lfs.enable = true;
     ignores = [ ".env" ];
-    signing = {
-      format = "ssh";
-      key = "${config.home.homeDirectory}/.ssh/personal";
-      signByDefault = true;
-    };
     settings = {
-      user = {
-        email = "judah@judahfuller.com";
-        name = "Judah Fuller";
-      };
       diff.tool = "difftastic";
       difftool.prompt = false;
       difftool.difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';

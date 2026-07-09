@@ -27,6 +27,7 @@
         if system == "x86_64-linux" then
           {
             popper = self.nixosConfigurations.popper.config.system.build.toplevel;
+            squirrel = self.nixosConfigurations.squirrel.config.system.build.toplevel;
             zevlor = self.nixosConfigurations.zevlor.config.system.build.toplevel;
           }
         else

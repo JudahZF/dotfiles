@@ -21,7 +21,6 @@
     self.nixosModules.nixos
     self.nixosModules.productivity
     self.nixosModules.security
-    self.nixosModules.secrets
     self.nixosModules.shell
     self.nixosModules.utilities
     inputs.home-manager.nixosModules.home-manager
@@ -108,5 +107,6 @@
 
   users.defaultUserShell = pkgs.zsh;
 
+  # Reflects original install; do not bump with channel upgrades.
   system.stateVersion = "25.05";
 }

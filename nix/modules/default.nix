@@ -15,7 +15,6 @@
     ./networking
     ./nixos
     ./productivity
-    ./secrets
     ./security
     ./shell
     ./utilities
