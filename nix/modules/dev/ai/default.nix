@@ -15,6 +15,7 @@ in
 {
   environment.systemPackages = [
     unstable.claude-code
+    unstable.ccusage
     unstable.codex
     unstable.opencode
     unstable.pi-coding-agent

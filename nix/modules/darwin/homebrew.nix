@@ -33,6 +33,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
         "withgraphite/tap/graphite"
       ];
       casks = [
+        "gcenx/wine/game-porting-toolkit"
         "jackielii/tap/skhd-zig"
         "steipete/tap/codexbar"
         "TheBoredTeam/boring-notch/boring-notch"

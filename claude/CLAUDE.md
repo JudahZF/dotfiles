@@ -8,6 +8,7 @@ When you write or modify code, you must typecheck, lint, and format it before fi
 - If a formatter can fix files directly, run it on the changed files or use the repo's normal format command.
 - If any required check cannot be run, or fails, say so clearly and explain why.
 - In your final response, briefly state which typecheck, lint, and format commands or tools you ran.
+- Do not write unnessacery tests to check things such as if files/functions are removed. Tests should only be used to chekc the functionality of code.
 
 ## Picking Models for Workflows and Subagents
 
