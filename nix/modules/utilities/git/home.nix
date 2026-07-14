@@ -28,6 +28,9 @@
     ignores = [ ".env" ];
     settings = {
       diff.tool = "difftastic";
+      # Decrypted diffs for sops files marked `diff=sops` in .gitattributes.
+      # Only affects `git diff`; missing sops or key never blocks pull/checkout.
+      diff.sops.textconv = "${lib.getExe pkgs.sops} --decrypt";
       difftool.prompt = false;
       difftool.difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
       init.defaultBranch = "main";

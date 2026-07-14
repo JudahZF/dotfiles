@@ -1,6 +1,6 @@
 ---
 name: codex-computer-use
-description: Ask Cursor Agent with GPT-5.5 to verify local app behavior that needs computer use, browser automation, simulators, screenshots, app launching, or independent runtime inspection.
+description: Ask Codex (GPT-5.5) to verify local app behavior that needs computer use, browser automation, simulators, screenshots, app launching, or independent runtime inspection.
 ---
 
 # Codex Computer Use
@@ -17,8 +17,10 @@ Use this skill when testing a flow, verifying UI behavior, inspecting a running 
 ## Command Pattern
 
 ```sh
-agent -p --trust --workspace "$PWD" --model gpt-5.5-high --force "<runtime verification prompt>"
+codex exec -C "$PWD" --sandbox danger-full-access "<runtime verification prompt>"
 ```
+
+Launching apps, driving the browser, and taking screenshots need the full-access sandbox; this matches the machine's `~/.codex/config.toml` default. Keep the prompt inspection-focused unless edits are intentionally part of the task.
 
 ## Prompt Shape
 

@@ -5,6 +5,12 @@ set -u
 repo_root=$(git rev-parse --show-toplevel) || exit 1
 cd "$repo_root" || exit 1
 
+# gitleaks and git-lfs both need the ref list git feeds this hook on stdin,
+# so buffer it once.
+refs_file=$(mktemp) || exit 1
+trap 'rm -f "$refs_file"' EXIT
+cat >"$refs_file"
+
 if ! command -v gitleaks >/dev/null 2>&1; then
   cat >&2 <<'EOF'
 error: gitleaks is required for pre-push secrets scanning but was not found on PATH.
@@ -36,7 +42,7 @@ while IFS=' ' read -r local_ref local_oid remote_ref remote_oid; do
   if ! gitleaks git --redact --no-banner --log-opts="$log_opts" .; then
     status=1
   fi
-done
+done <"$refs_file"
 
 if [ "$had_input" -eq 0 ]; then
   echo "No pre-push input received; scanning HEAD with gitleaks..." >&2
@@ -44,5 +50,22 @@ if [ "$had_input" -eq 0 ]; then
     status=1
   fi
 fi
+
+if [ "$status" -ne 0 ]; then
+  exit "$status"
+fi
+
+# core.hooksPath bypasses the pre-push hook git-lfs installs in .git/hooks,
+# so run it here to upload LFS objects (wallpapers, encrypted blobs) for the
+# pushed refs. Pull/checkout never needs this; only pushing does.
+if ! command -v git-lfs >/dev/null 2>&1; then
+  cat >&2 <<'EOF'
+error: git-lfs is required to push LFS content but was not found on PATH.
+Rebuild/apply this dotfiles configuration so git-lfs is available, then retry.
+EOF
+  exit 1
+fi
+
+git lfs pre-push "$@" <"$refs_file" || status=1
 
 exit "$status"

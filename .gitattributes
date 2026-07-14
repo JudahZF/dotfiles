@@ -1,0 +1,19 @@
+# Wallpapers live in Git LFS (plain, not encrypted).
+# On a machine without git-lfs configured, pull/checkout still works;
+# these files just appear as small LFS pointer files until a rebuild
+# installs git-lfs and `git lfs checkout` (or a fresh pull) fetches them.
+wallpapers/** filter=lfs diff=lfs merge=lfs -text
+
+# sops-encrypted secrets are committed encrypted; no smudge/clean filter,
+# so pulling never depends on sops being installed. `diff=sops` gives
+# decrypted diffs when sops and this machine's age key are available and
+# falls back to a binary diff otherwise.
+secrets/**/*.yaml diff=sops
+secrets/**/*.yml diff=sops
+secrets/**/*.json diff=sops
+secrets/**/*.env diff=sops
+secrets/**/*.ini diff=sops
+
+# Large encrypted blobs: encrypt with sops first (`just secret-encrypt`),
+# then the ciphertext is stored via Git LFS.
+secrets/**/*.enc filter=lfs -text

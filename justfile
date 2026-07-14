@@ -24,9 +24,12 @@ switch: rebuild
 update:
     ./update.sh
 
-# Clean up old generations (7+ days)
-clean:
-    ./clean.sh
+# Update flake inputs, then rebuild and switch
+upgrade: update rebuild
+
+# Clean up old generations (user + system) and optimise the store
+clean days="7":
+    ./clean.sh {{ days }}
 
 # ─────────────────────────────────────────────────────────────
 # Building
@@ -44,7 +47,7 @@ build-darwin host="gale":
 build-host host:
     case "{{ host }}" in \
       gale) nix build {{ flake_dir }}#darwinConfigurations.{{ host }}.config.system.build.toplevel ;; \
-      popper|zevlor|jfpi) nix build {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.build.toplevel ;; \
+      popper|squirrel|zevlor) nix build {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.build.toplevel ;; \
       *) echo "Unknown host: {{ host }}" >&2; exit 1 ;; \
     esac
 
@@ -61,10 +64,6 @@ check-current:
 
 # Run local validation checks
 validate: fmt-check lint-nix check-current
-
-# Build Raspberry Pi SD card image
-build-pi-image:
-    nix build {{ flake_dir }}#images.jfpi
 
 # Build the wrapped Neovim package for the current system
 build-neovim:
@@ -97,7 +96,7 @@ deploy-dry-run host:
 # Restart yabai window manager
 [macos]
 yabai-restart:
-    yabai --restart-service
+    launchctl kickstart -k "gui/$(id -u)/com.koekeishiya.yabai"
 
 # Load yabai scripting addition (requires sudo)
 [macos]
@@ -108,9 +107,13 @@ yabai-load:
 # Utilities
 # ─────────────────────────────────────────────────────────────
 
-# Garbage collect generations older than specified days
-gc days="7":
-    nix-collect-garbage --delete-older-than {{ days }}d
+# Garbage collect (user + system) and optimise; alias for clean
+gc days="7": (clean days)
+
+# Clean Homebrew cache (including downloads) and remove old versions
+[macos]
+brew-clean:
+    ./brew-clean.sh
 
 # Optimize nix store
 optimize:
@@ -145,6 +148,18 @@ fmt-check:
 secrets-scan:
     nix develop {{ flake_dir }} -c gitleaks git --redact --no-banner --baseline-path .gitleaks-baseline.json .
 
+# Create or edit a sops-encrypted secret in $EDITOR (encrypts on save)
+secret-edit file:
+    sops "{{ file }}"
+
+# Encrypt a file with sops; point dest into secrets/ with a .enc suffix so it is stored via git-lfs
+secret-encrypt src dest:
+    sops encrypt --filename-override "{{ dest }}" "{{ src }}" > "{{ dest }}"
+
+# Decrypt a sops-encrypted file
+secret-decrypt src dest:
+    sops decrypt "{{ src }}" > "{{ dest }}"
+
 # Configure this repo to use its local Git hooks immediately
 install-git-hooks:
     git config core.hooksPath .githooks
@@ -161,7 +176,7 @@ nom-build output:
 eval-host host:
     case "{{ host }}" in \
       gale) nix eval {{ flake_dir }}#darwinConfigurations.{{ host }}.config.system.name ;; \
-      popper|zevlor|jfpi) nix eval {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.name ;; \
+      popper|squirrel|zevlor) nix eval {{ flake_dir }}#nixosConfigurations.{{ host }}.config.system.name ;; \
       *) echo "Unknown host: {{ host }}" >&2; exit 1 ;; \
     esac
 
@@ -172,5 +187,5 @@ list-hosts:
     @echo ""
     @echo "NixOS:"
     @echo "  - popper"
+    @echo "  - squirrel"
     @echo "  - zevlor"
-    @echo "  - jfpi"

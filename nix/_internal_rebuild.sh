@@ -18,11 +18,22 @@ show_rebuild_diff() {
 }
 
 if [[ "$OS" == "Darwin" ]]; then
+  domain="gui/$(id -u)"
+
   legacy_skhd_plist="$HOME/Library/LaunchAgents/com.koekeishiya.skhd.plist"
   if [[ -f "$legacy_skhd_plist" ]]; then
     echo "Removing legacy com.koekeishiya.skhd launch agent..."
-    launchctl bootout "gui/$(id -u)/com.koekeishiya.skhd" >/dev/null 2>&1 || true
+    launchctl bootout "$domain/com.koekeishiya.skhd" >/dev/null 2>&1 || true
     rm -f "$legacy_skhd_plist"
+  fi
+
+  # yabai --install-service writes com.asmvik.yabai; nix-darwin manages
+  # com.koekeishiya.yabai. Remove the legacy agent so only one runs at login.
+  legacy_yabai_plist="$HOME/Library/LaunchAgents/com.asmvik.yabai.plist"
+  if [[ -f "$legacy_yabai_plist" ]]; then
+    echo "Removing legacy com.asmvik.yabai launch agent..."
+    launchctl bootout "$domain/com.asmvik.yabai" >/dev/null 2>&1 || true
+    rm -f "$legacy_yabai_plist"
   fi
 
   # macOS

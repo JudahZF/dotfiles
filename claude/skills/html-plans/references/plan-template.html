@@ -1,0 +1,207 @@
+<!doctype html>
+<!--
+  Reference template for the html-plans skill.
+  Adapt structure and content freely; keep the token system, the components,
+  and the "Copy decisions as prompt" round-trip pattern.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auth Migration — Implementation Plan</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #55534e;
+    --line: #e4e1db;
+    --accent: #1f5eff;
+    --accent-soft: #e8eeff;
+    --ok: #1a7f4b;
+    --warn: #b45309;
+    --code-bg: #f1efeb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181c;
+      --surface: #1e2126;
+      --ink: #e8e6e1;
+      --ink-soft: #a09d96;
+      --line: #33373e;
+      --accent: #7da2ff;
+      --accent-soft: #23304d;
+      --ok: #4ade80;
+      --warn: #fbbf24;
+      --code-bg: #14161a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  main { max-width: 72ch; margin: 0 auto; padding: 3rem 1.25rem 6rem; }
+  h1 { font-size: 1.7rem; line-height: 1.25; margin: 0.25rem 0 0; }
+  h2 {
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ink-soft); border-bottom: 1px solid var(--line);
+    padding-bottom: 0.4rem; margin: 3rem 0 1rem;
+  }
+  a { color: var(--accent); }
+  .meta { color: var(--ink-soft); font-size: 0.85rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+  .badge {
+    font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.15rem 0.55rem; border-radius: 99px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .tldr {
+    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0;
+  }
+  .tldr strong { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 0.35rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); }
+  .rec { color: var(--ok); font-weight: 600; }
+  code { background: var(--code-bg); border-radius: 4px; padding: 0.1em 0.35em; font: 0.88em ui-monospace, "SF Mono", Menlo, monospace; }
+  pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1rem; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  details.phase { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; margin: 0.6rem 0; }
+  details.phase > summary {
+    cursor: pointer; padding: 0.75rem 1rem; font-weight: 600; list-style: none;
+    display: flex; gap: 0.6rem; align-items: baseline;
+  }
+  details.phase > summary::before { content: "▸"; color: var(--ink-soft); font-size: 0.8em; }
+  details.phase[open] > summary::before { content: "▾"; }
+  details.phase > summary .hint { font-weight: 400; color: var(--ink-soft); font-size: 0.85rem; }
+  details.phase > .body { padding: 0 1rem 1rem; border-top: 1px solid var(--line); }
+  .oq { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.25rem; margin: 0.75rem 0; }
+  .oq p { margin: 0 0 0.5rem; font-weight: 600; }
+  .oq label { display: block; padding: 0.25rem 0; cursor: pointer; font-size: 0.95rem; }
+  .oq input { accent-color: var(--accent); margin-right: 0.5rem; }
+  .oq textarea {
+    width: 100%; margin-top: 0.4rem; padding: 0.5rem; border: 1px solid var(--line);
+    border-radius: 4px; background: var(--bg); color: var(--ink); font: inherit; font-size: 0.9rem;
+  }
+  #export-btn {
+    margin-top: 1rem; padding: 0.55rem 1.1rem; border: none; border-radius: 6px;
+    background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+  }
+  #export-btn:active { transform: translateY(1px); }
+  .oos { color: var(--ink-soft); }
+  svg text { fill: var(--ink); font: 12px -apple-system, sans-serif; }
+  svg .box { fill: var(--surface); stroke: var(--line); }
+  svg .flow { stroke: var(--accent); fill: none; marker-end: url(#arr); }
+  @media (max-width: 700px) { main { padding: 2rem 1rem 4rem; } th, td { padding: 0.4rem; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="meta">
+      <span class="badge">Proposed</span>
+      <span>2026-07-08</span>
+      <span>repo: example-app</span>
+    </div>
+    <h1>Auth Migration — Implementation Plan</h1>
+  </header>
+
+  <div class="tldr">
+    <strong>TL;DR</strong>
+    Replace the hand-rolled session middleware with library-backed auth in three phases:
+    adapter behind the current interface, dual-write cutover, then removal of legacy code.
+    Zero-downtime; each phase ships independently.
+  </div>
+
+  <h2>Context</h2>
+  <p>
+    Why this work exists, what breaks if we do nothing, and links to the relevant
+    entry points: <code>src/middleware/session.ts</code>, <code>src/routes/login.ts</code>.
+  </p>
+
+  <h2>Constraints</h2>
+  <ul>
+    <li>Existing sessions must survive the cutover.</li>
+    <li>No new runtime dependencies over 50&nbsp;kB.</li>
+  </ul>
+
+  <h2>Approach</h2>
+  <p>For explorations, compare options side-by-side and mark the recommendation:</p>
+  <table>
+    <thead><tr><th>Option</th><th>Pros</th><th>Cons</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>A — Adapter + cutover</td><td>Reversible each phase</td><td>Slower</td><td class="rec">Recommended</td></tr>
+      <tr><td>B — Big-bang swap</td><td>Fast</td><td>Risky rollback</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Data flow</h2>
+  <!-- Inline SVG where flow/position carries meaning. Keep it simple and legible. -->
+  <svg viewBox="0 0 560 90" role="img" aria-label="Request flow diagram" style="max-width:100%">
+    <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="currentColor" style="fill: var(--accent)"/></marker></defs>
+    <rect class="box" x="10" y="25" width="120" height="40" rx="6"/><text x="70" y="49" text-anchor="middle">Request</text>
+    <rect class="box" x="220" y="25" width="120" height="40" rx="6"/><text x="280" y="49" text-anchor="middle">Auth adapter</text>
+    <rect class="box" x="430" y="25" width="120" height="40" rx="6"/><text x="490" y="49" text-anchor="middle">Handler</text>
+    <path class="flow" d="M130 45 H218"/><path class="flow" d="M340 45 H428"/>
+  </svg>
+
+  <h2>Implementation phases</h2>
+  <details class="phase" open>
+    <summary>Phase 1 — Adapter <span class="hint">~2 days · ships alone</span></summary>
+    <div class="body">
+      <ul>
+        <li><code>src/auth/adapter.ts</code> — new interface wrapping the current session store.</li>
+        <li><code>src/middleware/session.ts</code> — route through the adapter, behavior unchanged.</li>
+      </ul>
+      <p><strong>Verify:</strong> existing session tests pass unchanged; manual login round-trip.</p>
+    </div>
+  </details>
+  <details class="phase">
+    <summary>Phase 2 — Dual-write cutover <span class="hint">~3 days</span></summary>
+    <div class="body"><p>…file-level steps and verification…</p></div>
+  </details>
+
+  <h2>Open questions</h2>
+  <div id="questions">
+    <div class="oq" data-q="Session TTL after migration">
+      <p>Session TTL after migration?</p>
+      <label><input type="radio" name="q1" value="Keep 30 days"> Keep 30 days (current)</label>
+      <label><input type="radio" name="q1" value="Drop to 7 days"> Drop to 7 days</label>
+    </div>
+    <div class="oq" data-q="Anything else">
+      <p>Anything else to adjust?</p>
+      <textarea rows="2" placeholder="Free-form notes…"></textarea>
+    </div>
+  </div>
+  <button id="export-btn" type="button">Copy decisions as prompt</button>
+
+  <h2>Out of scope</h2>
+  <p class="oos">SSO, MFA enrollment UI — considered and deferred to a follow-up plan.</p>
+</main>
+
+<script>
+  // Round-trip: serialize the reader's answers into a pasteable prompt.
+  document.getElementById("export-btn").addEventListener("click", () => {
+    const lines = ["Decisions on the auth migration plan:"];
+    document.querySelectorAll("#questions .oq").forEach((q) => {
+      const name = q.dataset.q;
+      const checked = q.querySelector("input:checked");
+      const text = q.querySelector("textarea");
+      if (checked) lines.push(`- ${name}: ${checked.value}`);
+      if (text && text.value.trim()) lines.push(`- ${name}: ${text.value.trim()}`);
+    });
+    const out = lines.join("\n");
+    navigator.clipboard.writeText(out).then(() => {
+      const btn = document.getElementById("export-btn");
+      const prev = btn.textContent;
+      btn.textContent = "Copied ✓";
+      setTimeout(() => { btn.textContent = prev; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>

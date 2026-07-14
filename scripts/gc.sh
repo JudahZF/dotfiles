@@ -5,7 +5,7 @@
 # @raycast.mode fullOutput
 # @raycast.icon 🗑️
 # @raycast.packageName Dotfiles
-# @raycast.description Garbage collect old generations
+# @raycast.description Garbage collect old generations (user + system) and optimise
 # @raycast.needsConfirmation true
 # @raycast.argument1 { "type": "text", "placeholder": "days (default: 7)", "optional": true }
 

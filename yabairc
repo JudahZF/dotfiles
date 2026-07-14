@@ -47,7 +47,7 @@ yabai -m rule --add app="^Disk Utility$" manage=off
 yabai -m rule --add app="^Installer$" manage=off
 yabai -m rule --add app="^1Password$" manage=off
 yabai -m rule --add app="^App Store$" manage=off
-yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^Raycast( Beta)?$" manage=off
 
 # ============================================
 # Signals
@@ -56,6 +56,8 @@ yabai -m rule --add app="^Raycast$" manage=off
 # Ghostty: Re-apply BSP layout on tab create/destroy to prevent tiling issues
 yabai -m signal --add app='^Ghostty$' event=window_created   action='yabai -m space --layout bsp'
 yabai -m signal --add app='^Ghostty$' event=window_destroyed action='yabai -m space --layout bsp'
-yabai -m signal --add event=space_changed action="nohup open -g raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background > /dev/null 2>&1 &"
+# Only refresh the Raycast menu bar extension if Raycast is already running,
+# otherwise `open` relaunches Raycast after the user quits it
+yabai -m signal --add event=space_changed action="pgrep -xq 'Raycast( Beta)?' && nohup open -g 'raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background' > /dev/null 2>&1 &"
 
 echo "yabai configuration loaded.."

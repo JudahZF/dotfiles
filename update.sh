@@ -22,6 +22,6 @@ else
   exit 1
 fi
 
-log_info "Update process completed successfully. Please rebuild."
+log_info "Update process completed successfully."
 
 exit 0

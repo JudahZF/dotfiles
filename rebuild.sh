@@ -21,7 +21,7 @@ OS=$(uname -s)
 if bash "$SCRIPT_DIR/nix/_internal_rebuild.sh"; then
   log_info "Internal rebuild executed successfully."
 else
-  log_info "Internal rebuild failed"
+  log_error "Internal rebuild failed"
   exit 1
 fi
 
@@ -35,10 +35,28 @@ if [[ "$OS" == "Darwin" ]]; then
   fi
 
   log_info "Restarting yabai service..."
-  if yabai --restart-service; then
+  if launchctl kickstart -k "gui/$(id -u)/com.koekeishiya.yabai"; then
     log_info "yabai service restarted successfully."
   else
     log_error "Failed to restart yabai service."
+  fi
+fi
+
+# Reclaim space from old generations and package caches after a successful switch.
+log_info "Running post-rebuild cleanup..."
+if bash "$SCRIPT_DIR/clean.sh"; then
+  log_info "Nix cleanup completed successfully."
+else
+  log_error "Nix cleanup failed."
+  exit 1
+fi
+
+if [[ "$OS" == "Darwin" ]]; then
+  if bash "$SCRIPT_DIR/brew-clean.sh"; then
+    log_info "Homebrew cleanup completed successfully."
+  else
+    log_error "Homebrew cleanup failed."
+    exit 1
   fi
 fi
 

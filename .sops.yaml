@@ -1,7 +1,10 @@
+# age recipients. The personal key lives at ~/.config/sops/age/keys.txt on
+# each machine (SOPS_AGE_KEY_FILE); to grant a new key access, add it here
+# and run `sops updatekeys` on existing secrets.
 keys:
   - &judahf_personal age1atspa66spctj4w93knzvt7f8llu9fydy5xg9dgfd673d9qvrz3rs7nt5gy
 creation_rules:
-  - path_regex: secrets/[^/]+(\.(yaml|json|env|ini))?$
+  - path_regex: ^secrets/.*\.(yaml|yml|json|env|ini|enc)$
     key_groups:
       - age:
           - *judahf_personal

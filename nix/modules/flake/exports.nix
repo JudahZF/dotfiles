@@ -137,6 +137,7 @@ in
         imports = [
           ../security/linux.nix
           ../security/onepassword/nixos.nix
+          ../security/sops/default.nix
         ];
       };
       productivity = {
@@ -301,6 +302,7 @@ in
           ../security/malwarebytes.nix
           ../security/onepassword/darwin.nix
           ../security/private-internet-access.nix
+          ../security/sops/default.nix
         ];
       };
       shell = {
@@ -345,7 +347,10 @@ in
       };
       neovim = import ../dev/editors/neovim/module.nix;
       security = {
-        imports = [ ../security/onepassword/home.nix ];
+        imports = [
+          ../security/onepassword/home.nix
+          ../security/sops/home.nix
+        ];
       };
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;
