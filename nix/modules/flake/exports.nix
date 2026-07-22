@@ -135,6 +135,7 @@ in
       };
       security = {
         imports = [
+          inputs.sops-nix.nixosModules.sops
           ../security/linux.nix
           ../security/onepassword/nixos.nix
           ../security/sops/default.nix
@@ -299,6 +300,7 @@ in
       };
       security = {
         imports = [
+          inputs.sops-nix.darwinModules.sops
           ../security/malwarebytes.nix
           ../security/onepassword/darwin.nix
           ../security/private-internet-access.nix
