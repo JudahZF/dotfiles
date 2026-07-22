@@ -6,6 +6,7 @@ let
   version = "0.0.29-nightly.20260703.715";
   releaseUrl = "https://github.com/pingdotgg/t3code/releases/download/v${version}";
   codexPath = lib.makeBinPath [ pkgs.codex ];
+  serverRelativePath = "app.asar.unpacked/apps/server/dist/bin.mjs";
 
   commonMeta = {
     description = "T3 Code nightly desktop app";
@@ -71,6 +72,10 @@ let
       if [ -f ${appimageContents}/.DirIcon ]; then
         install -Dm444 ${appimageContents}/.DirIcon "$out/share/pixmaps/${pname}.png"
       fi
+
+      makeWrapper "$out/bin/${pname}" "$out/bin/${pname}-server" \
+        --set ELECTRON_RUN_AS_NODE 1 \
+        --add-flags "${appimageContents}/resources/${serverRelativePath}"
     '';
 
     meta = commonMeta;
@@ -116,6 +121,10 @@ let
         "$out/Applications/${darwinAppName}/Contents/MacOS/${darwinExecutable}" \
         "$out/bin/${pname}" \
         --prefix PATH : "${codexPath}"
+
+      makeWrapper "$out/bin/${pname}" "$out/bin/${pname}-server" \
+        --set ELECTRON_RUN_AS_NODE 1 \
+        --add-flags "'$out/Applications/${darwinAppName}/Contents/Resources/${serverRelativePath}'"
 
       runHook postInstall
     '';
