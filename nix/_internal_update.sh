@@ -12,4 +12,5 @@ if [[ -n "$token" ]]; then
   export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG$'\n'}extra-access-tokens = github.com=$token"
 fi
 
+bash "$SCRIPT_DIR/update-t3code.sh"
 nix flake update --flake "$FLAKE_REF"
