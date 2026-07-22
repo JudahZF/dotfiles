@@ -34,7 +34,12 @@ let
   };
 in
 lib.mkMerge [
-  { services.tailscale.enable = true; }
+  {
+    services.tailscale = {
+      enable = true;
+      extraSetFlags = [ "--operator=judahf" ];
+    };
+  }
   (lib.mkIf hasAuthKey {
     sops = {
       useSystemdActivation = true;

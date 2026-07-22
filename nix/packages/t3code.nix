@@ -3,9 +3,10 @@
 # Upstream t3code-nix tracks stable releases; delete this when it exposes nightly.
 let
   pname = "t3code";
-  version = "0.0.29-nightly.20260703.715";
+  version = "0.0.29-nightly.20260722.872";
   releaseUrl = "https://github.com/pingdotgg/t3code/releases/download/v${version}";
   codexPath = lib.makeBinPath [ pkgs.codex ];
+  serverRelativePath = "app.asar.unpacked/apps/server/dist/bin.mjs";
 
   commonMeta = {
     description = "T3 Code nightly desktop app";
@@ -24,7 +25,7 @@ let
 
   linuxSrc = pkgs.fetchurl {
     url = "${releaseUrl}/T3-Code-${version}-x86_64.AppImage";
-    hash = "sha256-m4sFqZkY20PNOFfkwF65OHFSEwVtrVSzYaba+n1OTs0=";
+    hash = "sha256:e93a4846d3093d725714c2a29cc7ece935be93c72f05ba11a733c284e1628f0d";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 {
@@ -71,6 +72,10 @@ let
       if [ -f ${appimageContents}/.DirIcon ]; then
         install -Dm444 ${appimageContents}/.DirIcon "$out/share/pixmaps/${pname}.png"
       fi
+
+      makeWrapper "$out/bin/${pname}" "$out/bin/${pname}-server" \
+        --set ELECTRON_RUN_AS_NODE 1 \
+        --add-flags "${appimageContents}/resources/${serverRelativePath}"
     '';
 
     meta = commonMeta;
@@ -85,9 +90,9 @@ let
       "T3-Code-${version}-x64.zip";
   darwinHash =
     if pkgs.stdenv.hostPlatform.isAarch64 then
-      "sha256-yJ7thK0oSJL08JOVox0h3jKbeClYskSSSSWaoCduo98="
+      "sha256:ac62b0e864849570d0331c7d5b19e672676331a1a6ce2a6e7100bac548b6b587"
     else
-      "sha256-0F31lK2fAIX4ZwFMH9MCYgIRNpLnroLUWiw3if8s7vU=";
+      "sha256:4e75888f16ea4f23abd412f96c544a02b78194627edc9551dc742a156ad3cd37";
 
   darwinPackage = pkgs.stdenvNoCC.mkDerivation {
     inherit pname version;
@@ -116,6 +121,10 @@ let
         "$out/Applications/${darwinAppName}/Contents/MacOS/${darwinExecutable}" \
         "$out/bin/${pname}" \
         --prefix PATH : "${codexPath}"
+
+      makeWrapper "$out/bin/${pname}" "$out/bin/${pname}-server" \
+        --set ELECTRON_RUN_AS_NODE 1 \
+        --add-flags "'$out/Applications/${darwinAppName}/Contents/Resources/${serverRelativePath}'"
 
       runHook postInstall
     '';

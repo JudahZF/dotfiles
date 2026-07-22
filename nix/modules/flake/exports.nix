@@ -89,6 +89,7 @@ in
       };
       dev = {
         imports = sharedDev ++ [
+          ../dev/ai/linux.nix
           ../dev/embedded/default.nix
         ];
       };
