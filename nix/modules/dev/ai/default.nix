@@ -28,9 +28,9 @@ in
 
   # Explicitly opt into skipping Claude Code permission prompts.
   environment.shellAliases = {
-    cc-yolo = "claude --dangerously-skip-permissions";
+    cl = "claude --dangerously-skip-permissions";
 
     # Sol remains the default; per-call subagents route Haiku to Luna and Sonnet to Terra.
-    claudex = "ANTHROPIC_BASE_URL=http://127.0.0.1:8317 ANTHROPIC_AUTH_TOKEN=sk-localhost ANTHROPIC_DEFAULT_FABLE_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-5.6-terra ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-5.6-luna CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-terra CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 CLAUDE_CODE_MAX_RETRIES=2 ENABLE_TOOL_SEARCH=false claude --model gpt-5.6-sol --dangerously-skip-permissions";
+    cx = "ANTHROPIC_BASE_URL=http://127.0.0.1:8317 ANTHROPIC_AUTH_TOKEN=sk-localhost ANTHROPIC_DEFAULT_FABLE_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-5.6-terra ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-5.6-luna CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-terra CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 CLAUDE_CODE_MAX_RETRIES=2 ENABLE_TOOL_SEARCH=false claude --model gpt-5.6-sol --dangerously-skip-permissions";
   };
 }

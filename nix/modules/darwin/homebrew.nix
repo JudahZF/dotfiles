@@ -15,6 +15,7 @@ let
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "jackielii/homebrew-tap" = inputs.homebrew-jackielii-tap;
     "koekeishiya/homebrew-formulae" = inputs.homebrew-koekeishiya-formulae;
+    "jundot/homebrew-omlx" = inputs.homebrew-omlx;
     "samtay/homebrew-tui" = inputs.homebrew-samtay-tui;
     "steipete/homebrew-tap" = inputs.homebrew-steipete-tap;
     "TheBoredTeam/homebrew-boring-notch" = inputs.homebrew-boring-notch;
@@ -29,6 +30,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
     trust = {
       formulae = [
         "FiloSottile/musl-cross/musl-cross"
+        "jundot/omlx/omlx"
         "samtay/tui/tetris"
         "withgraphite/tap/graphite"
       ];

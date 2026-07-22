@@ -386,6 +386,22 @@
         "type": "github"
       }
     },
+    "homebrew-omlx": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784648450,
+        "narHash": "sha256-H7DIjRvf4TA5gplizDwqdRMOmfoFqSBPLyBzcnBDcXE=",
+        "owner": "jundot",
+        "repo": "omlx",
+        "rev": "c1eb14a99318cd68f36fc6b0e064a600ac5d4346",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jundot",
+        "repo": "omlx",
+        "type": "github"
+      }
+    },
     "homebrew-samtay-tui": {
       "flake": false,
       "locked": {
@@ -787,6 +803,7 @@
         "homebrew-gcenx-wine": "homebrew-gcenx-wine",
         "homebrew-jackielii-tap": "homebrew-jackielii-tap",
         "homebrew-koekeishiya-formulae": "homebrew-koekeishiya-formulae",
+        "homebrew-omlx": "homebrew-omlx",
         "homebrew-samtay-tui": "homebrew-samtay-tui",
         "homebrew-steipete-tap": "homebrew-steipete-tap",
         "homebrew-withgraphite-tap": "homebrew-withgraphite-tap",

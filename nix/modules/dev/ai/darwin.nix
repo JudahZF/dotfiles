@@ -1,16 +1,29 @@
-{ config, username, ... }:
 {
+  config,
+  username,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  locallyUncensored = import ../../../packages/locally-uncensored.nix { inherit pkgs lib; };
+in
+{
+  environment.systemPackages = [ locallyUncensored ];
+
   homebrew = {
-    brews = [ "cliproxyapi" ];
+    brews = [
+      "cliproxyapi"
+      "jundot/omlx/omlx"
+    ];
     casks = [
       "cursor"
       "cursor-cli"
       "codex"
       "codex-app"
-      # Disabled because the upstream Homebrew cask currently points at a 404
-      # ToDesktop build URL, which makes `darwin-rebuild switch` fail.
-      # "comfyui"
+      "comfy"
       "lm-studio"
+      "ollama-app"
       "steipete/tap/codexbar"
     ];
   };

@@ -1,5 +1,7 @@
 # Dotfiles Agent Instructions
 
+Any reqeust to install applications should be done via nix or homebrew-nix unless unavaliable.
+
 ## Repository Management
 
 - This repo manages machine configuration through Nix and Home Manager.
@@ -21,14 +23,9 @@ Use Fable as the main orchestrator for planning, architecture, user-facing APIs,
 
 Use cheaper models for bounded mechanical work, log/PDF/spec reading, broad investigation, computer-use verification, and independent review. For shippable work, prioritize intelligence, then taste, then cost.
 
-| model    | cost | intelligence | taste |
-| -------- | ---- | ------------ | ----- |
-| gpt-5.6  | 9    | 8            | 5     |
-| sonnet-5 | 5    | 5            | 7     |
-| opus-4.8 | 4    | 6            | 8     |
-| fable-5  | 2    | 9            | 9     |
-| grok-4.5 | 2    | 7            | 6     |
-
-## Goal Mode
-
-Theo-style long-running goal mode is opt-in only. Only close PRs, merge branches, rebase, or run until completion when the user explicitly grants that permission in the prompt.
+| model       | cost | intelligence | taste |
+| ----------- | ---- | ------------ | ----- |
+| gpt-5.6-sol | 9    | 8            | 5     |
+| sonnet-5    | 5    | 5            | 7     |
+| opus-4.8    | 4    | 7            | 8     |
+| fable-5     | 2    | 9            | 9     |
