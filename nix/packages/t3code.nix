@@ -90,7 +90,7 @@ let
       "T3-Code-${version}-x64.zip";
   darwinHash =
     if pkgs.stdenv.hostPlatform.isAarch64 then
-      "sha256:ac62b0e864849570d0331c7d5b19e672676331a1a6ce2a6e7100bac548b6b587"
+      "sha256-a5rLEmt0Ml4WmVSeHdRUN0LCHxuMlCSDmsp9hwHeLI4="
     else
       "sha256:4e75888f16ea4f23abd412f96c544a02b78194627edc9551dc742a156ad3cd37";
 

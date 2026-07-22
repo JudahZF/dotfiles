@@ -5,7 +5,7 @@
 - This repo manages machine configuration through Nix and Home Manager.
 - Do not edit generated home files directly when a source exists in this repo.
 - Pi agent configuration is managed from `pi/agent`, not directly in `~/.pi/agent`.
-- Respect the dirty worktree. Never revert unrelated user changes.
+- Never rg in /nix/store
 
 ## Verification
 
