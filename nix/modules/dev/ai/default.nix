@@ -11,6 +11,7 @@ let
   t3codeNightly = import ../../../packages/t3code.nix { inherit pkgs lib; };
   clawhub = import ../../../packages/clawhub.nix { inherit pkgs lib; };
   clawpack-cli = import ../../../packages/clawpack-cli.nix { inherit pkgs lib; };
+  postplan = import ../../../packages/postplan.nix { inherit pkgs lib; };
 in
 {
   environment.systemPackages = [
@@ -22,6 +23,7 @@ in
     unstable.prettier
     clawhub
     clawpack-cli
+    postplan
     pkgs.ollama
   ]
   ++ lib.optional t3codeNightlySupported t3codeNightly;

@@ -91,6 +91,10 @@
     background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
   }
   #export-btn:active { transform: translateY(1px); }
+  .no-script {
+    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--warn);
+    border-radius: 6px; padding: 0.75rem 1rem; color: var(--ink-soft);
+  }
   .oos { color: var(--ink-soft); }
   svg text { fill: var(--ink); font: 12px -apple-system, sans-serif; }
   svg .box { fill: var(--surface); stroke: var(--line); }
@@ -166,6 +170,12 @@
   </details>
 
   <h2>Open questions</h2>
+  <noscript>
+    <p class="no-script">
+      Interactive decision export is unavailable in this viewer. Reply with each question and
+      your selected option in plain text instead.
+    </p>
+  </noscript>
   <div id="questions">
     <div class="oq" data-q="Session TTL after migration">
       <p>Session TTL after migration?</p>
