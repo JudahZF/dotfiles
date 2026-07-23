@@ -4,8 +4,12 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 PACKAGE="$SCRIPT_DIR/packages/t3code.nix"
 RELEASES="https://api.github.com/repos/pingdotgg/t3code/releases?per_page=20"
+curl_args=(--connect-timeout 15 --max-time 60 --retry 3 --retry-all-errors --fail --silent --show-error --location)
+if [[ -n ${NIX_GITHUB_TOKEN:-} ]]; then
+  curl_args+=(-H "Authorization: Bearer $NIX_GITHUB_TOKEN")
+fi
 
-release=$(curl -fsSL "$RELEASES" | jq -er 'first(.[] | select(.prerelease and (.tag_name | contains("-nightly."))))')
+release=$(curl "${curl_args[@]}" "$RELEASES" | jq -er 'first(.[] | select(.prerelease and (.tag_name | contains("-nightly."))))')
 version=$(jq -r '.tag_name | ltrimstr("v")' <<<"$release")
 current=$(sed -n 's/^  version = "\([^"]*\)";/\1/p' "$PACKAGE")
 

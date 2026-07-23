@@ -58,6 +58,7 @@ in
       inputs.nix-xcodes.darwinModules.default
       {
         networking.hostName = "gale";
+        services.dotfilesAutoUpdate.enable = true;
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;

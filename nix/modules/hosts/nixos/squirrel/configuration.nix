@@ -25,6 +25,8 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  services.dotfilesAutoUpdate.enable = true;
+
   networking.hostName = "squirrel";
 
   home-manager = {

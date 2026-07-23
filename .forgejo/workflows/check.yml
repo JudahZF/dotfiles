@@ -1,0 +1,71 @@
+name: Flake Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: nix-linux
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check repository quality
+        run: |
+          nix develop ./nix -c bash -euo pipefail -c '
+            nixfmt --check nix
+            statix check nix
+            deadnix --fail nix
+            gitleaks git --redact --no-banner --baseline-path .gitleaks-baseline.json .
+          '
+
+  check-linux:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: nix-linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check NixOS configurations
+        run: |
+          nix build --dry-run \
+            ./nix#checks.x86_64-linux.popper \
+            ./nix#checks.x86_64-linux.squirrel \
+            ./nix#checks.x86_64-linux.zevlor
+
+  check-darwin-eval:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: nix-linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Evaluate gale configuration closure
+        run: nix build ./nix#checks.aarch64-darwin.gale --dry-run
+
+  required-gate:
+    name: Required gate
+    if: always()
+    needs:
+      - quality
+      - check-linux
+      - check-darwin-eval
+    runs-on: nix-linux
+    steps:
+      - name: Require all checks
+        env:
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          LINUX_RESULT: ${{ needs.check-linux.result }}
+          DARWIN_RESULT: ${{ needs.check-darwin-eval.result }}
+        run: |
+          test "$QUALITY_RESULT" = success
+          test "$LINUX_RESULT" = success
+          test "$DARWIN_RESULT" = success

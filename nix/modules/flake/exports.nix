@@ -111,6 +111,7 @@ in
           ../nixos/bluetooth.nix
           ../nixos/bootloader.nix
           ../nixos/docker.nix
+          ../nixos/dotfiles-auto-update.nix
           ../nixos/electron-wayland.nix
           ../nixos/filesystems/btrfs.nix
           ../nixos/firmware.nix
@@ -173,6 +174,7 @@ in
           ../darwin/activation.nix
           ../darwin/defaults.nix
           ../darwin/dock.nix
+          ../darwin/dotfiles-auto-update.nix
           ../darwin/finder.nix
           ../darwin/homebrew.nix
           ../darwin/keyboard.nix
