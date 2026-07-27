@@ -1,16 +1,12 @@
 {
-  config,
-  dotfiles,
   pkgs,
   pkgs-unstable ? null,
   lib,
-  username,
   ...
 }:
 let
   unstable = if pkgs-unstable != null then pkgs-unstable else pkgs;
-  cliapiToken = config.sops.secrets.cliapi-auth-token.path;
-  cliapiEnv = ''ANTHROPIC_BASE_URL=https://cliprox.tabby-ilish.ts.net ANTHROPIC_AUTH_TOKEN=sk'';
+  cliapiEnv = "ANTHROPIC_BASE_URL=https://cliprox.tabby-ilish.ts.net ANTHROPIC_AUTH_TOKEN=sk";
   t3codeNightlySupported =
     pkgs.stdenv.isDarwin || (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64);
   t3codeNightly = import ../../../packages/t3code.nix { inherit pkgs lib; };
@@ -19,14 +15,6 @@ let
   postplan = import ../../../packages/postplan.nix { inherit pkgs lib; };
 in
 {
-  sops.secrets.cliapi-auth-token = {
-    sopsFile = dotfiles + "/secrets/cliapi.yaml";
-    key = "auth_token";
-    owner = username;
-    group = if pkgs.stdenv.isDarwin then "staff" else "users";
-    mode = "0400";
-  };
-
   environment.systemPackages = [
     unstable.claude-code
     unstable.ccusage
