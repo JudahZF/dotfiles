@@ -9,7 +9,6 @@ lib.mkIf pkgs.stdenv.isLinux {
     enable = true;
     settings = {
       AllowUsers = [ "judahf" ];
-      GSSAPIAuthentication = false;
       KbdInteractiveAuthentication = false;
       PasswordAuthentication = false;
       PermitEmptyPasswords = false;
