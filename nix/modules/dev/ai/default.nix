@@ -1,11 +1,16 @@
 {
+  config,
+  dotfiles,
   pkgs,
   pkgs-unstable ? null,
   lib,
+  username,
   ...
 }:
 let
   unstable = if pkgs-unstable != null then pkgs-unstable else pkgs;
+  cliapiToken = config.sops.secrets.cliapi-auth-token.path;
+  cliapiEnv = ''ANTHROPIC_BASE_URL=https://cliprox.tabby-ilish.ts.net ANTHROPIC_AUTH_TOKEN=sk'';
   t3codeNightlySupported =
     pkgs.stdenv.isDarwin || (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64);
   t3codeNightly = import ../../../packages/t3code.nix { inherit pkgs lib; };
@@ -13,6 +18,14 @@ let
   clawpack-cli = import ../../../packages/clawpack-cli.nix { inherit pkgs lib; };
 in
 {
+  sops.secrets.cliapi-auth-token = {
+    sopsFile = dotfiles + "/secrets/cliapi.yaml";
+    key = "auth_token";
+    owner = username;
+    group = if pkgs.stdenv.isDarwin then "staff" else "users";
+    mode = "0400";
+  };
+
   environment.systemPackages = [
     unstable.claude-code
     unstable.ccusage
@@ -28,9 +41,9 @@ in
 
   # Explicitly opt into skipping Claude Code permission prompts.
   environment.shellAliases = {
-    cl = "claude --dangerously-skip-permissions";
+    cl = "${cliapiEnv} claude --dangerously-skip-permissions";
 
     # Sol remains the default; per-call subagents route Haiku to Luna and Sonnet to Terra.
-    cx = "ANTHROPIC_BASE_URL=http://127.0.0.1:8317 ANTHROPIC_AUTH_TOKEN=sk-localhost ANTHROPIC_DEFAULT_FABLE_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-5.6-terra ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-5.6-luna CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-terra CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 CLAUDE_CODE_MAX_CONTEXT_TOKENS=372000 CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 CLAUDE_CODE_MAX_RETRIES=2 ENABLE_TOOL_SEARCH=false claude --model gpt-5.6-sol --dangerously-skip-permissions";
+    cx = "${cliapiEnv} ANTHROPIC_DEFAULT_FABLE_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-5.6-sol ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-5.6-terra ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-5.6-luna CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-terra CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 CLAUDE_CODE_MAX_CONTEXT_TOKENS=372000 CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 CLAUDE_CODE_MAX_RETRIES=2 ENABLE_TOOL_SEARCH=false claude --model gpt-5.6-sol --dangerously-skip-permissions";
   };
 }

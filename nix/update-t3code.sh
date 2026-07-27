@@ -33,10 +33,10 @@ awk \
   -v x64_hash="$x64_hash" \
   '
     /^  version = "/ { sub(/"[^"]+"/, "\"" version "\"") }
-    /hash = "sha256/ {
+    /"sha256-/ {
       hashes++
       replacement = hashes == 1 ? linux_hash : hashes == 2 ? arm64_hash : x64_hash
-      sub(/sha256[^\"]+/, replacement)
+      sub(/sha256-[^"]+/, replacement)
     }
     { print }
     END { if (hashes != 3) exit 1 }
