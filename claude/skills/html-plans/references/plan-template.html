@@ -86,11 +86,24 @@
     width: 100%; margin-top: 0.4rem; padding: 0.5rem; border: 1px solid var(--line);
     border-radius: 4px; background: var(--bg); color: var(--ink); font: inherit; font-size: 0.9rem;
   }
+  /* Progressive enhancement: the fallback shows and the button hides until the
+     script runs. Gating on a class rather than <noscript> also covers viewers
+     that have scripting enabled but block execution via CSP — Postplan serves
+     drafts under `script-src 'none'`, where <noscript> never renders. */
   #export-btn {
+    display: none;
     margin-top: 1rem; padding: 0.55rem 1.1rem; border: none; border-radius: 6px;
     background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
   }
   #export-btn:active { transform: translateY(1px); }
+  .no-script {
+    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--warn);
+    border-radius: 6px; padding: 0.75rem 1rem; color: var(--ink-soft); margin: 1rem 0 0;
+  }
+  .no-script p { margin: 0 0 0.5rem; }
+  .no-script pre { margin: 0.5rem 0 0; background: var(--code-bg); font-size: 0.85rem; }
+  .scripted #export-btn { display: inline-block; }
+  .scripted .no-script { display: none; }
   .oos { color: var(--ink-soft); }
   svg text { fill: var(--ink); font: 12px -apple-system, sans-serif; }
   svg .box { fill: var(--surface); stroke: var(--line); }
@@ -178,12 +191,27 @@
     </div>
   </div>
   <button id="export-btn" type="button">Copy decisions as prompt</button>
+  <!-- Shown whenever the export script did not run: scripting off, or blocked
+       by CSP. Must restate the questions so the round-trip still works. -->
+  <div class="no-script">
+    <p>
+      The copy button needs JavaScript, which this viewer does not run. The questions
+      still round-trip — reply with this, keeping only your chosen option on each line:
+    </p>
+    <pre><code>Decisions on the auth migration plan:
+- Session TTL after migration: Keep 30 days | Drop to 7 days
+- Anything else: &lt;free-form notes, or "none"&gt;</code></pre>
+  </div>
 
   <h2>Out of scope</h2>
   <p class="oos">SSO, MFA enrollment UI — considered and deferred to a follow-up plan.</p>
 </main>
 
 <script>
+  // Reveals the button and hides the static fallback. If this line never runs
+  // — scripting disabled, or CSP blocking execution — the fallback stays.
+  document.documentElement.classList.add("scripted");
+
   // Round-trip: serialize the reader's answers into a pasteable prompt.
   document.getElementById("export-btn").addEventListener("click", () => {
     const lines = ["Decisions on the auth migration plan:"];
