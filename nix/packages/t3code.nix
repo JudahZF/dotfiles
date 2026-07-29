@@ -45,6 +45,10 @@ let
         cp -r ${appimageContents}/usr/share/* "$out/share/"
       fi
 
+      # The server entry point re-runs this binary as plain node, which rejects the
+      # Chromium flags the GUI wrapper adds; keep an unflagged launcher for it.
+      cp "$out/bin/${pname}" "$out/bin/.${pname}-base"
+
       desktop_file="$(find "$out/share" -type f -name '*.desktop' | head -n 1 || true)"
       if [ -z "$desktop_file" ]; then
         desktop_source="$(find ${appimageContents} -maxdepth 2 -type f -name '*.desktop' | head -n 1 || true)"
@@ -66,15 +70,17 @@ let
         wrapProgram "$out/bin/${pname}" \
           --set CHROME_DESKTOP "$desktop_basename" \
           --prefix XDG_DATA_DIRS : "$out/share" \
-          --prefix PATH : "${codexPath}"
+          --prefix PATH : "${codexPath}" \
+          --add-flags "--password-store=gnome-libsecret"
       fi
 
       if [ -f ${appimageContents}/.DirIcon ]; then
         install -Dm444 ${appimageContents}/.DirIcon "$out/share/pixmaps/${pname}.png"
       fi
 
-      makeWrapper "$out/bin/${pname}" "$out/bin/${pname}-server" \
+      makeWrapper "$out/bin/.${pname}-base" "$out/bin/${pname}-server" \
         --set ELECTRON_RUN_AS_NODE 1 \
+        --prefix PATH : "${codexPath}" \
         --add-flags "${appimageContents}/resources/${serverRelativePath}"
     '';
 
