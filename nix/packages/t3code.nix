@@ -3,7 +3,7 @@
 # Upstream t3code-nix tracks stable releases; delete this when it exposes nightly.
 let
   pname = "t3code";
-  version = "0.0.31-nightly.20260729.942";
+  version = "0.0.32-nightly.20260730.953";
   releaseUrl = "https://github.com/pingdotgg/t3code/releases/download/v${version}";
   codexPath = lib.makeBinPath [ pkgs.codex ];
   serverRelativePath = "app.asar.unpacked/apps/server/dist/bin.mjs";
@@ -25,7 +25,7 @@ let
 
   linuxSrc = pkgs.fetchurl {
     url = "${releaseUrl}/T3-Code-${version}-x86_64.AppImage";
-    hash = "sha256-AYeDPdbYXZhjv9ESg0nKgQ2T7gdpvb4TEfRxqW42nK0=";
+    hash = "sha256-sveOEetQeKUpYeEtS8b6OEq4WXU1SnwcXJNIbgMAWUc=";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 {
@@ -96,9 +96,9 @@ let
       "T3-Code-${version}-x64.zip";
   darwinHash =
     if pkgs.stdenv.hostPlatform.isAarch64 then
-      "sha256-oZoVIlH4JeK+r+GZpzbejyVwIaeuzPAkE2w73BlZdms="
+      "sha256-p9MaLAZpjRw00xK2Z2DXr3thoi6HPblveHQxNpMQ86g="
     else
-      "sha256-eIolLo0+Bo/KHLz97pOS+8sqm9JvIo/uosOuMWdTsjw=";
+      "sha256-XrQoyAKzVDw132tbI7Xy4b+VT3M5s/xQ3p0wzg8tH9g=";
 
   darwinPackage = pkgs.stdenvNoCC.mkDerivation {
     inherit pname version;
