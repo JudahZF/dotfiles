@@ -142,7 +142,7 @@
     };
 
     nvf = {
-      url = "github:JudahZF/nvf/telescope_gitFiles";
+      url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

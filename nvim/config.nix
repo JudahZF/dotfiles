@@ -29,8 +29,7 @@
       python.enable = true;
       rust.enable = true;
       sql.enable = true;
-      tailwind.enable = true;
-      ts.enable = true;
+      typescript.enable = true;
       yaml.enable = true;
       zig.enable = true;
     };
@@ -158,6 +157,7 @@
 
     lsp = {
       enable = true;
+      presets.tailwindcss-language-server.enable = true;
       trouble = {
         enable = true;
         mappings = {
