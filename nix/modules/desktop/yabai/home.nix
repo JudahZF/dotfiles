@@ -6,7 +6,7 @@
 }:
 lib.mkIf (pkgs.stdenv.isDarwin && dotfiles != null) {
   home.file.".yabairc" = {
-    source = "${dotfiles}/yabairc";
+    source = "${dotfiles}/config/yabairc";
     executable = true;
   };
 

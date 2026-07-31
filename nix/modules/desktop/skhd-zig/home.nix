@@ -5,5 +5,5 @@
   ...
 }:
 lib.mkIf (pkgs.stdenv.isDarwin && dotfiles != null) {
-  home.file.".skhdrc".source = "${dotfiles}/skhdrc";
+  home.file.".skhdrc".source = "${dotfiles}/config/skhdrc";
 }
