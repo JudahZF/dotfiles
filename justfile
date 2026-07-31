@@ -13,23 +13,71 @@ default:
 # Basic Operations
 # ─────────────────────────────────────────────────────────────
 
-# Rebuild and switch to new configuration
+# Rebuild and switch, then clean up old generations and caches
 rebuild:
-    ./rebuild.sh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    old_system=$(readlink -f /run/current-system 2>/dev/null || true)
+    case "$(uname -s)" in
+      Darwin)
+        # yabai --install-service writes com.asmvik.yabai; nix-darwin manages
+        # com.koekeishiya.yabai. Remove legacy agents so only one runs at login.
+        domain="gui/$(id -u)"
+        for label in com.koekeishiya.skhd com.asmvik.yabai; do
+          plist="$HOME/Library/LaunchAgents/$label.plist"
+          if [[ -f "$plist" ]]; then
+            echo "Removing legacy $label launch agent..."
+            launchctl bootout "$domain/$label" >/dev/null 2>&1 || true
+            rm -f "$plist"
+          fi
+        done
+        sudo -H darwin-rebuild switch --flake {{ flake_dir }} --max-jobs auto --cores 0
+        ;;
+      Linux)
+        sudo -H nixos-rebuild switch --flake {{ flake_dir }} --max-jobs auto --cores 0
+        ;;
+      *)
+        echo "Unsupported operating system: $(uname -s)" >&2
+        exit 1
+        ;;
+    esac
+    new_system=$(readlink -f /run/current-system 2>/dev/null || true)
+    if command -v nvd >/dev/null 2>&1 && [[ -n "$old_system" && -n "$new_system" && "$old_system" != "$new_system" ]]; then
+      nvd diff "$old_system" "$new_system" || true
+    fi
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+      sudo yabai --load-sa
+      launchctl kickstart -k "gui/$(id -u)/com.koekeishiya.yabai"
+      just brew-clean
+    fi
+    just clean
+    fastfetch || true
 
 # Alias for rebuild
 switch: rebuild
 
-# Update flake inputs
+# Update flake inputs (including the pinned T3 Code release)
 update:
-    ./update.sh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    token="${GITHUB_TOKEN:-${GH_TOKEN:-}}"
+    if [[ -z "$token" ]] && command -v gh >/dev/null; then
+      token=$(gh auth token --hostname github.com 2>/dev/null || true)
+    fi
+    if [[ -n "$token" ]]; then
+      export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG$'\n'}extra-access-tokens = github.com=$token"
+    fi
+    bash {{ flake_dir }}/update-t3code.sh
+    nix flake update --flake {{ flake_dir }}
 
 # Update flake inputs, then rebuild and switch
 upgrade: update rebuild
 
 # Clean up old generations (user + system) and optimise the store
 clean days="7":
-    ./clean.sh {{ days }}
+    nix-collect-garbage --delete-older-than "{{ days }}d"
+    sudo nix-collect-garbage --delete-older-than "{{ days }}d"
+    sudo nix store optimise -v
 
 # ─────────────────────────────────────────────────────────────
 # Building
@@ -103,6 +151,26 @@ yabai-restart:
 yabai-load:
     sudo yabai --load-sa
 
+# Stop or start the yabai window manager (login auto-start unaffected)
+[macos]
+yabai-toggle action="toggle":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # yabai --start/--stop/--restart-service target com.asmvik.yabai (from
+    # `yabai --install-service`). Drive launchctl against the nix-darwin agent.
+    LABEL=com.koekeishiya.yabai
+    PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
+    DOMAIN="gui/$(id -u)"
+    start() { launchctl bootstrap "$DOMAIN" "$PLIST"; echo "yabai started"; }
+    stop() { launchctl bootout "$DOMAIN/$LABEL"; echo "yabai stopped"; }
+    case "{{ action }}" in
+      start) start ;;
+      stop) stop ;;
+      restart) launchctl kickstart -k "$DOMAIN/$LABEL"; echo "yabai restarted" ;;
+      toggle) if pgrep -xq yabai; then stop; else start; fi ;;
+      *) echo "usage: just yabai-toggle [start|stop|restart|toggle]" >&2; exit 1 ;;
+    esac
+
 # ─────────────────────────────────────────────────────────────
 # Utilities
 # ─────────────────────────────────────────────────────────────
@@ -113,7 +181,20 @@ gc days="7": (clean days)
 # Clean Homebrew cache (including downloads) and remove old versions
 [macos]
 brew-clean:
-    ./brew-clean.sh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ! command -v brew >/dev/null 2>&1; then
+      echo "Homebrew (brew) not found on PATH." >&2
+      exit 1
+    fi
+    cache_dir="$(brew --cache)"
+    echo "Cache before: $(du -sh "$cache_dir" 2>/dev/null | awk '{print $1}') (${cache_dir})"
+    brew autoremove --quiet || true
+    brew cleanup -s -v
+    # Wipe the full Homebrew cache (including downloads for installed
+    # formulae/casks). Safe: only removes cached archives; next brew
+    # install/upgrade will re-download.
+    rm -rf -- "${cache_dir}"
 
 # Optimize nix store
 optimize:
