@@ -14,20 +14,30 @@
     enable = true;
     gc = {
       automatic = true;
-      options = "--delete-older-than 14d";
+      options = "--delete-older-than 7d";
     }
     // lib.optionalAttrs pkgs.stdenv.isLinux {
       dates = "weekly";
       randomizedDelaySec = "1h";
     }
     // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      # Daily, since a weekly 3 AM slot is usually missed while the machine
+      # sleeps. launchd runs missed jobs on wake.
       interval = {
-        Weekday = 0;
         Hour = 3;
         Minute = 15;
       };
     };
-    optimise.automatic = true;
+    optimise = {
+      automatic = true;
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      # Daily, an hour after gc (see above).
+      interval = {
+        Hour = 4;
+        Minute = 15;
+      };
+    };
     settings = {
       experimental-features = [
         "nix-command"

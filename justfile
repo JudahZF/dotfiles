@@ -74,10 +74,29 @@ update:
 upgrade: update rebuild
 
 # Clean up old generations (user + system) and optimise the store
-clean days="7":
+clean days="7": prune-direnv
     nix-collect-garbage --delete-older-than "{{ days }}d"
     sudo nix-collect-garbage --delete-older-than "{{ days }}d"
     sudo nix store optimise -v
+
+# Remove direnv GC roots for projects not entered in `days` days (recreated on re-entry)
+prune-direnv days="30":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    pruned=0
+    for root in /nix/var/nix/gcroots/auto/*; do
+      target=$(readlink "$root" 2>/dev/null) || continue
+      case "$target" in
+        */.direnv/*)
+          # Skip roots that already dangle (GC will collect them) and roots
+          # touched within the window. mtime updates when direnv reloads.
+          if [[ -e "$target" ]] && [[ -z "$(find "$target" -maxdepth 0 -mtime -"{{ days }}" 2>/dev/null)" ]]; then
+            rm -f "$target" && pruned=$((pruned + 1))
+          fi
+          ;;
+      esac
+    done
+    echo "Pruned $pruned stale direnv root(s) (older than {{ days }}d)"
 
 # ─────────────────────────────────────────────────────────────
 # Building
