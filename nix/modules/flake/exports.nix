@@ -238,6 +238,7 @@ in
           ../dev/ai/darwin.nix
           ../dev/embedded/embedded.nix
           ../dev/embedded/darwin.nix
+          ../dev/embedded/openxc7.nix
           ../dev/databases/datagrip/darwin.nix
           ../dev/dotnet.nix
           ../dev/azure-cli.nix
