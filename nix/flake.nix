@@ -136,6 +136,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Open-source FPGA toolchain for Xilinx 7-series (yosys + nextpnr-xilinx).
+    # Deliberately does not follow our nixpkgs so store hashes match any
+    # upstream binary cache for the expensive chipdb builds.
+    openxc7.url = "github:openXC7/toolchain-nix";
+
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
