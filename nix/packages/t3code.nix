@@ -6,7 +6,9 @@ let
   version = "0.0.32-nightly.20260803.986";
   releaseUrl = "https://github.com/pingdotgg/t3code/releases/download/v${version}";
   codexPath = lib.makeBinPath [ pkgs.codex ];
-  serverRelativePath = "app.asar.unpacked/apps/server/dist/bin.mjs";
+  # Since 0.0.32 the server entry ships inside app.asar; Electron resolves
+  # modules through asar paths transparently.
+  serverRelativePath = "app.asar/apps/server/dist/bin.mjs";
 
   commonMeta = {
     description = "T3 Code nightly desktop app";
