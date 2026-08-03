@@ -105,11 +105,6 @@
       flake = false;
     };
 
-    homebrew-omlx = {
-      url = "github:jundot/omlx";
-      flake = false;
-    };
-
     homebrew-samtay-tui = {
       url = "github:samtay/homebrew-tui";
       flake = false;

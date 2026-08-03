@@ -25,7 +25,6 @@ in
     clawhub
     clawpack-cli
     postplan
-    pkgs.ollama
   ]
   ++ lib.optional t3codeNightlySupported t3codeNightly;
 
