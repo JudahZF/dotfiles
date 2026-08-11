@@ -206,6 +206,7 @@ in
         imports = [
           ../design/affinity.nix
           ../design/autodesk-fusion.nix
+          ../design/bambustudio.nix
           ../design/gimp.nix
           ../design/kicad.nix
           ../design/orcaslicer.nix
@@ -241,7 +242,6 @@ in
           ../dev/embedded/openxc7.nix
           ../dev/databases/datagrip/darwin.nix
           ../dev/dotnet.nix
-          ../dev/azure-cli.nix
           ../dev/balenaetcher.nix
           ../dev/docker-desktop.nix
           ../dev/graphite.nix
