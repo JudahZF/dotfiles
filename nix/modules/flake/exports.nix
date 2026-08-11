@@ -76,6 +76,7 @@ in
           ../communication/discord.nix
           ../communication/meshtastic.nix
           ../communication/signal.nix
+          ../communication/teams.nix
         ];
       };
       desktop = {
