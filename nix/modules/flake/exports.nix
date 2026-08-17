@@ -295,6 +295,7 @@ in
           ../productivity/home-assistant-companion.nix
           ../productivity/keka.nix
           ../productivity/microsoft-office.nix
+          ../productivity/notion.nix
           ../productivity/numbers.nix
           ../productivity/obsidian.nix
           ../productivity/quicklook.nix
