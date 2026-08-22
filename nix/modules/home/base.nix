@@ -1,1 +1,0 @@
-_: { home.enableNixpkgsReleaseCheck = false; }

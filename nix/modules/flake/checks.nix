@@ -8,8 +8,9 @@
       checks = {
         judah-neovim = self.packages.${system}.judah-neovim;
 
+        # nixfmt 1.4 deprecates directory arguments, so pass an explicit file list.
         nixfmt = pkgs.runCommand "nixfmt-check" { } ''
-          ${pkgs.nixfmt}/bin/nixfmt --check ${src}/nix
+          find ${src}/nix -type f -name '*.nix' -exec ${pkgs.nixfmt}/bin/nixfmt --check {} +
           touch $out
         '';
 

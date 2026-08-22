@@ -3,6 +3,10 @@ I'm Judah and you are my AI agent. We will be working together quite a bit, so I
 I'm a tech enthusiest and developer, I love building technical systems to solve problems efficently and effectively.
 Here are some of my preferences when working so we can be an effective team.
 
+# Communication preferences
+
+- Talk to me in Simplified Technical English (STE): use clear, concise sentences, consistent terminology, and plain language.
+
 # General coding preferences
 
 - Keep It Simple Stupid (KISS!). Chanel yagni unless told otherwise.

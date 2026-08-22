@@ -17,11 +17,12 @@ Below are my feelings about each of the models you can use for subagents and wor
 
 | model         | cost | intelligence | taste | perseverance |
 | ------------- | ---- | ------------ | ----- | ------------ |
-| gpt-5.6-sol   | 8    | 8            | 5     | 9            |
-| gpt-5.6-terra | 9    | 4            | 4     | 5            |
-| sonnet 5      | 6    | 5            | 6     | 6            |
-| opus 5        | 5    | 7            | 7     | 8            |
-| fable 5       | 4    | 9            | 9     | 7            |
+| gpt-5.6-sol   | 6    | 8            | 5     | 9            |
+| gpt-5.6-terra | 7    | 5            | 4     | 5            |
+| gpt-5.6-luna  | 9    | 2            | 1     | 2            |
+| sonnet 5      | 5    | 4            | 3     | 3            |
+| opus 5        | 4    | 7            | 7     | 8            |
+| fable 5       | 3    | 9            | 9     | 7            |
 
 Cost reflects the cost on this machine, not public list price.
 Intelligence represents how hard a problem the model can handle mostly unsupervised.

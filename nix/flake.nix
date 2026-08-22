@@ -7,7 +7,6 @@
       flake = false;
     };
 
-    elephant.url = "github:abenz1267/elephant";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     firefox-addons = {
@@ -40,20 +39,12 @@
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
-    custom-packages = {
-      url = "git+https://codeberg.org/JudahZF/nix-packages.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     brew-src = {
       url = "github:Homebrew/brew/6.0.16";
       flake = false;
     };
 
-    nix-homebrew = {
-      url = "github:zhaofengli/nix-homebrew";
-      inputs.brew-src.follows = "brew-src";
-    };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
@@ -146,10 +137,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    walker = {
-      url = "github:abenz1267/walker";
-      inputs.elephant.follows = "elephant";
-    };
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };

@@ -1,363 +1,162 @@
 { inputs, ... }:
 let
-  sharedUtilities = [
-    ../utilities/git/default.nix
-    ../utilities/btop/default.nix
-    ../utilities/comma.nix
-    ../utilities/coreutils.nix
-    ../utilities/curl.nix
-    ../utilities/difftastic.nix
-    ../utilities/dua.nix
-    ../utilities/entr.nix
-    ../utilities/fastfetch/default.nix
-    ../utilities/fd/default.nix
-    ../utilities/fzf/default.nix
-    ../utilities/just.nix
-    ../utilities/ripgrep/default.nix
-    ../utilities/starship/default.nix
-    ../utilities/unzip.nix
-    ../utilities/zip.nix
-    ../utilities/wget.nix
-    ../utilities/zellij.nix
-    ../utilities/zoxide/default.nix
-    ../utilities/legacy-common.nix
-  ];
-
+  # Modules shared by every host, regardless of platform. Platform-specific
+  # additions live in the nixosModules/darwinModules attrsets below.
   sharedDev = [
     ../dev/ai/default.nix
-    ../dev/bruno.nix
-    ../dev/bootdev-cli.nix
-    ../dev/cmux.nix
-    ../dev/go/default.nix
-    ../dev/rust.nix
-    ../dev/python/default.nix
-    ../dev/node/default.nix
-    ../dev/opentofu.nix
-    ../dev/databases/default.nix
-    ../dev/editors/default.nix
+    ../dev/languages.nix
+    ../dev/tools.nix
     ../dev/editors/neovim/module.nix
-    ../dev/zig.nix
-    ../dev/reverse-engineering/default.nix
-    ../dev/utilities/default.nix
-    ../dev/lua/default.nix
-    ../dev/cmake.nix
-    ../dev/postman.nix
-    ../dev/protobuf.nix
-    ../dev/legacy-tools.nix
-  ];
-
-  sharedLibraries = [
-    ../libraries/ffmpeg.nix
-    ../libraries/openssl.nix
-    ../libraries/tree-sitter.nix
-  ];
-
-  sharedShell = [
-    ../shell/bash.nix
-    ../shell/zsh.nix
-  ];
-
-  sharedNixConfig = [
-    ../nix-config/nix.nix
-    ../nix-config/nixpkgs.nix
   ];
 in
 {
   flake = {
     nixosModules = {
-      browsers = {
-        imports = [ ../browsers/helium/system.nix ];
-      };
-      utilities = {
-        imports = sharedUtilities;
-      };
-      communication = {
-        imports = [
-          ../communication/discord.nix
-          ../communication/meshtastic.nix
-          ../communication/signal.nix
-          ../communication/teams.nix
-        ];
-      };
-      desktop = {
-        imports = [
-          ../desktop/plasma.nix
-          ../desktop/grim.nix
-          ../desktop/niri/system.nix
-          ../desktop/login.nix
-          ../desktop/noctalia/system.nix
-        ];
-      };
-      dev = {
-        imports = sharedDev ++ [
-          ../dev/ai/linux.nix
-          ../dev/embedded/default.nix
-        ];
-      };
-      fonts = import ../fonts/nerd-fonts;
+      browsers.imports = [ ../browsers/default.nix ];
+      communication.imports = [
+        ../communication/default.nix
+        ../communication/discord.nix
+      ];
+      desktop.imports = [
+        ../desktop/plasma.nix
+        ../desktop/grim.nix
+        ../desktop/niri/system.nix
+        ../desktop/noctalia/system.nix
+      ];
+      dev.imports = sharedDev ++ [
+        ../dev/ai/linux.nix
+        ../dev/embedded/default.nix
+      ];
+      fonts = import ../fonts;
       home-manager-system = import ../home/system-manager.nix;
-      libraries = {
-        imports = sharedLibraries;
-      };
+      libraries = import ../libraries;
       neovim = import ../dev/editors/neovim/module.nix;
-      networking = {
-        imports = [ ../networking/remmina.nix ];
-      };
-      nix-config = {
-        imports = sharedNixConfig;
-      };
-      nixos = {
-        imports = [
-          ../nixos/audio.nix
-          ../nixos/bluetooth.nix
-          ../nixos/bootloader.nix
-          ../nixos/docker.nix
-          ../nixos/electron-wayland.nix
-          ../nixos/filesystems/btrfs.nix
-          ../nixos/firmware.nix
-          ../nixos/fwupd.nix
-          ../nixos/hardware-health.nix
-          ../nixos/kernel.nix
-          ../nixos/localisation.nix
-          ../nixos/network.nix
-          (
-            {
-              pkgs,
-              lib,
-              ...
-            }:
-            lib.mkIf pkgs.stdenv.isLinux {
-              environment.systemPackages = [ pkgs.powertop ];
-              powerManagement.powertop.enable = true;
-            }
-          )
-          ../nixos/ssh.nix
-          ../networking/tailscale/system.nix
-        ];
-      };
-      security = {
-        imports = [
-          inputs.sops-nix.nixosModules.sops
-          ../security/linux.nix
-          ../security/onepassword/nixos.nix
-          ../security/sops/default.nix
-        ];
-      };
-      productivity = {
-        imports = [ ../productivity/obsidian.nix ];
-      };
-      shell = {
-        imports = sharedShell;
-      };
+      networking.imports = [ ../networking/default.nix ];
+      nix-config = import ../nix-config;
+      nixos.imports = [
+        ../nixos/audio.nix
+        ../nixos/bluetooth.nix
+        ../nixos/bootloader.nix
+        ../nixos/docker.nix
+        ../nixos/dotfiles-auto-update.nix
+        ../nixos/electron-wayland.nix
+        ../nixos/filesystems/btrfs.nix
+        ../nixos/firmware.nix
+        ../nixos/fwupd.nix
+        ../nixos/hardware-health.nix
+        ../nixos/kernel.nix
+        ../nixos/localisation.nix
+        ../nixos/network.nix
+        ../nixos/power.nix
+        ../nixos/ssh.nix
+        ../networking/tailscale/system.nix
+      ];
+      productivity = import ../productivity;
+      security.imports = [
+        inputs.sops-nix.nixosModules.sops
+        ../security/linux.nix
+        ../security/onepassword/nixos.nix
+        ../security/sops/default.nix
+      ];
+      shell = import ../shell;
+      utilities = import ../utilities;
     };
 
     darwinModules = {
-      browsers = {
-        imports = [
-          ../browsers/helium/darwin.nix
-          ../browsers/safari
-          ../browsers/zen/system.nix
-        ];
-      };
-      utilities = {
-        imports = sharedUtilities;
-      };
-      communication = {
-        imports = [
-          ../communication/discord.nix
-          ../communication/signal-darwin.nix
-          ../communication/whatsapp.nix
-        ];
-      };
-      darwin = {
-        imports = [
-          ../darwin/activation.nix
-          ../darwin/defaults.nix
-          ../darwin/dock.nix
-          ../darwin/finder.nix
-          ../darwin/homebrew.nix
-          ../darwin/keyboard.nix
-          (_: {
-            # macOS can publish Apple/ICU locale identifiers such as
-            # en-GB-u-ca-gregory-co-standard-cu-gbp-fw-mon-hc-h23-ms-uksystem-tz-gblon.
-            # Bash/GNU tools from Nix do not understand that form and warn before shell
-            # startup files can correct it, so set a POSIX locale in launchd too.
-            launchd.user.envVariables = {
-              LANG = "en_GB.UTF-8";
-              LC_ALL = "en_GB.UTF-8";
-            };
-
-            environment.variables = {
-              LANG = "en_GB.UTF-8";
-              LC_ALL = "en_GB.UTF-8";
-            };
-          })
-          ../darwin/login.nix
-          ../darwin/mouse.nix
-          ../darwin/screen_capture.nix
-          ../darwin/security.nix
-          ../darwin/updates.nix
-          ../darwin/user.nix
-          ../darwin/window_manager.nix
-          inputs.home-manager.darwinModules.home-manager
-          inputs.nix-index-database.darwinModules.nix-index
-        ];
-      };
-      design = {
-        imports = [
-          ../design/affinity.nix
-          ../design/autodesk-fusion.nix
-          ../design/bambustudio.nix
-          ../design/gimp.nix
-          ../design/kicad.nix
-          ../design/orcaslicer.nix
-          ../design/pika.nix
-          ../design/sketch.nix
-        ];
-      };
-      desktop = {
-        imports = [
-          ../desktop/aldente.nix
-          ../desktop/alt-tab.nix
-          ../desktop/amphetamine.nix
-          ../desktop/bartender.nix
-          ../desktop/betterdisplay.nix
-          ../desktop/bleunlock.nix
-          ../desktop/boring-notch.nix
-          ../desktop/displaperture.nix
-          ../desktop/ghostty.nix
-          ../desktop/hiddenbar.nix
-          ../desktop/hyperkey.nix
-          ../desktop/macmon.nix
-          ../desktop/raycast.nix
-          ../desktop/skhd-zig/system.nix
-          ../desktop/stats.nix
-          ../desktop/yabai/system.nix
-        ];
-      };
-      dev = {
-        imports = sharedDev ++ [
-          ../dev/ai/darwin.nix
-          ../dev/embedded/embedded.nix
-          ../dev/embedded/darwin.nix
-          ../dev/embedded/openxc7.nix
-          ../dev/databases/datagrip/darwin.nix
-          ../dev/dotnet.nix
-          ../dev/balenaetcher.nix
-          ../dev/docker-desktop.nix
-          ../dev/graphite.nix
-          ../dev/mas.nix
-          ../dev/mqttx.nix
-          ../dev/musl-cross.nix
-          ../dev/raspberry-pi-imager.nix
-          ../dev/utm.nix
-          ../dev/xcode.nix
-        ];
-      };
-      fonts = import ../fonts/nerd-fonts;
-      gaming = {
-        imports = [
-          ../gaming/game-porting-toolkit.nix
-          ../gaming/minecraft.nix
-          ../gaming/steam.nix
-          ../gaming/tetris.nix
-        ];
-      };
+      browsers.imports = [ ../browsers/darwin.nix ];
+      communication.imports = [
+        ../communication/claude.nix
+        ../communication/darwin.nix
+        ../communication/discord.nix
+      ];
+      darwin.imports = [
+        ../darwin/activation.nix
+        ../darwin/defaults.nix
+        ../darwin/dock.nix
+        ../darwin/dotfiles-auto-update.nix
+        ../darwin/finder.nix
+        ../darwin/homebrew.nix
+        ../darwin/keyboard.nix
+        ../darwin/locale.nix
+        ../darwin/login.nix
+        ../darwin/mouse.nix
+        ../darwin/screen_capture.nix
+        ../darwin/security.nix
+        ../darwin/updates.nix
+        ../darwin/user.nix
+        ../darwin/window_manager.nix
+        inputs.home-manager.darwinModules.home-manager
+        inputs.nix-index-database.darwinModules.nix-index
+      ];
+      design = import ../design;
+      desktop.imports = [
+        ../desktop/aldente.nix
+        ../desktop/darwin.nix
+        ../desktop/skhd-zig/system.nix
+        ../desktop/yabai/system.nix
+      ];
+      dev.imports = sharedDev ++ [
+        ../dev/ai/darwin.nix
+        ../dev/darwin.nix
+        ../dev/embedded/embedded.nix
+        ../dev/xcode.nix
+      ];
+      fonts = import ../fonts;
+      gaming.imports = [
+        ../gaming/default.nix
+        ../gaming/steam.nix
+      ];
       home-manager-system = import ../home/system-manager.nix;
-      libraries = {
-        imports = sharedLibraries;
-      };
-      media = {
-        imports = [ ../media ];
-      };
+      libraries = import ../libraries;
+      media = import ../media;
       neovim = import ../dev/editors/neovim/module.nix;
-      networking = {
-        imports = [
-          ../networking/angry-ip-scanner.nix
-          ../networking/barrier.nix
-          ../networking/nomachine.nix
-          ../networking/remmina.nix
-          ../networking/tailscale/darwin.nix
-          ../networking/unifi-identity-endpoint.nix
-          ../networking/wifiman.nix
-          ../networking/windows-app.nix
-          ../networking/wireshark-app.nix
-        ];
-      };
-      nix-config = {
-        imports = sharedNixConfig;
-      };
-      productivity = {
-        imports = [
-          ../productivity/daisydisk.nix
-          ../productivity/dropbox.nix
-          ../productivity/granola.nix
-          ../productivity/home-assistant-companion.nix
-          ../productivity/keka.nix
-          ../productivity/microsoft-office.nix
-          ../productivity/notion.nix
-          ../productivity/numbers.nix
-          ../productivity/obsidian.nix
-          ../productivity/quicklook.nix
-          ../productivity/wispr-flow.nix
-        ];
-      };
-      security = {
-        imports = [
-          inputs.sops-nix.darwinModules.sops
-          ../security/malwarebytes.nix
-          ../security/onepassword/darwin.nix
-          ../security/private-internet-access.nix
-          ../security/sops/default.nix
-        ];
-      };
-      shell = {
-        imports = sharedShell;
-      };
+      networking.imports = [
+        ../networking/default.nix
+        ../networking/darwin.nix
+        ../networking/tailscale/darwin.nix
+      ];
+      nix-config = import ../nix-config;
+      productivity.imports = [
+        ../productivity/darwin.nix
+        ../productivity/default.nix
+      ];
+      security.imports = [
+        inputs.sops-nix.darwinModules.sops
+        ../security/darwin.nix
+        ../security/onepassword/darwin.nix
+        ../security/sops/default.nix
+      ];
+      shell = import ../shell;
+      utilities = import ../utilities;
     };
 
     homeModules = {
-      browsers = {
-        imports = [ ../browsers/zen/home.nix ];
-      };
-      utilities = {
-        imports = [
-          ../utilities/atuin.nix
-          ../utilities/bat.nix
-          ../utilities/btop/home.nix
-          ../utilities/direnv.nix
-          ../utilities/eza.nix
-          ../utilities/fastfetch/home.nix
-          ../utilities/fd/home.nix
-          ../utilities/fzf/home.nix
-          ../utilities/git/home.nix
-          ../utilities/ripgrep/home.nix
-          ../utilities/ssh.nix
-          ../utilities/starship/home.nix
-          ../utilities/yazi.nix
-          ../utilities/zoxide/home.nix
-        ];
-      };
-      desktop = {
-        imports = [ ../desktop/noctalia/home.nix ];
-      };
-      home = {
-        imports = [
-          ../home/base.nix
-          ../home/session-path.nix
-          ../home/state-version.nix
-        ];
-      };
-      media = {
-        imports = [ ];
-      };
+      browsers = import ../browsers/home.nix;
+      desktop.imports = [ ../desktop/noctalia/home.nix ];
+      home = import ../home;
+      media.imports = [ ];
       neovim = import ../dev/editors/neovim/module.nix;
-      security = {
-        imports = [
-          ../security/onepassword/home.nix
-          ../security/sops/home.nix
-        ];
-      };
+      security.imports = [
+        ../security/onepassword/home.nix
+        ../security/sops/home.nix
+      ];
+      utilities.imports = [
+        ../utilities/atuin.nix
+        ../utilities/bat.nix
+        ../utilities/btop.nix
+        ../utilities/direnv.nix
+        ../utilities/eza.nix
+        ../utilities/fastfetch.nix
+        ../utilities/fd.nix
+        ../utilities/fzf.nix
+        ../utilities/git.nix
+        ../utilities/ripgrep.nix
+        ../utilities/ssh.nix
+        ../utilities/starship.nix
+        ../utilities/yazi.nix
+        ../utilities/zoxide.nix
+      ];
+
       user-judahf = import ../users/judahf;
       user-richf = import ../users/richf;
       user-beckf = import ../users/beckf;

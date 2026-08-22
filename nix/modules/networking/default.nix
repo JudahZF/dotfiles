@@ -1,1 +1,1 @@
-_: { }
+{ pkgs, ... }: { environment.systemPackages = [ pkgs.remmina ]; }

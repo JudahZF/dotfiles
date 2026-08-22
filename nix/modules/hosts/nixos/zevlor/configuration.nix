@@ -29,6 +29,11 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  services.dotfilesAutoUpdate = {
+    enable = true;
+    interval = null;
+  };
+
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];

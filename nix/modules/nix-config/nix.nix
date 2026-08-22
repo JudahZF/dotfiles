@@ -48,7 +48,6 @@
         "https://noctalia.cachix.org"
       ];
       trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWzR0w7WEKfFHwBgmAwFQ7RGVy9zM="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
       trusted-users = [

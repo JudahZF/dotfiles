@@ -1,24 +1,10 @@
 { lib, ... }: {
+  # Flake-level modules only. Category modules (browsers, desktop, utilities, …)
+  # are not imported here; they are exposed as nixosModules/darwinModules/homeModules
+  # via ./flake/exports.nix and pulled in per host.
   imports = [
     ./flake
-    ./browsers
-    ./communication
-    ./darwin
-    ./design
-    ./desktop
     ./dev
-    ./fonts
-    ./gaming
-    ./home
-    ./libraries
-    ./nix-config
-    ./networking
-    ./nixos
-    ./productivity
-    ./security
-    ./shell
-    ./utilities
-    ./users
     ./hosts/darwin/gale
     ./hosts/nixos/popper
     ./hosts/nixos/squirrel

@@ -26,6 +26,8 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  services.dotfilesAutoUpdate.enable = true;
+
   # GPU (Intel QuickSync)
   boot.kernelParams = [
     "i915.fastboot=1"
