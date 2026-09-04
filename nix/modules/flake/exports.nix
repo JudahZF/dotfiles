@@ -16,6 +16,7 @@ in
       communication.imports = [
         ../communication/default.nix
         ../communication/discord.nix
+        ../communication/teams.nix
       ];
       desktop.imports = [
         ../desktop/plasma.nix
