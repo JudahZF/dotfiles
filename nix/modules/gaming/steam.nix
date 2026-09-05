@@ -33,7 +33,7 @@ in
     source = lib.getExe pkgs.bubblewrap;
     owner = "root";
     group = "root";
-    permissions = "0755";
+    permissions = "u+rx,g+rx,o+rx";
     setuid = lib.mkForce false;
   };
 
