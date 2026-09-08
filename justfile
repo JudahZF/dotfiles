@@ -3,7 +3,7 @@
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-flake_dir := "./nix"
+flake_dir := justfile_directory() / "nix"
 
 # Default recipe: list available commands
 default:
