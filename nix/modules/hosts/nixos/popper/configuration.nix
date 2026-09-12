@@ -26,7 +26,13 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  services.dotfilesAutoUpdate.enable = true;
+  services = {
+    dotfilesAutoUpdate.enable = true;
+    headlessRdp.enable = true;
+
+    # HARDWARE
+    hardware.bolt.enable = true;
+  };
 
   # GPU (Intel QuickSync)
   boot.kernelParams = [
@@ -54,9 +60,6 @@
     LIBVA_MESSAGING_LEVEL = "1";
     GST_VAAPI_ALL_DRIVERS = "1";
   };
-
-  # HARDWARE
-  services.hardware.bolt.enable = true;
 
   # NETWORK
   networking = {

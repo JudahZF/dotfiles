@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Headless RDP for popper &amp; zevlor</title>
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --surface-2: #f4f4f2;
+    --line: #e2e1dd;
+    --line-strong: #cbc9c3;
+    --ink: #1c1b19;
+    --ink-2: #56544e;
+    --ink-3: #85827a;
+    --accent: #4f46b8;
+    --accent-soft: #ece9fb;
+    --warn: #a45705;
+    --warn-soft: #fdf1e0;
+    --bad: #a3231f;
+    --bad-soft: #fbe9e8;
+    --good: #1f6b45;
+    --good-soft: #e5f2eb;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131311;
+      --surface: #1b1b19;
+      --surface-2: #232321;
+      --line: #302f2c;
+      --line-strong: #43423e;
+      --ink: #eceae5;
+      --ink-2: #aeaba3;
+      --ink-3: #7d7a73;
+      --accent: #a99cf5;
+      --accent-soft: #241f45;
+      --warn: #e2a252;
+      --warn-soft: #33260f;
+      --bad: #e8837e;
+      --bad-soft: #341a19;
+      --good: #6fc498;
+      --good-soft: #12291e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.5rem 6rem; }
+
+  header.doc { border-bottom: 1px solid var(--line); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 .9rem;
+  }
+  h1 { font-size: clamp(1.9rem, 4.4vw, 2.6rem); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 .8rem; font-weight: 620; }
+  .standfirst { font-size: 1.08rem; color: var(--ink-2); margin: 0; max-width: 62ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .chip {
+    font-family: var(--mono); font-size: .73rem; padding: .28rem .6rem;
+    border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink-2);
+  }
+
+  h2 {
+    font-size: 1.3rem; letter-spacing: -.01em; margin: 3.2rem 0 1rem;
+    padding-top: 1.4rem; border-top: 1px solid var(--line); font-weight: 600;
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 1.02rem; margin: 2rem 0 .6rem; font-weight: 600; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  code { font-family: var(--mono); font-size: .875em; background: var(--surface-2); padding: .12em .38em; border-radius: 4px; }
+  pre {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 1rem 1.1rem; overflow-x: auto; margin: 0 0 1.2rem; line-height: 1.55;
+  }
+  pre code { background: none; padding: 0; font-size: .82rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 0 0 1.3rem; font-size: .92rem; }
+  th, td { text-align: left; padding: .62rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 500;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code { white-space: nowrap; }
+
+  .verdict { font-weight: 600; }
+  .v-yes { color: var(--good); }
+  .v-no { color: var(--bad); }
+  .v-partial { color: var(--warn); }
+
+  .callout {
+    border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    background: var(--surface); border-radius: 0 8px 8px 0;
+    padding: 1.1rem 1.25rem; margin: 0 0 1.4rem;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout .label {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: .45rem;
+  }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.warn .label { color: var(--warn); }
+  .callout.bad { border-left-color: var(--bad); }
+  .callout.bad .label { color: var(--bad); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.4rem; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem 1.2rem; background: var(--surface); }
+  .card h4 {
+    margin: 0 0 .55rem; font-size: .95rem; font-weight: 620;
+    display: flex; align-items: baseline; gap: .5rem;
+  }
+  .card h4 .host { font-family: var(--mono); font-size: .78rem; color: var(--ink-3); }
+  .card p { font-size: .9rem; color: var(--ink-2); margin-bottom: .5rem; }
+  .card dl { margin: 0; font-size: .86rem; }
+  .card dt { font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: .7rem; }
+  .card dd { margin: .15rem 0 0; }
+
+  details {
+    border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+    margin-bottom: .7rem; overflow: hidden;
+  }
+  summary {
+    cursor: pointer; padding: .85rem 1.1rem; font-weight: 560; list-style: none;
+    display: flex; align-items: baseline; gap: .75rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "▸"; color: var(--ink-3); font-size: .8rem;
+    transition: transform .15s ease; display: inline-block;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary .phase-n {
+    font-family: var(--mono); font-size: .72rem; color: var(--accent);
+    background: var(--accent-soft); padding: .15rem .45rem; border-radius: 4px;
+  }
+  summary .phase-note { margin-left: auto; font-family: var(--mono); font-size: .72rem; color: var(--ink-3); font-weight: 400; }
+  .details-body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+  .details-body > :last-child { margin-bottom: 0; }
+
+  figure { margin: 0 0 1.5rem; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--ink-3); margin-top: .6rem; text-align: center; }
+
+  ul, ol { margin: 0 0 1.1rem; padding-left: 1.3rem; }
+  li { margin-bottom: .4rem; }
+  li > ul, li > ol { margin-top: .4rem; margin-bottom: .3rem; }
+
+  .qa { font-size: .95rem; }
+  .qa dt { font-weight: 600; margin-top: 1.1rem; }
+  .qa dt:first-child { margin-top: 0; }
+  .qa dd { margin: .3rem 0 0; color: var(--ink-2); }
+
+  footer.doc {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+    font-size: .85rem; color: var(--ink-3);
+  }
+  footer.doc a { color: var(--ink-2); }
+  .srcs { list-style: none; padding: 0; margin: .5rem 0 0; }
+  .srcs li { margin-bottom: .3rem; font-size: .84rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <p class="eyebrow">Implementation plan · dotfiles</p>
+  <h1>Headless RDP for popper &amp; zevlor</h1>
+  <p class="standfirst">A persistent Plasma session that exists only while nobody is logged in at the
+  machine, reachable over RDP, with Steam and Remote Play on zevlor. Built on KRdp — not GNOME.</p>
+  <div class="meta">
+    <span class="chip">2026-09-12</span>
+    <span class="chip">nixos-26.05</span>
+    <span class="chip">popper · zevlor</span>
+    <span class="chip">3 phases</span>
+  </div>
+</header>
+
+<h2>What changed during planning</h2>
+
+<p>The original ask was <em>GNOME</em> RDP. Investigation ruled that out on two independent
+grounds, and the design that survived is simpler than the one requested.</p>
+
+<table>
+  <thead>
+    <tr><th>Path</th><th>Pre-login</th><th>Mirrors live session</th><th>Needs GDM</th><th>State on 26.05</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GRD system daemon<br><span style="color:var(--ink-3);font-size:.85em">"Remote Login"</span></td>
+      <td class="verdict v-yes">yes</td>
+      <td class="verdict v-no">no</td>
+      <td class="verdict v-no">yes</td>
+      <td class="verdict v-no">Broken — <a href="https://github.com/NixOS/nixpkgs/issues/504490">#504490</a></td>
+    </tr>
+    <tr>
+      <td>GRD per-user headless</td>
+      <td class="verdict v-partial">judahf only</td>
+      <td class="verdict v-partial">GNOME only</td>
+      <td class="verdict v-yes">no</td>
+      <td class="verdict v-yes">Works</td>
+    </tr>
+    <tr>
+      <td><strong>KRdp</strong> (Plasma's own)</td>
+      <td class="verdict v-partial">via autologin</td>
+      <td class="verdict v-yes">natively</td>
+      <td class="verdict v-yes">no</td>
+      <td class="verdict v-yes">Works, already installed</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout bad">
+  <span class="label">Ruled out — GNOME</span>
+  <p>Headless "Remote Login" requires GDM, because the system daemon hands each RDP connection
+  to a headless GDM greeter. These hosts run SDDM. Worse, that path is currently broken on this
+  nixpkgs family: the handover daemon never starts inside the greeter and the connection aborts
+  after ~30&nbsp;s (<a href="https://github.com/NixOS/nixpkgs/issues/504490">nixpkgs#504490</a>).</p>
+</div>
+
+<div class="callout bad">
+  <span class="label">Ruled out — mirroring</span>
+  <p>niri is the daily driver on both hosts. KRdp can only mirror a KWin/Plasma session:
+  <code>xdg-desktop-portal-kde</code> drags in <code>plasma-workspace</code>, and
+  <a href="https://github.com/niri-wm/niri/wiki/Getting-Started">niri routes screencast to the
+  GNOME portal</a> instead. So the RDP desktop is always an isolated Plasma session, never the
+  one on the physical monitor — which is exactly the original brief.</p>
+</div>
+
+<p>Net result: no GNOME, no GDM, no second desktop environment in the closure, no upstream bug,
+and no port conflict. KRdp already ships on both hosts via <code>plasma6.enable</code>
+(<a href="https://github.com/NixOS/nixpkgs/blob/release-26.05/nixos/modules/services/desktop-managers/plasma6.nix">plasma6.nix</a>);
+it has simply never been switched on.</p>
+
+<h2>Architecture</h2>
+
+<figure>
+<svg viewBox="0 0 800 400" role="img" aria-labelledby="arch-t">
+  <title id="arch-t">Boot creates a virtual display, a user unit runs Plasma and krdpserver on it,
+  and a logind guard stops the whole session when someone logs in at the physical seat.</title>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="ar-stop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a3231f"/>
+    </marker>
+  </defs>
+  <style>
+    .bx { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.2; rx: 7; }
+    .bx-a { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; rx: 7; }
+    .bx-w { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; rx: 7; }
+    .t { font: 500 12.5px var(--sans); fill: var(--ink); }
+    .t-s { font: 400 10.5px var(--mono); fill: var(--ink-3); }
+    .t-c { font: 500 11px var(--sans); fill: var(--ink-2); }
+    .ln { stroke: var(--line-strong); stroke-width: 1.4; fill: none; color: var(--ink-3); }
+    .ln-r { stroke: #a3231f; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  </style>
+
+  <rect class="bx" x="20" y="22" width="150" height="46"/>
+  <text class="t" x="95" y="42" text-anchor="middle">boot</text>
+  <text class="t-s" x="95" y="58" text-anchor="middle">virtual display</text>
+
+  <path class="ln" d="M170 45 L245 45" marker-end="url(#ar)"/>
+
+  <rect class="bx-a" x="248" y="14" width="300" height="62"/>
+  <text class="t" x="398" y="36" text-anchor="middle">headless-rdp.service</text>
+  <text class="t-s" x="398" y="52" text-anchor="middle">systemd --user · judahf · lingering</text>
+  <text class="t-s" x="398" y="66" text-anchor="middle">dbus-run-session startplasma-wayland</text>
+
+  <path class="ln" d="M398 76 L398 116" marker-end="url(#ar)"/>
+
+  <rect class="bx" x="248" y="118" width="300" height="52"/>
+  <text class="t" x="398" y="139" text-anchor="middle">Plasma session (KWin)</text>
+  <text class="t-s" x="398" y="155" text-anchor="middle">isolated · never the local seat</text>
+
+  <path class="ln" d="M320 170 L320 208" marker-end="url(#ar)"/>
+  <path class="ln" d="M476 170 L476 208" marker-end="url(#ar)"/>
+
+  <rect class="bx" x="218" y="210" width="200" height="52"/>
+  <text class="t" x="318" y="231" text-anchor="middle">krdpserver</text>
+  <text class="t-s" x="318" y="247" text-anchor="middle">tcp/3389</text>
+
+  <rect class="bx" x="432" y="210" width="200" height="52"/>
+  <text class="t" x="532" y="231" text-anchor="middle">Steam <tspan class="t-s">(zevlor)</tspan></text>
+  <text class="t-s" x="532" y="247" text-anchor="middle">udp/tcp 27031–27036</text>
+
+  <path class="ln" d="M318 262 L318 300" marker-end="url(#ar)"/>
+  <path class="ln" d="M532 262 L532 300" marker-end="url(#ar)"/>
+  <text class="t-c" x="318" y="318" text-anchor="middle">RDP client</text>
+  <text class="t-c" x="532" y="318" text-anchor="middle">Steam Link</text>
+  <text class="t-s" x="425" y="340" text-anchor="middle">LAN + tailscale0</text>
+
+  <rect class="bx-w" x="600" y="14" width="180" height="62"/>
+  <text class="t" x="690" y="36" text-anchor="middle">headless-rdp-guard</text>
+  <text class="t-s" x="690" y="52" text-anchor="middle">watches logind</text>
+  <text class="t-s" x="690" y="66" text-anchor="middle">for seat0 session</text>
+
+  <path class="ln-r" d="M600 45 L552 45" marker-end="url(#ar-stop)"/>
+  <text class="t-s" x="576" y="96" text-anchor="middle" fill="#a3231f">stop</text>
+
+  <rect class="bx" x="600" y="118" width="180" height="52"/>
+  <text class="t" x="690" y="139" text-anchor="middle">physical seat</text>
+  <text class="t-s" x="690" y="155" text-anchor="middle">niri / Plasma · judahf</text>
+  <path class="ln" d="M690 118 L690 82" marker-end="url(#ar)"/>
+</svg>
+<figcaption>RDP reaches a desktop only when nobody is at the machine.</figcaption>
+</figure>
+
+<p>The contract in one line: <strong>local login stops everything headless; logout brings it
+back.</strong> One logind watcher, applied uniformly to both hosts.</p>
+
+<h2>Per-host split</h2>
+
+<p>The two hosts need different virtual-display mechanisms, for one reason: zevlor must
+accelerate games and popper must not.</p>
+
+<div class="callout bad">
+  <span class="label">The finding that forced this</span>
+  <p><a href="https://docs.kernel.org/gpu/vkms.html">VKMS has no render node</a> — it is a
+  modesetting-only driver, and PRIME buffer sharing is still listed as a TODO. A VKMS-only KWin
+  session typically falls back to llvmpipe, which is fine for a remote desktop and fatal for
+  gaming.</p>
+</div>
+
+<div class="cols">
+  <div class="card">
+    <h4>popper <span class="host">192.168.1.33</span></h4>
+    <p>Intel QuickSync. Desktop work only — Steam is not installed here.</p>
+    <dl>
+      <dt>Virtual output</dt><dd><code>vkms</code> kernel module</dd>
+      <dt>Acceleration</dt><dd>Not required</dd>
+      <dt>Ports</dt><dd>3389</dd>
+      <dt>Root FS</dt><dd>Unencrypted — reboots fine unattended</dd>
+    </dl>
+  </div>
+  <div class="card">
+    <h4>zevlor <span class="host">amdgpu</span></h4>
+    <p>Gaming box. Needs a real render path, so it forces a real connector on instead.</p>
+    <dl>
+      <dt>Virtual output</dt><dd><code>video=DP-1:1920x1080e</code> kernel param</dd>
+      <dt>Acceleration</dt><dd>Full amdgpu, no cross-driver copy</dd>
+      <dt>Ports</dt><dd>3389 + 27031–27036</dd>
+      <dt>Root FS</dt><dd>LUKS — see phase 3</dd>
+    </dl>
+  </div>
+</div>
+
+<p>Forcing an unused DisplayPort output on with an EDID override keeps both rendering
+<em>and</em> scanout on amdgpu, avoiding the missing-render-node problem entirely. It is a kernel
+parameter, not a module.</p>
+
+<div class="callout warn">
+  <span class="label">Correction to an earlier recommendation</span>
+  <p>VKMS was proposed for both hosts before Steam entered scope. It stands for popper only.</p>
+</div>
+
+<h2>Steam &amp; Remote Play</h2>
+
+<dl class="qa">
+  <dt>Can Steam run always?</dt>
+  <dd>No — and that is a chosen constraint, not a technical limit. The guard stops the whole
+  session on local login, so Steam dies whenever you sit down at zevlor. In-progress downloads
+  stop with it. What you actually get is <em>Steam running whenever you are not at the
+  machine</em>. Changing this means either exempting Steam from the guard or giving it a
+  dedicated Unix user, since Steam holds a lockfile in <code>~/.steam</code> and cannot run
+  twice for one user.</dd>
+
+  <dt>Can Steam Link work?</dt>
+  <dd>Yes, and it is the better transport. Remote Play streams over its own encoder path rather
+  than through RDP's framebuffer. Use Steam Link for games and RDP for the desktop — RDP is a
+  poor game transport.</dd>
+</dl>
+
+<p><code>trustedInterfaces = [ "tailscale0" ]</code> is already set in
+<code>nix/modules/nixos/network.nix:7</code>, so tailnet access to both RDP and Remote Play is
+free. Only the LAN ports need opening.</p>
+
+<h2>Files</h2>
+
+<table>
+  <thead><tr><th>Path</th><th>Change</th></tr></thead>
+  <tbody>
+    <tr><td><code>nix/modules/desktop/krdp/system.nix</code></td><td><strong>New.</strong> The <code>services.headlessRdp</code> module</td></tr>
+    <tr><td><code>nix/modules/flake/exports.nix</code></td><td>Add to <code>nixosModules.desktop.imports</code></td></tr>
+    <tr><td><code>secrets/rdp.yaml</code></td><td><strong>New.</strong> sops secret, <code>pathExists</code>-guarded like <code>tailscale.yaml</code></td></tr>
+    <tr><td><code>.sops.yaml</code></td><td>Creation rule for the new secret</td></tr>
+    <tr><td><code>nix/modules/hosts/nixos/popper/configuration.nix</code></td><td>Enable, <code>virtualOutput = "vkms"</code></td></tr>
+    <tr><td><code>nix/modules/hosts/nixos/zevlor/configuration.nix</code></td><td>Enable, <code>connector</code>, <code>steam = true</code></td></tr>
+    <tr><td><code>nix/modules/nixos/initrd-ssh.nix</code></td><td><strong>New</strong>, phase 3 only</td></tr>
+  </tbody>
+</table>
+
+<h3>Module interface</h3>
+
+<pre><code>services.headlessRdp = {
+  enable        = true;
+  virtualOutput = "vkms" | "connector";
+  connector     = "DP-1";   # zevlor: which output to force on
+  steam         = true;     # zevlor: open Remote Play ports, autostart Steam
+};</code></pre>
+
+<p>Disabled by default, so landing the module changes nothing until a host opts in.</p>
+
+<h2>Phases</h2>
+
+<details open>
+  <summary><span class="phase-n">01</span> Module and secret <span class="phase-note">no behaviour change</span></summary>
+  <div class="details-body">
+    <p>Land <code>services.headlessRdp</code> disabled by default, wire it into
+    <code>exports.nix</code>, and create the sops secret following the
+    <code>tailscale.yaml</code> pattern — including its <code>builtins.pathExists</code> guard so
+    the config still evaluates on a machine without the secret.</p>
+    <p><strong>Resolve here:</strong> the <code>krdpserver</code> credentials question below. It
+    determines the module's internal shape, so it cannot be deferred.</p>
+    <p><strong>Done when:</strong> both hosts build, and <code>nixos-rebuild build</code> shows no
+    diff in the activated system.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">02</span> Enable on both hosts <span class="phase-note">the real change</span></summary>
+  <div class="details-body">
+    <p>Turn the module on for popper and zevlor together. This is low risk: the KRdp path never
+    touches SDDM, so a bad rebuild cannot cost the physical login.</p>
+    <p><strong>Verify, in order:</strong></p>
+    <ol>
+      <li>Virtual output appears — <code>ls /sys/class/drm/</code> shows the vkms card (popper)
+      or the forced connector as connected (zevlor).</li>
+      <li>KWin is not on llvmpipe —
+      <code>qdbus org.kde.KWin /KWin supportInformation</code>. Critical on zevlor.</li>
+      <li>RDP connects and shows a usable Plasma desktop.</li>
+      <li>Steam launches and a game runs accelerated (zevlor).</li>
+      <li>Steam Link connects over LAN, then over the tailnet.</li>
+      <li>Guard behaviour: log in at the physical seat, confirm the session stops; log out,
+      confirm it returns.</li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">03</span> zevlor LUKS remote unlock <span class="phase-note">separate concern</span></summary>
+  <div class="details-body">
+    <p>zevlor's root is LUKS-encrypted (<code>luks-e485bfac-…</code>) with no remote unlock. After
+    any reboot it is unreachable until someone types the passphrase at the physical keyboard —
+    so "headless" carries an asterisk until this is done.</p>
+    <p>Add an SSH instance to the initrd with its own host keys and network setup. Deliberately
+    last: it is an independent piece of work with its own failure modes, and it should not block
+    proving the RDP path.</p>
+  </div>
+</details>
+
+<h2>Open items</h2>
+
+<ol>
+  <li><strong><code>krdpserver -p</code> leaks the password via <code>/proc/PID/cmdline</code>.</strong>
+  Needs checking whether krdpserver accepts a credentials file; if not, the fix is a systemd
+  <code>LoadCredential=</code> plus a wrapper, not a bare CLI argument. This is the one item that
+  shapes the module's design — resolve in phase 1.</li>
+
+  <li><strong>Which zevlor connector is free.</strong> Requires <code>ls /sys/class/drm/</code> on
+  the box to pick a real unused output name. <code>DP-1</code> is a placeholder.</li>
+
+  <li><strong>Steam in a non-interactive session.</strong> Steam wants a keyring; this may need
+  PAM unlock or a passwordless kwallet — the same class of problem
+  <a href="https://discuss.kde.org/t/headless-kde-rdp-wayland-kwallet-plasma-6/30217">KDE's forum
+  reports</a> for headless Plasma.</li>
+
+  <li><strong>H.264 encoder availability.</strong> KRdp
+  <a href="https://github.com/KDE/krdp/blob/master/README.md">sanity-checks for a usable
+  encoder</a>. popper's QuickSync should be fine; zevlor's AMD VA-API encode path is less certain.</li>
+</ol>
+
+<h2>Known sharp edges</h2>
+
+<ul>
+  <li>If you are connected over RDP and someone logs in at the physical keyboard, your session
+  dies immediately. That follows directly from the stop-on-login rule.</li>
+  <li>Steam downloads and Remote Play sessions stop every time you sit down at zevlor.</li>
+  <li>Remote Play over WAN Tailscale is frequently rough regardless of configuration.</li>
+  <li>KRdp binds <code>0.0.0.0:3389</code>. Nothing else binds it today, but a future toggle of
+  Plasma's Remote Desktop KCM inside a local session would collide silently.</li>
+</ul>
+
+<footer class="doc">
+  <p>Planned 2026-09-12 · not yet implemented. Sources consulted:</p>
+  <ul class="srcs">
+    <li><a href="https://github.com/NixOS/nixpkgs/issues/504490">nixpkgs#504490</a> — GRD handover daemon never starts in GDM greeter</li>
+    <li><a href="https://docs.kernel.org/gpu/vkms.html">Linux kernel docs</a> — VKMS is modesetting-only, no render node</li>
+    <li><a href="https://wiki.archlinux.org/title/Headless">ArchWiki: Headless</a> — VKMS and <code>KWIN_DRM_DEVICES</code></li>
+    <li><a href="https://github.com/KDE/krdp/blob/master/README.md">KDE/krdp README</a> — encoder and portal requirements</li>
+    <li><a href="https://discuss.kde.org/t/headless-kde-rdp-wayland-kwallet-plasma-6/30217">KDE Discuss</a> — headless Plasma KWallet problems</li>
+    <li><a href="https://github.com/niri-wm/niri/wiki/Getting-Started">niri wiki</a> — portal backend routing</li>
+    <li><a href="https://github.com/NixOS/nixpkgs/blob/release-26.05/nixos/modules/services/desktop-managers/plasma6.nix">nixpkgs plasma6.nix</a> — krdp ships with Plasma 6</li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>
