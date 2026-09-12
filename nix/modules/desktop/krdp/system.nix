@@ -6,7 +6,19 @@
 }:
 let
   cfg = config.services.headlessRdp;
-  plasma = pkgs.kdePackages;
+
+  # krdpserver confirms the highest-numbered capability set the client
+  # advertises, without checking it is one it can actually encode for. The
+  # Windows App advertises undocumented sets that outrank every documented one,
+  # so the server confirms a set it never sends frames for and the client shows
+  # a blank screen. Drop this once the fix lands upstream in krdp.
+  plasma = pkgs.kdePackages.overrideScope (
+    _: kdeSuper: {
+      krdp = kdeSuper.krdp.overrideAttrs (prev: {
+        patches = (prev.patches or [ ]) ++ [ ./caps-prefer-usable.patch ];
+      });
+    }
+  );
 
   home = config.users.users.${cfg.user}.home;
   stateDir = "${home}/.local/state/headless-rdp";
