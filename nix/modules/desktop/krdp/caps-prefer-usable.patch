@@ -1,0 +1,21 @@
+--- a/src/VideoStream.cpp
++++ b/src/VideoStream.cpp
+@@ -348,7 +348,18 @@
+         return CHANNEL_RC_INITIALIZATION_ERROR;
+     }
+ 
++    // A client may advertise capability sets this server does not recognise --
++    // the undocumented 0x000bXXXX versions Azure and the Windows App use sort
++    // above every documented one. Picking one by raw version number confirms a
++    // set whose encoding is never sent, so the client shows a blank screen.
++    // Rank sets usable for H.264/YUV420 first and only compare versions between
++    // equals.
+     auto maxVersion = std::max_element(capsInformation.begin(), capsInformation.end(), [](const auto &first, const auto &second) {
++        const bool firstUsable = first.avcSupported && first.yuv420Supported;
++        const bool secondUsable = second.avcSupported && second.yuv420Supported;
++        if (firstUsable != secondUsable) {
++            return secondUsable;
++        }
+         return first.version < second.version;
+     });
+ 

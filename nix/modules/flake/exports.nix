@@ -46,6 +46,7 @@ in
         ../nixos/firmware.nix
         ../nixos/fwupd.nix
         ../nixos/hardware-health.nix
+        ../nixos/initrd-ssh.nix
         ../nixos/kernel.nix
         ../nixos/localisation.nix
         ../nixos/network.nix
