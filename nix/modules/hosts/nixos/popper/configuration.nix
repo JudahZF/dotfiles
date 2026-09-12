@@ -104,6 +104,7 @@
       "render"
       "video"
     ];
+    # Work key, in addition to the personal key from nixos/ssh.nix.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoSFsUvopej64p2Bcjj+S3ngWYRmV8GZmw5a+Jw5kN2"
     ];

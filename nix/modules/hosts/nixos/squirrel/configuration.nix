@@ -60,9 +60,6 @@
         "video"
         "input"
       ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoSFsUvopej64p2Bcjj+S3ngWYRmV8GZmw5a+Jw5kN2"
-      ];
       packages = with pkgs; [ home-manager ];
     };
 
