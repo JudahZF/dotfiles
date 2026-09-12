@@ -95,19 +95,26 @@ let
       dbus-update-activation-environment --systemd \
         WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
 
+      # Reconnect the KDE backend to this compositor before restarting the
+      # frontend with the KDE environment. Either can outlive an old session.
+      systemctl --user try-restart plasma-xdg-desktop-portal-kde.service
+      systemctl --user try-restart xdg-desktop-portal.service
+
       # No --virtual-monitor: kwin_wayland --virtual already provides the only
       # output, and that flag would ask KWin for a second one. plasmashell keeps
       # its panel on the first output, so capturing the new one streamed an empty
-      # screen. Without the flag krdpserver takes the workspace stream, which is
-      # the output the session actually draws on.
+      # screen. Explicitly select monitor 0: KRDP 6.6's Plasma capture path
+      # tests !activeStream(), so its default of -1 never creates a stream.
       XDG_CONFIG_HOME=${lib.escapeShellArg configDir} krdpserver \
         --plasma \
+        --monitor 0 \
         --port ${toString cfg.port} \
         --certificate ${lib.escapeShellArg certificate} \
         --certificate-key ${lib.escapeShellArg certificateKey} &
 
       plasmashell &
-      ${lib.optionalString cfg.steam "steam -silent &"}
+      # Wayland desktop capture requires PipeWire and an approved portal session.
+      ${lib.optionalString cfg.steam "steam -pipewire -silent &"}
 
       # Exit as soon as any of them dies so systemd restarts a coherent session
       # instead of leaving a half-dead one holding the RDP port.
