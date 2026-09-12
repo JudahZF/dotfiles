@@ -55,10 +55,9 @@ let
   # Everything that runs inside the virtual compositor. kwin_wayland exits when
   # this exits, which tears the session down as a unit.
   #
-  # --plasma makes krdpserver capture through KWin's screencast protocol rather
-  # than xdg-desktop-portal-kde. The portal path expects a full plasma-workspace
-  # session and prompts for consent; the Plasma protocol needs neither, which is
-  # what makes an unattended session possible.
+  # --plasma makes krdpserver capture through KWin's zkde_screencast_unstable_v1
+  # rather than xdg-desktop-portal-kde, which would prompt for consent nobody is
+  # present to give.
   sessionBody = pkgs.writeShellApplication {
     name = "headless-rdp-body";
     runtimeInputs = [
@@ -67,6 +66,11 @@ let
     ]
     ++ lib.optional cfg.steam config.programs.steam.package;
     text = ''
+      # plasmashell and everything it activates need a Qt platform. Without
+      # this Qt tries xcb, fails, and kactivitymanagerd aborts -- which makes
+      # plasmashell refuse to load.
+      export QT_QPA_PLATFORM=wayland
+
       XDG_CONFIG_HOME=${lib.escapeShellArg configDir} krdpserver \
         --plasma \
         --port ${toString cfg.port} \
@@ -90,13 +94,26 @@ let
   session = pkgs.writeShellApplication {
     name = "headless-rdp-session";
     runtimeInputs = [
-      pkgs.dbus
       plasma.kwin
+      # kwin_wayland resolves Xwayland through PATH. Steam's updater and login
+      # windows are X11, so the session needs it.
+      pkgs.xwayland
     ];
     text = ''
       ${lib.getExe prepare}
 
-      exec dbus-run-session -- kwin_wayland \
+      # zkde_screencast_unstable_v1 is a restricted interface: KWin only hands
+      # it to clients whose executable path maps back to a .desktop file
+      # declaring X-KDE-Wayland-Interfaces. That reverse lookup does not
+      # resolve for krdpserver here, so the protocol is withheld and the
+      # --plasma path segfaults on a null proxy. Lift the check for this
+      # compositor only; it serves exactly one known client.
+      export KWIN_WAYLAND_NO_PERMISSION_CHECKS=1
+
+      # No dbus-run-session: the unit already inherits the user bus at
+      # $XDG_RUNTIME_DIR/bus. Starting a second bus put krdpserver and the rest
+      # of the session on different buses.
+      exec kwin_wayland \
         --virtual \
         --width ${toString cfg.width} \
         --height ${toString cfg.height} \
