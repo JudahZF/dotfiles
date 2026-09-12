@@ -1,0 +1,19 @@
+--- a/src/PlasmaScreencastV1Session.cpp
++++ b/src/PlasmaScreencastV1Session.cpp
+@@ -32,6 +32,7 @@
+     {
+         initialize();
+         Q_ASSERT(isActive());
++        authenticate(QStringLiteral("org.kde.krdp"), QStringLiteral("Remote desktop input"));
+     }
+ };
+ 
+@@ -224,7 +225,7 @@
+         auto me = std::static_pointer_cast<QMouseEvent>(event);
+         auto position = me->position();
+         auto logicalPosition = QPointF{(position.x() / size().width()) * logicalSize().width(), (position.y() / size().height()) * logicalSize().height()};
+-        d->remoteInterface->pointer_motion_absolute(logicalPosition.x(), logicalPosition.y());
++        d->remoteInterface->pointer_motion_absolute(wl_fixed_from_double(logicalPosition.x()), wl_fixed_from_double(logicalPosition.y()));
+         break;
+     }
+     case QEvent::Wheel: {

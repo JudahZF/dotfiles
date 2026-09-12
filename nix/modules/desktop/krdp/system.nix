@@ -15,7 +15,11 @@ let
   plasma = pkgs.kdePackages.overrideScope (
     _: kdeSuper: {
       krdp = kdeSuper.krdp.overrideAttrs (prev: {
-        patches = (prev.patches or [ ]) ++ [ ./caps-prefer-usable.patch ];
+        patches = (prev.patches or [ ]) ++ [
+          ./caps-prefer-usable.patch
+          # Authenticate fake-input and encode pointer coordinates as Wayland fixed-point.
+          ./authenticate-input.patch
+        ];
       });
     }
   );
