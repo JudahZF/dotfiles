@@ -95,12 +95,16 @@ let
       dbus-update-activation-environment --systemd \
         WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
 
+      # No --virtual-monitor: kwin_wayland --virtual already provides the only
+      # output, and that flag would ask KWin for a second one. plasmashell keeps
+      # its panel on the first output, so capturing the new one streamed an empty
+      # screen. Without the flag krdpserver takes the workspace stream, which is
+      # the output the session actually draws on.
       XDG_CONFIG_HOME=${lib.escapeShellArg configDir} krdpserver \
         --plasma \
         --port ${toString cfg.port} \
         --certificate ${lib.escapeShellArg certificate} \
-        --certificate-key ${lib.escapeShellArg certificateKey} \
-        --virtual-monitor ${toString cfg.width}x${toString cfg.height}@1 &
+        --certificate-key ${lib.escapeShellArg certificateKey} &
 
       plasmashell &
       ${lib.optionalString cfg.steam "steam -silent &"}
