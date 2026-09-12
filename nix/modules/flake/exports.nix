@@ -21,6 +21,7 @@ in
       desktop.imports = [
         ../desktop/plasma.nix
         ../desktop/grim.nix
+        ../desktop/krdp/system.nix
         ../desktop/niri/system.nix
         ../desktop/noctalia/system.nix
       ];

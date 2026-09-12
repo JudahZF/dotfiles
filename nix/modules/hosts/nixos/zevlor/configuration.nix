@@ -29,9 +29,21 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  services.dotfilesAutoUpdate = {
-    enable = true;
-    interval = null;
+  services = {
+    dotfilesAutoUpdate = {
+      enable = true;
+      interval = null;
+    };
+
+    headlessRdp = {
+      enable = true;
+      steam = true;
+    };
+
+    hardware.openrgb = {
+      enable = true;
+      motherboard = "amd";
+    };
   };
 
   # GPU
@@ -45,11 +57,6 @@
     clinfo
     openrgb
   ];
-
-  services.hardware.openrgb = {
-    enable = true;
-    motherboard = "amd";
-  };
 
   # NETWORK
   networking = {
