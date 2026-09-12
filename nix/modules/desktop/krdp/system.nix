@@ -61,6 +61,8 @@ let
   sessionBody = pkgs.writeShellApplication {
     name = "headless-rdp-body";
     runtimeInputs = [
+      pkgs.dbus
+      pkgs.systemd
       plasma.krdp
       plasma.plasma-workspace
     ]
@@ -70,6 +72,16 @@ let
       # this Qt tries xcb, fails, and kactivitymanagerd aborts -- which makes
       # plasmashell refuse to load.
       export QT_QPA_PLATFORM=wayland
+      export XDG_SESSION_TYPE=wayland
+      export XDG_CURRENT_DESKTOP=KDE
+
+      # kactivitymanagerd is D-Bus activated, so it inherits the bus activation
+      # environment rather than this shell's. Push the session variables into
+      # both systemd --user and D-Bus before anything needs activating.
+      systemctl --user import-environment \
+        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
+      dbus-update-activation-environment --systemd \
+        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
 
       XDG_CONFIG_HOME=${lib.escapeShellArg configDir} krdpserver \
         --plasma \
