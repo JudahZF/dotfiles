@@ -125,7 +125,15 @@ let
       # No dbus-run-session: the unit already inherits the user bus at
       # $XDG_RUNTIME_DIR/bus. Starting a second bus put krdpserver and the rest
       # of the session on different buses.
+      # Any logind lock request -- including one meant for another session on
+      # the same user bus -- reaches this compositor and locks it. The greeter
+      # then cannot authenticate, because there is no seat to read a password
+      # from, leaving the RDP client on a lock screen it can never dismiss.
+      # kscreenlockerrc does not help: ksldapp acts on the logind signal
+      # without consulting Autolock. Access is already gated by krdpserver's
+      # PAM check on connect, so drop lock screen support entirely.
       exec kwin_wayland \
+        --no-lockscreen \
         --virtual \
         --width ${toString cfg.width} \
         --height ${toString cfg.height} \
