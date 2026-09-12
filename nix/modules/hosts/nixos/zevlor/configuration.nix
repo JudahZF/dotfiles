@@ -46,6 +46,12 @@
     };
   };
 
+  # Root is LUKS-encrypted, so a reboot otherwise needs someone at the keyboard.
+  boot.initrd.remoteUnlock = {
+    enable = true;
+    kernelModules = [ "r8169" ];
+  };
+
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
