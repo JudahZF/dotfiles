@@ -12,6 +12,8 @@ in
 {
   flake = {
     nixosModules = {
+      blender = import ../design/blender.nix;
+      unity = import ../design/unity.nix;
       browsers.imports = [ ../browsers/default.nix ];
       communication.imports = [
         ../communication/default.nix
@@ -66,6 +68,8 @@ in
     };
 
     darwinModules = {
+      blender = import ../design/blender.nix;
+      unity = import ../design/unity.nix;
       browsers.imports = [ ../browsers/darwin.nix ];
       communication.imports = [
         ../communication/claude.nix

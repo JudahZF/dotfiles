@@ -34,6 +34,8 @@ in
     };
     modules = [
       ./configuration.nix
+      self.darwinModules.blender
+      self.darwinModules.unity
       self.darwinModules.browsers
       self.darwinModules.communication
       self.darwinModules.darwin

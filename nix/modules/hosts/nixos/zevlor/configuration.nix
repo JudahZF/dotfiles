@@ -11,6 +11,8 @@
     ./niri.nix
     ./steam.nix
     ../../../gaming/steam.nix
+    self.nixosModules.blender
+    self.nixosModules.unity
     self.nixosModules.browsers
     self.nixosModules.communication
     self.nixosModules.desktop
