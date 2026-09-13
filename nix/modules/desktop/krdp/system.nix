@@ -258,6 +258,13 @@ in
     # The session has to survive having no logind session of its own.
     users.users.${cfg.user}.linger = true;
 
+    # uaccess only grants devices to a user on an active local seat. Headless
+    # Steam needs uinput to create its gamepad, and games must read that pad.
+    services.udev.extraRules = lib.mkIf cfg.steam ''
+      SUBSYSTEM=="misc", KERNEL=="uinput", OWNER="${cfg.user}", MODE="0600"
+      SUBSYSTEM=="input", ATTRS{name}=="Steam Virtual Gamepad", OWNER="${cfg.user}", MODE="0600"
+    '';
+
     systemd.user.services.headless-rdp = {
       description = "Headless Plasma session exposed over RDP";
       # Started and stopped exclusively by the guard.
