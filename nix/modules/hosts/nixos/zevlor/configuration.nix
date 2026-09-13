@@ -38,6 +38,8 @@
     headlessRdp = {
       enable = true;
       steam = true;
+      width = 3840;
+      height = 2160;
     };
 
     hardware.openrgb = {
