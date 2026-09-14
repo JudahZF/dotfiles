@@ -9,6 +9,7 @@ lib.mkIf pkgs.stdenv.isDarwin {
       "displaperture"
       "hiddenbar"
       "hyperkey"
+      "openlogi"
       "stats"
       "TheBoredTeam/boring-notch/boring-notch"
     ];

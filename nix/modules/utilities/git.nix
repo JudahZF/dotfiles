@@ -12,54 +12,56 @@
     fi
   '';
 
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true;
-      side-by-side = true;
-      line-numbers = true;
+  programs = {
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        navigate = true;
+        side-by-side = true;
+        line-numbers = true;
+      };
     };
-  };
 
-  programs.gh = {
-    enable = true;
-    gitCredentialHelper.enable = true;
-  };
+    gh = {
+      enable = true;
+      gitCredentialHelper.enable = true;
+    };
 
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    ignores = [ ".env" ];
-    settings = {
-      diff.tool = "difftastic";
-      # Decrypted diffs for sops files marked `diff=sops` in .gitattributes.
-      # Only affects `git diff`; missing sops or key never blocks pull/checkout.
-      diff.sops.textconv = "${lib.getExe pkgs.sops} --decrypt";
-      difftool.prompt = false;
-      difftool.difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
-      init.defaultBranch = "main";
-      pull.rebase = true;
-      push.autoSetupRemote = true;
-      rerere.enabled = true;
-      rebase.autoStash = true;
-      fetch.prune = true;
-      alias = {
-        co = "checkout";
-        br = "branch";
-        ci = "commit";
-        st = "status";
-        glog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-        gloga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all";
-        amend = "commit --amend --no-edit";
-        wip = "commit -am 'WIP'";
-        undo = "reset HEAD~1 --mixed";
-        unstage = "reset HEAD --";
-        discard = "checkout --";
-        recent = "branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'";
-        cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d";
-        last = "log -1 HEAD";
-        history = "log --oneline -20";
+    git = {
+      enable = true;
+      lfs.enable = true;
+      ignores = [ ".env" ];
+      settings = {
+        diff.tool = "difftastic";
+        # Decrypted diffs for sops files marked `diff=sops` in .gitattributes.
+        # Only affects `git diff`; missing sops or key never blocks pull/checkout.
+        diff.sops.textconv = "${lib.getExe pkgs.sops} --decrypt";
+        difftool.prompt = false;
+        difftool.difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
+        init.defaultBranch = "main";
+        pull.rebase = true;
+        push.autoSetupRemote = true;
+        rerere.enabled = true;
+        rebase.autoStash = true;
+        fetch.prune = true;
+        alias = {
+          co = "checkout";
+          br = "branch";
+          ci = "commit";
+          st = "status";
+          glog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+          gloga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all";
+          amend = "commit --amend --no-edit";
+          wip = "commit -am 'WIP'";
+          undo = "reset HEAD~1 --mixed";
+          unstage = "reset HEAD --";
+          discard = "checkout --";
+          recent = "branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'";
+          cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d";
+          last = "log -1 HEAD";
+          history = "log --oneline -20";
+        };
       };
     };
   };

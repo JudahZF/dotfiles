@@ -21,6 +21,8 @@ in
         ../communication/teams.nix
       ];
       desktop.imports = [
+        inputs.openlogi.nixosModules.default
+        { programs.openlogi.enable = true; }
         ../desktop/plasma.nix
         ../desktop/grim.nix
         ../desktop/krdp/system.nix
