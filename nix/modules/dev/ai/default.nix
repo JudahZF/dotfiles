@@ -12,7 +12,7 @@ let
 
   # Claude Code routed through CLIProxyAPI. These wrappers are the single source
   # of truth for the `cl`/`clx` aliases and T3 Code's Claude provider instances.
-  # Codex holds the same key in ~/.codex/config.toml; rotating means both places.
+  # Codex uses the same secret through CLIPROXY_API_KEY.
   cliproxySecret = dotfiles + "/secrets/cliproxyapi.yaml";
   hasCliproxyKey = builtins.pathExists cliproxySecret;
   cliproxyKeyPath = config.sops.secrets.cliproxyapi-key.path;
@@ -54,10 +54,14 @@ let
   codex-cx = pkgs.writeShellApplication {
     name = "codex-cx";
     text = ''
+      CLIPROXY_API_KEY="$(cat ${cliproxyKeyPath})"
+      export CLIPROXY_API_KEY
+      # Keep provider overrides after subcommand options supplied by T3 Code.
       exec codex \
-        -c model_provider="cliproxyapi" \
         --dangerously-bypass-approvals-and-sandbox \
-        "$@"
+        "$@" \
+        -c model_provider="cliproxyapi" \
+        -c 'model_providers.cliproxyapi.env_key="CLIPROXY_API_KEY"'
     '';
   };
 
