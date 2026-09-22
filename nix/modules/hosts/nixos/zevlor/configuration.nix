@@ -56,6 +56,13 @@
     kernelModules = [ "r8169" ];
   };
 
+  # Vivado and Vitis are already installed under /opt/Xilinx.
+  programs.xilinx = {
+    enable = true;
+    enableVivado = false;
+    enableVitis = false;
+  };
+
   # GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];

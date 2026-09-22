@@ -31,6 +31,9 @@ in
   };
 
   config = lib.mkIf (cfg.enable && pkgs.stdenv.isLinux) {
+    # AMD's installed launch scripts use /bin/bash directly.
+    systemd.tmpfiles.rules = [ "L /bin/bash - - - - ${pkgs.bash}/bin/bash" ];
+
     environment.systemPackages =
       with pkgs;
       lib.optionals cfg.enableVivado [ vivado ] ++ lib.optionals cfg.enableVitis [ vitis ];

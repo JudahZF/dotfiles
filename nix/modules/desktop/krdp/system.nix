@@ -17,7 +17,7 @@ let
       krdp = kdeSuper.krdp.overrideAttrs (prev: {
         patches = (prev.patches or [ ]) ++ [
           ./caps-prefer-usable.patch
-          # Authenticate fake-input and encode pointer coordinates as Wayland fixed-point.
+          # Authenticate fake-input and map scaled pointer coordinates as Wayland fixed-point.
           ./authenticate-input.patch
         ];
       });
@@ -90,14 +90,17 @@ let
       export QT_QPA_PLATFORM=wayland
       export XDG_SESSION_TYPE=wayland
       export XDG_CURRENT_DESKTOP=KDE
+      export XDG_MENU_PREFIX=plasma-
+      # Desktop entries use executable names from the user and system profiles.
+      export PATH="$PATH:/run/wrappers/bin:${home}/.nix-profile/bin:/etc/profiles/per-user/${cfg.user}/bin:/run/current-system/sw/bin"
 
       # kactivitymanagerd is D-Bus activated, so it inherits the bus activation
       # environment rather than this shell's. Push the session variables into
       # both systemd --user and D-Bus before anything needs activating.
       systemctl --user import-environment \
-        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
+        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_MENU_PREFIX DISPLAY
       dbus-update-activation-environment --systemd \
-        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP DISPLAY
+        WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_MENU_PREFIX DISPLAY
 
       # Reconnect the KDE backend to this compositor before restarting the
       # frontend with the KDE environment. Either can outlive an old session.

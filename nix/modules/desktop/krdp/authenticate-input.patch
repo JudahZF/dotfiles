@@ -1,6 +1,13 @@
 --- a/src/PlasmaScreencastV1Session.cpp
 +++ b/src/PlasmaScreencastV1Session.cpp
-@@ -32,6 +32,7 @@
+@@ -7,5 +7,6 @@
+ #include <QGuiApplication>
+ #include <QMouseEvent>
+ #include <QQueue>
++#include <QScreen>
+ #include <QWaylandClientExtensionTemplate>
+ #include <qpa/qplatformnativeinterface.h>
+@@ -32,6 +33,7 @@
      {
          initialize();
          Q_ASSERT(isActive());
@@ -8,11 +15,19 @@
      }
  };
  
-@@ -224,7 +225,7 @@
+@@ -224,7 +226,15 @@
          auto me = std::static_pointer_cast<QMouseEvent>(event);
          auto position = me->position();
          auto logicalPosition = QPointF{(position.x() / size().width()) * logicalSize().width(), (position.y() / size().height()) * logicalSize().height()};
 -        d->remoteInterface->pointer_motion_absolute(logicalPosition.x(), logicalPosition.y());
++        // A single-output workspace can change scale while the stream is active.
++        // The stream's initial logical size is then stale; input uses the current geometry.
++        const auto screens = QGuiApplication::screens();
++        if (!virtualMonitor() && screens.size() == 1 && !size().isEmpty()) {
++            const auto geometry = screens.constFirst()->geometry();
++            logicalPosition = geometry.topLeft()
++                + QPointF{position.x() * geometry.width() / size().width(), position.y() * geometry.height() / size().height()};
++        }
 +        d->remoteInterface->pointer_motion_absolute(wl_fixed_from_double(logicalPosition.x()), wl_fixed_from_double(logicalPosition.y()));
          break;
      }
