@@ -104,7 +104,8 @@ let
 
       # Reconnect the KDE backend to this compositor before restarting the
       # frontend with the KDE environment. Either can outlive an old session.
-      systemctl --user try-restart plasma-xdg-desktop-portal-kde.service
+      # The backend may have failed while the old compositor was stopping.
+      systemctl --user restart plasma-xdg-desktop-portal-kde.service
       systemctl --user try-restart xdg-desktop-portal.service
 
       # No --virtual-monitor: kwin_wayland --virtual already provides the only
@@ -129,10 +130,13 @@ let
     '';
   };
 
-  # KWin's virtual backend is not software rendering: GpuManager picks a render
-  # device independently of the output backend and the virtual EGL backend
-  # allocates through GBM on it. So this is GPU-accelerated without a VKMS
-  # module or a forced physical connector.
+  # KWin's virtual backend is not software rendering: it opens the first render
+  # node libdrm enumerates and the virtual EGL backend allocates through GBM on
+  # it. So this is GPU-accelerated without a VKMS module or a forced physical
+  # connector. That "first device" rule has no override (KWIN_DRM_DEVICES only
+  # applies to the DRM backend), and KPipeWire's VA-API encoder and Steam's
+  # capture pick the same way. On a multi-GPU host the session is steered by
+  # hiding the other GPUs' device nodes from the unit; see excludeGpus.
   session = pkgs.writeShellApplication {
     name = "headless-rdp-session";
     runtimeInputs = [
@@ -253,6 +257,18 @@ in
       default = false;
       description = "Start Steam in the headless session and open the Remote Play ports.";
     };
+
+    excludeGpus = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      example = [ "pci-0000:12:00.0" ];
+      description = ''
+        GPUs to hide from the session, named as in /dev/dri/by-path without the
+        -card/-render suffix. KWin, the VA-API encoder and Steam all take the
+        first GPU libdrm lists, so hide every GPU except the one that should
+        render and encode.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -280,6 +296,12 @@ in
         # Steam and KWin both dislike being killed by group signal mid-write.
         KillMode = "mixed";
         TimeoutStopSec = "20s";
+        # systemd resolves the by-path symlinks and masks the real nodes, so
+        # libdrm never enumerates the hidden GPUs. "-" tolerates a missing path.
+        InaccessiblePaths = lib.concatMap (gpu: [
+          "-/dev/dri/by-path/${gpu}-card"
+          "-/dev/dri/by-path/${gpu}-render"
+        ]) cfg.excludeGpus;
       };
     };
 

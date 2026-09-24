@@ -42,6 +42,8 @@
       steam = true;
       width = 3840;
       height = 2160;
+      # Render and encode on the RX 9070 XT (03:00.0), not the Ryzen iGPU.
+      excludeGpus = [ "pci-0000:12:00.0" ];
     };
 
     hardware.openrgb = {

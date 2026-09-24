@@ -34,6 +34,37 @@ in
     # AMD's installed launch scripts use /bin/bash directly.
     systemd.tmpfiles.rules = [ "L /bin/bash - - - - ${pkgs.bash}/bin/bash" ];
 
+    # Vivado's Java UI otherwise opens a blank window under Xwayland.
+    environment.sessionVariables._JAVA_AWT_WM_NONREPARENTING = "1";
+
+    # Support AMD's prebuilt binaries and their Java GUI outside an FHS shell.
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        libxcrypt-legacy
+        ncurses
+        ncurses5
+        pixman
+        libpng
+        fontconfig
+        freetype
+        libx11
+        libxext
+        libxrender
+        libxtst
+        libxi
+        libxrandr
+        libxcursor
+        libxfixes
+        libxinerama
+        libglvnd
+        gtk3
+        nss
+        nspr
+        alsa-lib
+      ];
+    };
+
     environment.systemPackages =
       with pkgs;
       lib.optionals cfg.enableVivado [ vivado ] ++ lib.optionals cfg.enableVitis [ vitis ];
