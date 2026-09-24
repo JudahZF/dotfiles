@@ -22,7 +22,32 @@ in
       ];
       desktop.imports = [
         inputs.openlogi.nixosModules.default
-        { programs.openlogi.enable = true; }
+        (
+          { pkgs, ... }:
+          let
+            upstream = inputs.openlogi.packages.${pkgs.stdenv.hostPlatform.system}.openlogi;
+          in
+          {
+            programs.openlogi = {
+              enable = true;
+              package = pkgs.symlinkJoin {
+                name = "openlogi-${upstream.version}-overlay-fix";
+                paths = [ upstream ];
+                nativeBuildInputs = [ pkgs.patchelf ];
+                postBuild = ''
+                  # The agent resolves the overlay beside its own executable.
+                  for binary in openlogi-agent openlogi-overlay; do
+                    cp --remove-destination "${upstream}/bin/$binary" "$out/bin/$binary"
+                    chmod u+w "$out/bin/$binary"
+                  done
+                  # Upstream sets the graphics RUNPATH only on the desktop app.
+                  patchelf --add-rpath "$(patchelf --print-rpath ${upstream}/bin/openlogi-desktop)" \
+                    "$out/bin/openlogi-overlay"
+                '';
+              };
+            };
+          }
+        )
         ../desktop/plasma.nix
         ../desktop/grim.nix
         ../desktop/krdp/system.nix

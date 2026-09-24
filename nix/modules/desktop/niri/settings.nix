@@ -80,6 +80,19 @@ in
       geometry-corner-radius 10
   }
 
+  window-rule {
+      match app-id="^openlogi-action-ring$"
+      open-floating true
+      open-focused false
+      default-column-width { fixed 360; }
+      default-window-height { fixed 360; }
+      clip-to-geometry false
+      geometry-corner-radius 0
+      border { off; }
+      focus-ring { off; }
+      shadow { off; }
+  }
+
   layer-rule {
       match namespace="^noctalia-wallpaper-.*$"
       place-within-backdrop true
