@@ -35,6 +35,7 @@ in
       "cursor-cli"
       "codex"
       "codex-app"
+      "grok-bot"
       "steipete/tap/codexbar"
     ];
   };
