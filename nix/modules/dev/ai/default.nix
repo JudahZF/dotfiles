@@ -77,6 +77,7 @@ in
     unstable.claude-code
     unstable.ccusage
     unstable.codex
+    unstable.grok-build
     unstable.opencode
     unstable.pi-coding-agent
     unstable.prettier

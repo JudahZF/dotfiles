@@ -17,10 +17,10 @@ Below are my feelings about each of the models you can use for subagents and wor
 
 | model       | cost | intelligence | taste | perseverance |
 | ----------- | ---- | ------------ | ----- | ------------ |
-| gpt-6-astra | 6    | 8            | 5     | 9            |
-| gpt-6-sol   | 8    | 7            | 4     | 8            |
+| gpt-6-astra | 6    | 7            | 5     | 9            |
+| gpt-6-sol   | 8    | 6            | 4     | 8            |
 | gpt-6-luna  | 9    | 3            | 1     | 2            |
-| opus 5.5    | 7    | 5            | 7     | 5            |
+| opus 5.5    | 7    | 8            | 7     | 5            |
 | fable 5.1   | 4    | 9            | 9     | 7            |
 
 Cost reflects the cost on this machine, not public list price.
