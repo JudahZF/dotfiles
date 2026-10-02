@@ -1,38 +1,33 @@
 # Automatic dependency and machine updates
 
-Dependency updates are generated centrally by Codeberg Actions and consumed from the protected `main` branch. Machines never update flake inputs locally.
+Dependency updates are generated centrally by GitHub Actions and consumed from the protected `main` branch. Machines never update flake inputs locally.
 
-## Codeberg setup
+## GitHub setup
 
-1. Enable repository Actions.
-2. Register an isolated x86_64 Linux runner with the label `nix-linux`.
-   - The runner must provide Nix with flakes enabled, Git, Bash, curl, and jq.
-   - Do not run untrusted fork pull requests on a personal workstation.
-3. Create a dedicated Codeberg automation account with write access only to this repository.
-4. Add these repository Actions secrets:
-   - `DOTFILES_AUTOMATION_USER`: the automation account username.
-   - `DOTFILES_AUTOMATION_TOKEN`: an access token for pushing the bot branch and managing its pull request.
-   - `NIX_GITHUB_TOKEN`: optional GitHub token used only for GitHub API-backed Nix inputs and T3 Code release checks.
-5. Protect `main`:
+1. Create a fine-grained personal access token scoped to this repository only, with **Contents** and **Pull requests** set to read and write. Store it as the repository Actions secret `DOTFILES_AUTOMATION_TOKEN`.
+2. Turn on **Allow auto-merge** in the repository settings.
+3. Protect `main`:
    - require changes to arrive through pull requests;
    - require the `Required gate` status from the `Flake Check` workflow;
-   - do not allow the automation account to bypass required checks.
+   - do not allow bypassing the required checks.
 
-The automation token is intentionally separate from Forgejo's per-workflow token. Forgejo suppresses new workflow runs for pushes authenticated with its automatic token, which would prevent the update pull request checks from starting.
+The automation token is separate from the workflow's `GITHUB_TOKEN` on purpose. GitHub does not start workflow runs for pushes and pull requests made with `GITHUB_TOKEN`, so the update pull request checks would never run. The workflow's own `GITHUB_TOKEN` is still used for GitHub API-backed Nix inputs and release checks.
+
+Checks run on GitHub-hosted `ubuntu-latest` runners, which install Nix on each run. Fork pull requests skip the jobs.
 
 ## Scheduled updater
 
-`.forgejo/workflows/update-pins.yml` runs at 00:00, 03:00, 06:00, and every three hours thereafter in UTC. It can also be started from the Actions UI.
+`.github/workflows/update-pins.yml` runs at 00:00, 03:00, 06:00, and every three hours thereafter in UTC. It can also be started from the Actions UI.
 
 The workflow:
 
-1. runs `nix/_internal_update.sh`, which updates T3 Code before the flake lock;
+1. runs `nix/_internal_update.sh`, which updates T3 Code and the Origin CLI before the flake lock;
 2. exits without creating a pull request when nothing changed;
-3. rejects changes outside `nix/flake.lock` and `nix/packages/t3code.nix`;
+3. rejects changes outside `nix/flake.lock`, `nix/packages/t3code.nix` and `nix/packages/origin.nix`;
 4. replaces the bot-owned `automation/update-pins` branch;
-5. creates or refreshes one pull request and schedules a squash merge after required checks pass.
+5. creates one pull request if none is open and enables a squash auto-merge that runs once the required checks pass.
 
-Disable dependency updates by disabling the workflow in Codeberg or removing its schedule. Existing machines will continue consuming already-approved commits.
+Disable dependency updates by disabling the workflow in GitHub or removing its schedule. Existing machines will continue consuming already-approved commits.
 
 ## Machine behavior
 
@@ -42,7 +37,7 @@ Disable dependency updates by disabling the workflow in Codeberg or removing its
 
 A machine updates only when its checkout:
 
-- is the configured repository on `main`;
+- is the configured repository (`origin` must be exactly `https://github.com/JudahZF/dotfiles.git`) on `main`;
 - has no tracked or untracked changes;
 - has no Git operation in progress;
 - can fetch `origin/main` noninteractively; and

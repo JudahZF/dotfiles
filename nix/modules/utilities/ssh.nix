@@ -32,12 +32,6 @@ in
         ControlPath = "~/.ssh/master-%r@%n:%p";
         ControlPersist = "no";
       };
-      "personalgit codeberg.org" = {
-        HostName = "codeberg.org";
-        User = "git";
-        IdentityFile = "~/.ssh/personal";
-        IdentitiesOnly = true;
-      };
       "192.168.1.33" = {
         User = "judahf";
         IdentityFile = "~/.ssh/work";

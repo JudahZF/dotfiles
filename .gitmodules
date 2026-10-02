@@ -1,3 +1,3 @@
 [submodule "raycast/yabai-workspaces"]
 	path = raycast/yabai-workspaces
-	url = ssh://git@codeberg.org/JudahZF/yabai-workspaces.git
+	url = https://github.com/JudahZF/yabai-workspaces.git

@@ -57,7 +57,7 @@
     };
 
     nix-xcodes = {
-      url = "git+https://codeberg.org/JudahZF/nix-xcodes.git";
+      url = "github:JudahZF/nix-xcodes";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
