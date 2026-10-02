@@ -20,7 +20,7 @@ fi
 
 sri() {
   local hex
-  hex=$(awk -v platform="  $1)" '$0 == platform { found = 1 } found && /sha="/ { split($0, a, "\""); print a[2]; exit }' <<<"$stable")
+  hex=$(awk -v platform="  $1)" '$0 == platform { found = 1; next } found && /;;/ { exit } found && /sha="/ { split($0, a, "\""); print a[2]; exit }' <<<"$stable")
   [[ ${#hex} -eq 64 ]] || { echo "Missing $1 hash in $INSTALLER" >&2; exit 1; }
   nix hash convert --hash-algo sha256 --to sri "$hex"
 }

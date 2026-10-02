@@ -13,7 +13,7 @@ Dependency updates are generated centrally by GitHub Actions and consumed from t
 
 The automation token is separate from the workflow's `GITHUB_TOKEN` on purpose. GitHub does not start workflow runs for pushes and pull requests made with `GITHUB_TOKEN`, so the update pull request checks would never run. The workflow's own `GITHUB_TOKEN` is still used for GitHub API-backed Nix inputs and release checks.
 
-Checks run on GitHub-hosted `ubuntu-latest` runners, which install Nix on each run. Fork pull requests skip the jobs.
+Checks run on GitHub-hosted `ubuntu-latest` runners, which install Nix on each run. Fork pull requests skip the checks, so `Required gate` fails and they cannot merge. This is intentional: untrusted forks never run Nix evaluation in CI.
 
 ## Scheduled updater
 
