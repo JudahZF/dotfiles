@@ -71,6 +71,7 @@ let
   clawhub = import ../../../packages/clawhub.nix { inherit pkgs lib; };
   clawpack-cli = import ../../../packages/clawpack-cli.nix { inherit pkgs lib; };
   postplan = import ../../../packages/postplan.nix { inherit pkgs lib; };
+  origin = import ../../../packages/origin.nix { inherit pkgs lib; };
 in
 {
   environment.systemPackages = [
@@ -84,6 +85,7 @@ in
     clawhub
     clawpack-cli
     postplan
+    origin
     claude-cl
     claude-clx
     codex-cx

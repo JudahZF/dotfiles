@@ -13,4 +13,5 @@ if [[ -n "$token" ]]; then
 fi
 
 bash "$SCRIPT_DIR/update-t3code.sh"
+bash "$SCRIPT_DIR/update-origin.sh"
 nix flake update --flake "$FLAKE_REF"
