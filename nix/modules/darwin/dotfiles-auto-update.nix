@@ -58,7 +58,7 @@ in
 
     expectedRemote = lib.mkOption {
       type = lib.types.str;
-      default = "ssh://git@codeberg.org/JudahZF/dotfiles.git";
+      default = "https://github.com/JudahZF/dotfiles.git";
       description = "Exact origin URL required before an automatic update.";
     };
 

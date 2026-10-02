@@ -494,15 +494,15 @@
       "locked": {
         "lastModified": 1783329264,
         "narHash": "sha256-ZsUGTFOGAxH3YoJlEyzWwSmCSaZKDD9EHm0uPD6qb0s=",
-        "ref": "refs/heads/main",
+        "owner": "JudahZF",
+        "repo": "nix-xcodes",
         "rev": "14eedc1fb96095f075352a91d5817cd2bf799df8",
-        "revCount": 5,
-        "type": "git",
-        "url": "https://codeberg.org/JudahZF/nix-xcodes.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://codeberg.org/JudahZF/nix-xcodes.git"
+        "owner": "JudahZF",
+        "repo": "nix-xcodes",
+        "type": "github"
       }
     },
     "nix-xilinx": {

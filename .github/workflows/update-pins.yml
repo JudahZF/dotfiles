@@ -1,0 +1,94 @@
+name: Update dependency pins
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-dependency-pins
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      UPDATE_BRANCH: automation/update-pins
+      TARGET_BRANCH: main
+      # Pushes and PRs made with GITHUB_TOKEN do not trigger workflows, so the
+      # required checks would never run. Use a fine-grained PAT instead.
+      GH_TOKEN: ${{ secrets.DOTFILES_AUTOMATION_TOKEN }}
+      NIX_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          ref: main
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update pins and publish pull request
+        run: |
+          set -euo pipefail
+
+          test -n "$GH_TOKEN"
+
+          nix develop ./nix -c bash nix/_internal_update.sh
+
+          pinned_files=(nix/flake.lock nix/packages/t3code.nix nix/packages/origin.nix)
+          changed_files="$(git diff --name-only)"
+          if [[ -z "$changed_files" ]]; then
+            echo "Dependency pins are current."
+            exit 0
+          fi
+
+          unexpected="$(printf '%s\n' "$changed_files" | grep -Ev '^(nix/flake\.lock|nix/packages/t3code\.nix|nix/packages/origin\.nix)$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Updater changed unexpected files:" >&2
+            printf '%s\n' "$unexpected" >&2
+            exit 1
+          fi
+
+          # Open the PR if needed, then merge it once the required checks pass,
+          # but only if the branch still points at the commit we checked.
+          publish() {
+            if [[ -z "$(gh pr list --head "$UPDATE_BRANCH" --base "$TARGET_BRANCH" --state open --json number --jq '.[].number')" ]]; then
+              gh pr create \
+                --head "$UPDATE_BRANCH" \
+                --base "$TARGET_BRANCH" \
+                --title "Update dependency pins" \
+                --body $'Automated update of Nix flake inputs, the pinned T3 Code nightly and the Origin CLI.\n\nThis pull request merges after the required checks succeed.'
+            fi
+            gh pr merge "$UPDATE_BRANCH" --auto --squash --delete-branch --match-head-commit "$1"
+          }
+
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          remote_line="$(git ls-remote "$remote" "refs/heads/$UPDATE_BRANCH")"
+          remote_sha="${remote_line%%[[:space:]]*}"
+          if [[ -n "$remote_sha" ]]; then
+            git fetch "$remote" "+refs/heads/$UPDATE_BRANCH:refs/remotes/origin/$UPDATE_BRANCH"
+            if git diff --quiet "$remote_sha" -- "${pinned_files[@]}"; then
+              echo "Existing update branch already contains these pins."
+              publish "$remote_sha"
+              exit 0
+            fi
+          fi
+
+          git config user.name "Dotfiles Update Bot"
+          git config user.email "dotfiles-update-bot@users.noreply.github.com"
+          git switch -C "$UPDATE_BRANCH"
+          git add "${pinned_files[@]}"
+          git commit -m "Update dependency pins"
+
+          git push \
+            "--force-with-lease=refs/heads/$UPDATE_BRANCH:$remote_sha" \
+            "$remote" "HEAD:refs/heads/$UPDATE_BRANCH"
+
+          publish "$(git rev-parse HEAD)"

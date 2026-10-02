@@ -7,6 +7,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: check-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -14,11 +17,15 @@ concurrency:
 jobs:
   quality:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: nix-linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check repository quality
         run: |
@@ -31,9 +38,13 @@ jobs:
 
   check-linux:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: nix-linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check NixOS configurations
         run: |
@@ -44,9 +55,13 @@ jobs:
 
   check-darwin-eval:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: nix-linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Evaluate gale configuration closure
         run: nix build ./nix#checks.aarch64-darwin.gale --dry-run
@@ -58,7 +73,7 @@ jobs:
       - quality
       - check-linux
       - check-darwin-eval
-    runs-on: nix-linux
+    runs-on: ubuntu-latest
     steps:
       - name: Require all checks
         env:
