@@ -42,8 +42,6 @@
       steam = true;
       width = 3840;
       height = 2160;
-      # Render and encode on the RX 9070 XT (03:00.0), not the Ryzen iGPU.
-      excludeGpus = [ "pci-0000:12:00.0" ];
     };
 
     hardware.openrgb = {
@@ -66,7 +64,21 @@
   };
 
   # GPU
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  # zevlor runs headless, so stub out the Ryzen iGPU (12:00.0) and leave the
+  # RX 9070 XT as the only GPU. KWin's virtual backend, VA-API, Steam and
+  # SteamVR all take the first GPU libdrm lists and have no override. The
+  # softdep holds for every load path, including udev autoloading amdgpu.
+  # The motherboard's video outputs stop working.
+  boot = {
+    initrd = {
+      kernelModules = [ "amdgpu" ];
+      availableKernelModules = [ "pci_stub" ];
+    };
+    extraModprobeConfig = ''
+      options pci_stub ids=1002:13c0
+      softdep amdgpu pre: pci_stub
+    '';
+  };
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
   # Steam/Proton use Mesa RADV by default; AMDVLK removed due to Big Picture/overlay compositing issues.
   hardware.graphics.extraPackages = with pkgs; [

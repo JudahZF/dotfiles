@@ -246,7 +246,7 @@
     <tr><td>Risk level</td><td>Bleeding edge OK</td><td>SteamVR beta, kernel 7.2, hobby apps on the Frame</td></tr>
     <tr><td>Input</td><td>Bluetooth keyboard and mouse (you have them)</td><td>No Arcturus color camera needed. Type by touch.</td></tr>
     <tr><td>Frame config</td><td>Set up by hand. No Nix on SteamOS.</td><td>Frame steps live in this plan</td></tr>
-    <tr><td>zevlor crash loop</td><td>Fix now</td><td>Phase 0. Backlog cleared. A root-owned fix for <code>/tmp/.X11-unix</code> and a rebuild need you</td></tr>
+    <tr><td>zevlor crash loop</td><td>Fix now</td><td>Phase 0. Root cause fixed in the repo (iGPU stubbed). Needs a rebuild and a reboot</td></tr>
   </tbody>
 </table>
 </div>
@@ -453,7 +453,7 @@
 <p>Each phase works on its own. Phase 2 comes early because Valve streaming is high priority.</p>
 
 <details open>
-  <summary><span class="phase-n bad">Phase 0</span> Unblock zevlor <span class="phase-note">in progress · needs root</span>
+  <summary><span class="phase-n bad">Phase 0</span> Unblock zevlor <span class="phase-note">fix ready · needs rebuild + reboot</span>
     <span class="one-line">Stop the DrKonqi crash loop that filled the user manager and stopped headless RDP and Steam.</span></summary>
   <div class="details-body">
     <h5>Cause (confirmed on zevlor)</h5>
@@ -464,22 +464,32 @@
       <li>Masked the socket in <code>nix/modules/desktop/krdp/system.nix</code>. This applies to popper and zevlor:
 <pre><code>systemd.user.units."drkonqi-coredump-launcher.socket".enable = false;</code></pre>
         Built zevlor's user units: the socket resolves to <code>/dev/null</code>. popper evaluates, and nixfmt passes.</li>
-      <li><code>systemctl --user reset-failed</code> finished at about 12:00, after roughly 55 minutes at 100% CPU. The user manager is back to 206 units and answers again. The DrKonqi socket is inactive.</li>
+      <li><code>systemctl --user reset-failed</code> finished at about 12:00 on 10-02, after roughly 55 minutes at 100% CPU. After your rebuild on 10-03 the socket is <code>masked</code>.</li>
     </ul>
-    <h5>Second blocker: <code>/tmp/.X11-unix</code></h5>
-    <p><code>headless-rdp</code> now starts but dies within 150 ms. KWin logs <code>/tmp/.X11-unix is not owned by root or us</code>, so Xwayland cannot start. Steam then cannot open a display and exits, and <code>wait -n</code> ends the session. The NixOS rule is <code>D! /tmp/.X11-unix 1777 root root</code>, which only runs at boot, so nothing repairs the directory while the system runs. The T3 Code sandbox mounts its own tmpfs over that path, so an agent cannot see the real owner.</p>
-    <h5>Your steps (in a real terminal on zevlor, not inside T3 Code)</h5>
-    <ol>
-      <li><code>ls -ld /tmp/.X11-unix</code>. The owner shows what created it. Tell me, so we can decide whether this needs a durable fix.</li>
-      <li><code>sudo chown root:root /tmp/.X11-unix &amp;&amp; sudo chmod 1777 /tmp/.X11-unix</code></li>
-      <li><code>just rebuild</code> from this worktree. This applies the DrKonqi mask. Agent sessions run with <code>NoNewPrivileges</code>, so I cannot use sudo.</li>
-      <li><code>systemctl --user reset-failed</code>. This clears the start limits on <code>headless-rdp</code> and the KDE portal. The guard then starts the session. A user manager restart is no longer needed.</li>
-      <li>Merge the change to <code>main</code>, so the next auto-update does not undo it.</li>
-    </ol>
-    <h5>Check</h5>
+    <h5>Root cause: GPU hiding put the session in a user namespace</h5>
+    <p>On 2026-09-24, <code>excludeGpus</code> added <code>InaccessiblePaths</code> to hide the iGPU from the <code>headless-rdp</code> user unit. A user manager can only build that mount namespace inside a private user namespace (<code>uid_map 1000 1000 1</code>), where root is not mapped. There, the root-owned <code>/tmp/.X11-unix</code> looks foreign, and KWin refuses to start Xwayland ("not owned by root or us"). Steam then cannot open a display, <code>wait -n</code> ends the session, and systemd restarts it every few seconds. The real directory was always <code>root:root 1777</code>. The same namespace also breaks setuid and capability wrappers inside the session.</p>
+    <h5>Fix (2026-10-03)</h5>
     <ul>
+      <li>Removed <code>excludeGpus</code> and <code>InaccessiblePaths</code> from <code>krdp/system.nix</code>. A comment there warns against mount sandboxing in this unit.</li>
+      <li>zevlor stubs the iGPU at boot, so the RX 9070 XT is the only GPU for KWin, VA-API, Steam, SteamVR and Sunshine:
+<pre><code>boot.initrd.availableKernelModules = [ "pci_stub" ];
+boot.extraModprobeConfig = ''
+  options pci_stub ids=1002:13c0
+  softdep amdgpu pre: pci_stub
+'';</code></pre>
+        The softdep is needed because the systemd initrd does not load modules in list order. The motherboard's video outputs stop working.</li>
+      <li>Built zevlor's full system. The initrd's <code>modprobe.d/nixos.conf</code> contains both lines, and <code>pci-stub.ko</code> is in the modules tree. popper evaluates.</li>
+    </ul>
+    <h5>Your steps</h5>
+    <ol>
+      <li><code>cd ~/dotfiles &amp;&amp; just rebuild</code>, then <strong>reboot</strong>. The stub only takes effect at boot. Unlock LUKS over SSH from the LAN, because Tailscale is not up in the initrd: <code>ssh -p 2222 root@Unlock LUKS over SSH: <code>ssh -p 2222 root@zevlor</code>.lt;zevlor LAN IPUnlock LUKS over SSH: <code>ssh -p 2222 root@zevlor</code>.gt;</code>.</li>
+      <li>Merge or push <code>main</code> when ready. It is ahead of <code>origin/main</code>.</li>
+    </ol>
+    <h5>Check after the reboot</h5>
+    <ul>
+      <li><code>lspci -k -s 12:00.0</code> shows <code>Kernel driver in use: pci-stub</code>.</li>
+      <li><code>ls /dev/dri</code> shows one <code>card</code> and <code>renderD128</code>.</li>
       <li><code>ss -ltn | grep 3389</code> shows krdpserver, and <code>pgrep -a steam</code> shows headless Steam.</li>
-      <li><code>systemctl --user list-units --failed</code> shows few or no entries.</li>
       <li><code>coredumpctl list --since -1h</code> shows no new DrKonqi dumps.</li>
     </ul>
   </div>
