@@ -284,24 +284,34 @@ in
       SUBSYSTEM=="input", ATTRS{name}=="Steam Virtual Gamepad", OWNER="${cfg.user}", MODE="0600"
     '';
 
-    systemd.user.services.headless-rdp = {
-      description = "Headless Plasma session exposed over RDP";
-      # Started and stopped exclusively by the guard.
-      wantedBy = [ ];
-      serviceConfig = {
-        Type = "exec";
-        ExecStart = lib.getExe session;
-        Restart = "on-failure";
-        RestartSec = "5s";
-        # Steam and KWin both dislike being killed by group signal mid-write.
-        KillMode = "mixed";
-        TimeoutStopSec = "20s";
-        # systemd resolves the by-path symlinks and masks the real nodes, so
-        # libdrm never enumerates the hidden GPUs. "-" tolerates a missing path.
-        InaccessiblePaths = lib.concatMap (gpu: [
-          "-/dev/dri/by-path/${gpu}-card"
-          "-/dev/dri/by-path/${gpu}-render"
-        ]) cfg.excludeGpus;
+    systemd.user = {
+      # DrKonqi's coredump launcher aborts when no compositor is reachable, and
+      # each abort is itself a coredump that triggers another launcher. On
+      # zevlor that loop filled the user manager to its 131072-unit cap, after
+      # which systemd refused to start headless-rdp at all. Nobody is present to
+      # read a crash dialog on these hosts, so mask the socket (the /etc unit
+      # outranks the copy in the system profile).
+      units."drkonqi-coredump-launcher.socket".enable = false;
+
+      services.headless-rdp = {
+        description = "Headless Plasma session exposed over RDP";
+        # Started and stopped exclusively by the guard.
+        wantedBy = [ ];
+        serviceConfig = {
+          Type = "exec";
+          ExecStart = lib.getExe session;
+          Restart = "on-failure";
+          RestartSec = "5s";
+          # Steam and KWin both dislike being killed by group signal mid-write.
+          KillMode = "mixed";
+          TimeoutStopSec = "20s";
+          # systemd resolves the by-path symlinks and masks the real nodes, so
+          # libdrm never enumerates the hidden GPUs. "-" tolerates a missing path.
+          InaccessiblePaths = lib.concatMap (gpu: [
+            "-/dev/dri/by-path/${gpu}-card"
+            "-/dev/dri/by-path/${gpu}-render"
+          ]) cfg.excludeGpus;
+        };
       };
     };
 

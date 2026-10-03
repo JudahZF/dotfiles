@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the Steam Frame workstation works</title>
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --surface-2: #f4f4f2;
+    --line: #e2e1dd;
+    --line-strong: #cbc9c3;
+    --ink: #1c1b19;
+    --ink-2: #56544e;
+    --ink-3: #85827a;
+    --accent: #4f46b8;
+    --accent-soft: #ece9fb;
+    --warn: #a45705;
+    --warn-soft: #fdf1e0;
+    --bad: #a3231f;
+    --bad-soft: #fbe9e8;
+    --good: #1f6b45;
+    --good-soft: #e5f2eb;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131311;
+      --surface: #1b1b19;
+      --surface-2: #232321;
+      --line: #302f2c;
+      --line-strong: #43423e;
+      --ink: #eceae5;
+      --ink-2: #aeaba3;
+      --ink-3: #7d7a73;
+      --accent: #a99cf5;
+      --accent-soft: #241f45;
+      --warn: #e2a252;
+      --warn-soft: #33260f;
+      --bad: #e8837e;
+      --bad-soft: #341a19;
+      --good: #6fc498;
+      --good-soft: #12291e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 3.5rem 1.5rem 6rem; }
+
+  header.doc { border-bottom: 1px solid var(--line); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 .9rem;
+  }
+  h1 { font-size: clamp(1.9rem, 4.4vw, 2.6rem); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 .8rem; font-weight: 620; }
+  .standfirst { font-size: 1.08rem; color: var(--ink-2); margin: 0; max-width: 64ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .chip {
+    font-family: var(--mono); font-size: .73rem; padding: .28rem .6rem;
+    border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink-2);
+  }
+
+  h2 {
+    font-size: 1.3rem; letter-spacing: -.01em; margin: 3.2rem 0 1rem;
+    padding-top: 1.4rem; border-top: 1px solid var(--line); font-weight: 600;
+  }
+  h3 { font-size: 1.02rem; margin: 2rem 0 .6rem; font-weight: 600; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  code { font-family: var(--mono); font-size: .875em; background: var(--surface-2); padding: .12em .38em; border-radius: 4px; }
+  pre {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 1rem 1.1rem; overflow-x: auto; margin: 0 0 1.2rem; line-height: 1.55;
+  }
+  pre code { background: none; padding: 0; font-size: .82rem; }
+
+  .table-scroll { overflow-x: auto; margin: 0 0 1.3rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td { text-align: left; padding: .62rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 500;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code { white-space: nowrap; }
+  tr.pick td { background: var(--accent-soft); }
+  tr.pick td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+
+  .v { font-weight: 600; white-space: nowrap; }
+  .v-yes { color: var(--good); }
+  .v-no { color: var(--bad); }
+  .v-partial { color: var(--warn); }
+
+  .callout {
+    border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    background: var(--surface); border-radius: 0 8px 8px 0;
+    padding: 1.1rem 1.25rem; margin: 0 0 1.4rem;
+  }
+  .callout p:last-child, .callout ul:last-child, .callout ol:last-child { margin-bottom: 0; }
+  .callout .label {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: .45rem;
+  }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.warn .label { color: var(--warn); }
+  .callout.bad { border-left-color: var(--bad); background: var(--bad-soft); }
+  .callout.bad .label { color: var(--bad); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.4rem; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 1.05rem 1.15rem; background: var(--surface); }
+  .card h4 { margin: 0 0 .45rem; font-size: .95rem; font-weight: 620; }
+  .card p { font-size: .88rem; color: var(--ink-2); margin-bottom: .45rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .card .tag {
+    display: inline-block; font-family: var(--mono); font-size: .66rem; letter-spacing: .06em;
+    text-transform: uppercase; padding: .1rem .4rem; border-radius: 4px; margin-bottom: .5rem;
+  }
+  .tag.good { color: var(--good); background: var(--good-soft); }
+  .tag.warn { color: var(--warn); background: var(--warn-soft); }
+  .tag.bad { color: var(--bad); background: var(--bad-soft); }
+  .tag.info { color: var(--accent); background: var(--accent-soft); }
+
+  details {
+    border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+    margin-bottom: .7rem; overflow: hidden;
+  }
+  summary {
+    cursor: pointer; padding: .85rem 1.1rem; font-weight: 560; list-style: none;
+    display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "▸"; color: var(--ink-3); font-size: .8rem;
+    transition: transform .15s ease; display: inline-block;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary .phase-n {
+    font-family: var(--mono); font-size: .72rem; color: var(--accent);
+    background: var(--accent-soft); padding: .15rem .45rem; border-radius: 4px;
+  }
+  summary .phase-n.bad { color: var(--bad); background: var(--bad-soft); }
+  summary .phase-n.opt { color: var(--ink-3); background: var(--surface-2); }
+  summary .phase-note { margin-left: auto; font-family: var(--mono); font-size: .72rem; color: var(--ink-3); font-weight: 400; }
+  summary .one-line { flex-basis: 100%; font-weight: 400; font-size: .88rem; color: var(--ink-2); padding-left: 1.3rem; }
+  .details-body { padding: 1rem 1.1rem 1.1rem; border-top: 1px solid var(--line); }
+  .details-body > :last-child { margin-bottom: 0; }
+  .details-body h5 {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 500; margin: 1.1rem 0 .4rem;
+  }
+  .details-body h5:first-child { margin-top: 0; }
+
+  figure { margin: 0 0 1.5rem; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--ink-3); margin-top: .6rem; text-align: center; }
+
+  ul, ol { margin: 0 0 1.1rem; padding-left: 1.3rem; }
+  li { margin-bottom: .4rem; }
+  li > ul, li > ol { margin-top: .4rem; margin-bottom: .3rem; }
+
+  .qa dt { font-weight: 600; margin-top: 1rem; }
+  .qa dt:first-child { margin-top: 0; }
+  .qa dd { margin: .3rem 0 0; color: var(--ink-2); }
+
+  footer.doc {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+    font-size: .85rem; color: var(--ink-3);
+  }
+  footer.doc a { color: var(--ink-2); }
+  .srcs { list-style: none; padding: 0; margin: .5rem 0 0; columns: 2 260px; column-gap: 2rem; }
+  .srcs li { margin-bottom: .3rem; font-size: .82rem; break-inside: avoid; }
+
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); }
+  .card-pick { border-color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+  .parts { list-style: none; padding: 0; margin: 0; font-size: .84rem; }
+  .parts li { margin-bottom: .45rem; color: var(--ink-2); line-height: 1.45; }
+  .st {
+    display: inline-block; min-width: 3.9rem; text-align: center; margin-right: .3rem;
+    font-family: var(--mono); font-size: .62rem; letter-spacing: .05em; text-transform: uppercase;
+    padding: .05rem .3rem; border-radius: 4px; vertical-align: 1px;
+  }
+  .st.have { color: var(--good); background: var(--good-soft); }
+  .st.new { color: var(--accent); background: var(--accent-soft); }
+  .st.manual { color: var(--ink-3); background: var(--surface-2); }
+  .st.fix { color: var(--warn); background: var(--warn-soft); }
+  .flow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.4rem; }
+  @media (max-width: 680px) { .flow { grid-template-columns: 1fr; } }
+  .flow ol { font-size: .9rem; padding-left: 1.2rem; margin: 0; }
+  .flow li { margin-bottom: .5rem; }
+  summary .phase-n.done { color: var(--good); background: var(--good-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <p class="eyebrow">Postplan · 2026-10-02 · v3 · how it works</p>
+  <h1>How the Steam Frame workstation works</h1>
+  <p class="standfirst">
+    The Frame is the hub. It holds T3 Code, terminals and windows from gale, popper and zevlor in one space.
+    zevlor streams VR to the Frame through Valve's Steam Link. One stream carries both games and a
+    three-screen desk. This page shows what runs where, how a session runs, and the order to build it.
+  </p>
+  <div class="meta">
+    <span class="chip">primary: zevlor</span>
+    <span class="chip">Valve streaming: high priority</span>
+    <span class="chip">T3 Code on the Frame</span>
+    <span class="chip">home LAN + Tailscale</span>
+    <span class="chip">Frame managed by hand</span>
+  </div>
+</header>
+
+<div class="callout">
+  <span class="label">The short version</span>
+  <ul>
+    <li><strong>T3 Code runs natively on the Frame.</strong> The arm64 AppImage pairs with the T3 Code servers on zevlor and popper over Tailscale HTTPS. One app reaches both machines.</li>
+    <li><strong>Text work stays native.</strong> Konsole and VS Code connect to every host over SSH. No video, so text is as sharp as the headset can show.</li>
+    <li><strong>zevlor streams VR through Steam Link.</strong> The headless Steam session runs SteamVR, with eye-tracked foveated streaming over home Wi-Fi or the Valve dongle. Games run here.</li>
+    <li><strong>The big desk rides the same stream.</strong> WayVR runs as a SteamVR overlay and shows zevlor's three 1440p outputs as panels. WiVRn is the fallback if SteamVR on Linux is too unstable for long work sessions.</li>
+    <li><strong>Other GUIs are windows on the Frame:</strong> popper through RDP, gale through Frame Control, and zevlor away from home through Moonlight.</li>
+  </ul>
+</div>
+
+<h2>Decisions so far</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Question</th><th>Decision</th><th>Effect on the build</th></tr></thead>
+  <tbody>
+    <tr><td>Main use</td><td>Coding, multi-monitor desk, windows from all hosts together</td><td>Native text plus streamed GUIs in one space</td></tr>
+    <tr><td>Where</td><td>Home and away</td><td>Every work path also works over Tailscale. VR streaming is used at home only.</td></tr>
+    <tr><td>Primary host</td><td>zevlor</td><td>zevlor gets SteamVR, the virtual outputs and Sunshine</td></tr>
+    <tr class="pick"><td>Valve streaming</td><td>High priority</td><td>Phase 2. SteamVR via Steam Link is the main VR stack. WiVRn is only a fallback.</td></tr>
+    <tr class="pick"><td>T3 Code</td><td>Must be on the Frame</td><td>Phase 1. arm64 AppImage paired with zevlor and popper</td></tr>
+    <tr><td>Risk level</td><td>Bleeding edge OK</td><td>SteamVR beta, kernel 7.2, hobby apps on the Frame</td></tr>
+    <tr><td>Input</td><td>Bluetooth keyboard and mouse (you have them)</td><td>No Arcturus color camera needed. Type by touch.</td></tr>
+    <tr><td>Frame config</td><td>Set up by hand. No Nix on SteamOS.</td><td>Frame steps live in this plan</td></tr>
+    <tr><td>zevlor crash loop</td><td>Fix now</td><td>Phase 0. Backlog cleared. A root-owned fix for <code>/tmp/.X11-unix</code> and a rebuild need you</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>The system at a glance</h2>
+<figure>
+<svg viewBox="0 0 820 470" role="img" aria-labelledby="arch-t">
+  <title id="arch-t">Three hosts on the left stream into the Steam Frame on the right. zevlor streams SteamVR over
+  Steam Link with games and three WayVR panels, plus a Sunshine stream. popper sends an RDP window. gale sends
+  Frame Control panels. All three hosts are also reached over SSH, and zevlor and popper over T3 Code, from native apps on the Frame.</title>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <style>
+    .bx { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.2; }
+    .bx-a { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; }
+    .bx-f { fill: var(--surface-2); stroke: var(--line-strong); stroke-width: 1.2; stroke-dasharray: 5 4; }
+    .t { font: 600 13px var(--sans); fill: var(--ink); }
+    .t-m { font: 500 11.5px var(--sans); fill: var(--ink); }
+    .t-s { font: 400 10.5px var(--mono); fill: var(--ink-3); }
+    .t-c { font: 500 10.5px var(--mono); fill: var(--ink-2); }
+    .ln { stroke: var(--ink-3); stroke-width: 1.4; fill: none; color: var(--ink-3); }
+    .ln-a { stroke: var(--accent); stroke-width: 1.8; fill: none; color: var(--accent); }
+    .ln-d { stroke: var(--line-strong); stroke-width: 1.2; fill: none; stroke-dasharray: 3 4; color: var(--line-strong); }
+  </style>
+
+  <!-- hosts -->
+  <rect class="bx-a" x="16" y="24" width="250" height="150" rx="8"/>
+  <text class="t" x="32" y="48">zevlor</text>
+  <text class="t-s" x="90" y="48">primary · RX 9070 XT</text>
+  <text class="t-s" x="32" y="72">headless KWin --virtual</text>
+  <text class="t-s" x="32" y="88">3 × 2560×1440 outputs</text>
+  <text class="t-s" x="32" y="110">SteamVR + WayVR overlay</text>
+  <text class="t-s" x="32" y="126">Sunshine (capture=kwin)</text>
+  <text class="t-s" x="32" y="142">KRDP · headless Steam · sshd</text>
+  <text class="t-s" x="32" y="158">T3 Code server (:443)</text>
+
+  <rect class="bx" x="16" y="206" width="250" height="100" rx="8"/>
+  <text class="t" x="32" y="230">popper</text>
+  <text class="t-s" x="92" y="230">Intel iGPU</text>
+  <text class="t-s" x="32" y="254">niri · 2 × 1080p physical</text>
+  <text class="t-s" x="32" y="270">headless KWin when seat idle</text>
+  <text class="t-s" x="32" y="290">KRDP · sshd · T3 Code server</text>
+
+  <rect class="bx" x="16" y="338" width="250" height="100" rx="8"/>
+  <text class="t" x="32" y="362">gale</text>
+  <text class="t-s" x="72" y="362">macOS · Apple Silicon</text>
+  <text class="t-s" x="32" y="386">BetterDisplay virtual displays</text>
+  <text class="t-s" x="32" y="402">Frame Control host</text>
+  <text class="t-s" x="32" y="422">Screen Sharing · sshd</text>
+
+  <!-- frame -->
+  <rect class="bx-f" x="500" y="14" width="304" height="440" rx="12"/>
+  <text class="t" x="518" y="40">Steam Frame</text>
+  <text class="t-s" x="518" y="56">SteamOS aarch64 · KDE in VR · Tailscale</text>
+
+  <rect class="bx-a" x="516" y="72" width="272" height="78" rx="7"/>
+  <text class="t-m" x="530" y="93">Steam Link (SteamVR)</text>
+  <text class="t-s" x="530" y="111">games + 3 WayVR desk panels</text>
+  <text class="t-s" x="530" y="127">home Wi-Fi or dongle · foveated</text>
+  <text class="t-s" x="530" y="142">Phases 2 + 4</text>
+
+  <rect class="bx" x="516" y="166" width="272" height="78" rx="7"/>
+  <text class="t-m" x="530" y="187">Moonlight / Remmina windows</text>
+  <text class="t-s" x="530" y="205">zevlor (Sunshine) · popper (KRDP)</text>
+  <text class="t-s" x="530" y="221">LAN or Tailscale</text>
+  <text class="t-s" x="530" y="236">Phases 1 + 5</text>
+
+  <rect class="bx" x="516" y="260" width="272" height="70" rx="7"/>
+  <text class="t-m" x="530" y="281">Frame Control panels</text>
+  <text class="t-s" x="530" y="299">one panel per Mac window</text>
+  <text class="t-s" x="530" y="315">H.264 over SSH · Phase 6</text>
+
+  <rect class="bx" x="516" y="346" width="272" height="94" rx="7"/>
+  <text class="t-m" x="530" y="367">Native apps (sharpest text)</text>
+  <text class="t-s" x="530" y="385">Konsole → ssh + tmux to any host</text>
+  <text class="t-s" x="530" y="401">T3 Code → zevlor + popper</text>
+  <text class="t-s" x="530" y="417">VS Code Remote-SSH</text>
+  <text class="t-s" x="530" y="433">Frametop: layouts · Phase 1</text>
+
+  <!-- streams -->
+  <path class="ln-a" d="M266 100 C 390 100, 390 108, 514 108" marker-end="url(#ar)"/>
+  <text class="t-c" x="383" y="92" text-anchor="middle">Steam Link</text>
+
+  <path class="ln" d="M266 132 C 400 132, 390 196, 514 196" marker-end="url(#ar)"/>
+  <text class="t-c" x="383" y="150" text-anchor="middle">Sunshine</text>
+
+  <path class="ln" d="M266 258 C 400 258, 390 214, 514 214" marker-end="url(#ar)"/>
+  <text class="t-c" x="383" y="250" text-anchor="middle">RDP :3389</text>
+
+  <path class="ln" d="M266 380 C 400 380, 390 296, 514 296" marker-end="url(#ar)"/>
+  <text class="t-c" x="383" y="352" text-anchor="middle">Frame Control</text>
+
+  <!-- ssh / https to native apps -->
+  <path class="ln-d" d="M266 166 C 420 166, 400 380, 514 384" marker-end="url(#ar)"/>
+  <path class="ln-d" d="M266 296 C 420 296, 420 392, 514 392" marker-end="url(#ar)"/>
+  <path class="ln-d" d="M266 428 C 420 428, 420 400, 514 400" marker-end="url(#ar)"/>
+  <text class="t-c" x="400" y="452" text-anchor="middle">ssh · T3 Code (tailnet)</text>
+</svg>
+<figcaption>Solid lines are video streams. Dashed lines are text and SSH connections, which are sharp and use little bandwidth. The highlighted path is LAN only.</figcaption>
+</figure>
+
+<h2>What runs where</h2>
+<div class="grid grid-4">
+  <div class="card">
+    <h4>Steam Frame</h4>
+    <ul class="parts">
+      <li><span class="st have">built in</span> SteamOS, KDE Plasma in VR, Steam Link client</li>
+      <li><span class="st manual">manual</span> T3 Code arm64 AppImage</li>
+      <li><span class="st manual">manual</span> Developer Mode + SSH key</li>
+      <li><span class="st manual">manual</span> Tailscale (<code>frame-tailscale</code>)</li>
+      <li><span class="st manual">manual</span> Flatpaks: Moonlight, Remmina, VS Code, browser</li>
+      <li><span class="st manual">manual</span> Frametop (screen layouts)</li>
+      <li><span class="st manual">manual</span> Frame Control client</li>
+      <li><span class="st manual">fallback</span> WiVRn client</li>
+    </ul>
+  </div>
+  <div class="card card-pick">
+    <h4>zevlor</h4>
+    <ul class="parts">
+      <li><span class="st have">exists</span> headless KWin session + headless Steam</li>
+      <li><span class="st new">new</span> SteamVR (beta) for Steam Link</li>
+      <li><span class="st new">new</span> kernel 7.2.8 + Valve dongle</li>
+      <li><span class="st new">new</span> 3 × 2560×1440 outputs</li>
+      <li><span class="st new">new</span> WayVR as a SteamVR overlay</li>
+      <li><span class="st have">exists</span> T3 Code server (<code>tailscale serve</code> :443)</li>
+      <li><span class="st have">exists</span> KRDP :3389, sshd</li>
+      <li><span class="st new">new</span> Sunshine (tailnet only)</li>
+      <li><span class="st fix">fix</span> DrKonqi socket masked</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>popper</h4>
+    <ul class="parts">
+      <li><span class="st have">exists</span> T3 Code server (<code>tailscale serve</code> :443)</li>
+      <li><span class="st have">exists</span> niri on 2 physical monitors</li>
+      <li><span class="st have">exists</span> headless KWin + KRDP :3389</li>
+      <li><span class="st have">exists</span> sshd, Tailscale</li>
+      <li><span class="st fix">fix</span> DrKonqi socket masked (same module)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>gale</h4>
+    <ul class="parts">
+      <li><span class="st new">new</span> Remote Login via nix-darwin <code>services.openssh</code></li>
+      <li><span class="st manual">manual</span> Frame Control host app</li>
+      <li><span class="st manual">manual</span> Screen Sharing (VNC fallback)</li>
+      <li><span class="st have">exists</span> BetterDisplay, Tailscale</li>
+    </ul>
+  </div>
+</div>
+
+<h2>How a session runs</h2>
+<div class="flow">
+  <div class="card">
+    <span class="tag good">at home · LAN</span>
+    <h4>Big desk + games</h4>
+    <ol>
+      <li>Put on the Frame. The keyboard and mouse reconnect.</li>
+      <li>Open the KDE desktop. Frametop restores your "work" layout. T3 Code opens with zevlor and popper connected.</li>
+      <li>Konsole: <code>ssh zevlor</code> (tmux attach), <code>ssh popper</code>, <code>ssh gale</code>.</li>
+      <li>Start SteamVR on zevlor. Until Valve fixes the Linux bug, run <code>ssh zevlor steamvr-up</code> from Konsole.</li>
+      <li>In the Frame's Steam, stream from zevlor. WayVR starts with SteamVR, and zevlor's three outputs appear as panels.</li>
+      <li>Add the native panels (T3 Code, Remmina to popper, Frame Control for gale) beside them from the dashboard.</li>
+      <li>To play, launch a game from zevlor's library in the same stream. WayVR panels stay available as an overlay.</li>
+      <li>When you finish, quit the stream. zevlor's session keeps running, so your windows stay where they are.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <span class="tag info">away · Tailscale</span>
+    <h4>Travel mode</h4>
+    <ol>
+      <li>Put on the Frame. Tailscale connects to the tailnet.</li>
+      <li>T3 Code reconnects to zevlor and popper over Tailscale HTTPS. No change from home.</li>
+      <li>Konsole: SSH to every host, as at home.</li>
+      <li>Do not use VR streaming: it is too sensitive to latency for the internet. Open Moonlight to zevlor's Sunshine for its desktop. One stream shows one output.</li>
+      <li>Remmina to popper over the tailnet.</li>
+      <li>gale is usually with you. Frame Control connects over the local network.</li>
+      <li>Plug a power bank into the rear USB-C port for sessions longer than 1 h.</li>
+    </ol>
+  </div>
+</div>
+
+<h2>Connections</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Path</th><th>Transport</th><th>Video</th><th>Port</th><th>Network</th><th>Used</th></tr></thead>
+  <tbody>
+    <tr><td>Frame → zevlor, popper</td><td>T3 Code (HTTPS + WebSocket)</td><td>none</td><td>443 (<code>tailscale serve</code>)</td><td>tailnet</td><td>always</td></tr>
+    <tr><td>Frame → all hosts</td><td>SSH</td><td>none</td><td>22</td><td>tailnet</td><td>always</td></tr>
+    <tr class="pick"><td>zevlor → Frame</td><td>Steam Link (SteamVR)</td><td>eye-tracked foveated</td><td>27031–27037 (open on LAN)</td><td>home Wi-Fi or Valve dongle</td><td>home</td></tr>
+    <tr><td>zevlor → Frame</td><td>Sunshine → Moonlight</td><td>H.265 / H.264</td><td>47984–48010</td><td>tailnet only</td><td>away</td></tr>
+    <tr><td>popper / zevlor → Frame</td><td>KRDP → Remmina</td><td>H.264 (RDP)</td><td>3389</td><td>LAN + tailnet</td><td>both</td></tr>
+    <tr><td>gale → Frame</td><td>Frame Control</td><td>H.264 (ScreenCaptureKit)</td><td>SSH tunnel</td><td>LAN or tailnet</td><td>both</td></tr>
+    <tr><td>zevlor → Frame (fallback)</td><td>WiVRn</td><td>H.265 8-bit</td><td>9757</td><td>LAN</td><td>only if SteamVR fails</td></tr>
+  </tbody>
+</table>
+</div>
+<p><code>tailscale0</code> is already trusted on the NixOS hosts. The Steam Remote Play ports are already open on the LAN in <code>krdp/system.nix</code>, so Phase 2 needs no new firewall rules.</p>
+
+<h2>Build order</h2>
+<p>Each phase works on its own. Phase 2 comes early because Valve streaming is high priority.</p>
+
+<details open>
+  <summary><span class="phase-n bad">Phase 0</span> Unblock zevlor <span class="phase-note">in progress · needs root</span>
+    <span class="one-line">Stop the DrKonqi crash loop that filled the user manager and stopped headless RDP and Steam.</span></summary>
+  <div class="details-body">
+    <h5>Cause (confirmed on zevlor)</h5>
+    <p><code>drkonqi-coredump-launcher</code> aborts with SIGABRT. Each abort is a new coredump, and each coredump starts a new launcher. The loop ran from 2026-10-01 14:49 until systemd had 131,071 user units. At that point it refused to start <code>headless-rdp</code> ("Argument list too long").
+    The user manager still had <code>WAYLAND_DISPLAY=wayland-0</code> and <code>QT_QPA_PLATFORM=wayland</code> set, but no <code>wayland-0</code> socket existed. That is the likely reason the launcher aborts after the headless compositor is gone.</p>
+    <h5>Done</h5>
+    <ul>
+      <li>Masked the socket in <code>nix/modules/desktop/krdp/system.nix</code>. This applies to popper and zevlor:
+<pre><code>systemd.user.units."drkonqi-coredump-launcher.socket".enable = false;</code></pre>
+        Built zevlor's user units: the socket resolves to <code>/dev/null</code>. popper evaluates, and nixfmt passes.</li>
+      <li><code>systemctl --user reset-failed</code> finished at about 12:00, after roughly 55 minutes at 100% CPU. The user manager is back to 206 units and answers again. The DrKonqi socket is inactive.</li>
+    </ul>
+    <h5>Second blocker: <code>/tmp/.X11-unix</code></h5>
+    <p><code>headless-rdp</code> now starts but dies within 150 ms. KWin logs <code>/tmp/.X11-unix is not owned by root or us</code>, so Xwayland cannot start. Steam then cannot open a display and exits, and <code>wait -n</code> ends the session. The NixOS rule is <code>D! /tmp/.X11-unix 1777 root root</code>, which only runs at boot, so nothing repairs the directory while the system runs. The T3 Code sandbox mounts its own tmpfs over that path, so an agent cannot see the real owner.</p>
+    <h5>Your steps (in a real terminal on zevlor, not inside T3 Code)</h5>
+    <ol>
+      <li><code>ls -ld /tmp/.X11-unix</code>. The owner shows what created it. Tell me, so we can decide whether this needs a durable fix.</li>
+      <li><code>sudo chown root:root /tmp/.X11-unix &amp;&amp; sudo chmod 1777 /tmp/.X11-unix</code></li>
+      <li><code>just rebuild</code> from this worktree. This applies the DrKonqi mask. Agent sessions run with <code>NoNewPrivileges</code>, so I cannot use sudo.</li>
+      <li><code>systemctl --user reset-failed</code>. This clears the start limits on <code>headless-rdp</code> and the KDE portal. The guard then starts the session. A user manager restart is no longer needed.</li>
+      <li>Merge the change to <code>main</code>, so the next auto-update does not undo it.</li>
+    </ol>
+    <h5>Check</h5>
+    <ul>
+      <li><code>ss -ltn | grep 3389</code> shows krdpserver, and <code>pgrep -a steam</code> shows headless Steam.</li>
+      <li><code>systemctl --user list-units --failed</code> shows few or no entries.</li>
+      <li><code>coredumpctl list --since -1h</code> shows no new DrKonqi dumps.</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 1</span> Frame baseline + T3 Code <span class="phase-note">headset only · ~1 h</span>
+    <span class="one-line">T3 Code, Tailscale, SSH and native apps on the Frame. Works at home and away from day one.</span></summary>
+  <div class="details-body">
+    <h5>Base</h5>
+    <ol>
+      <li>Update SteamOS. 0.4.2 beta has streaming fixes.</li>
+      <li>Turn on Developer Mode and add your SSH key (<code>ssh steamos@frame</code>).</li>
+      <li>Install Tailscale with the <code>frame-tailscale</code> script. Test <code>ssh zevlor</code>, <code>ssh popper</code> and <code>ssh gale</code> by MagicDNS name.</li>
+      <li>Install the aarch64 Flatpaks: Moonlight, Remmina, VS Code, and Firefox or Chrome.</li>
+      <li>Install Frametop (distrobox) and make a "work" layout. It was tested only on SteamOS 0.3.0.</li>
+      <li>Pair the Bluetooth keyboard and mouse.</li>
+    </ol>
+    <h5>T3 Code</h5>
+    <ol>
+      <li>Download <code>T3-Code-&lt;version&gt;-arm64.AppImage</code> from the T3 Code releases. Use the same version as the servers (now <code>0.0.45-nightly.20260930.2481</code>). Install it with Gear Lever so it appears in the app menu.</li>
+      <li>On zevlor and on popper, mint a pairing link. The servers already run with <code>--tailscale-serve</code>:
+<pre><code>t3code-server pair --tailscale --base-dir ~/.t3 --label frame</code></pre></li>
+      <li>On the Frame: <strong>Settings → Connections → Add environment</strong>, then paste each link. The link is valid for 5 minutes and pairs that device permanently.</li>
+      <li>Optional: turn on <strong>Load balancing</strong> so new threads go to whichever machine has free CPU and memory.</li>
+      <li>When the flake pin bumps T3 Code, update the AppImage too, to keep the app and servers in step.</li>
+    </ol>
+    <p>Fallbacks, in order: <code>app.t3.codes</code> in the Frame's browser pointed at the tailnet HTTPS URLs, then the T3 Code Android app through Lepton. Nobody has tested the AppImage on a Frame yet, but SteamOS runs aarch64 AppImages.</p>
+    <h5>Check</h5>
+    <p>Do one hour of real work: T3 Code threads on zevlor, plus Konsole and tmux. Note text size, eye strain and comfort.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 2</span> Valve streaming from zevlor <span class="phase-note">high priority · repo + Steam</span>
+    <span class="one-line">SteamVR in zevlor's headless Steam, streamed to the Frame over Wi-Fi first, then the dongle.</span></summary>
+  <div class="details-body">
+    <h5>A · Wi-Fi first (no kernel change)</h5>
+    <ol>
+      <li>After Phase 0, confirm that headless Steam runs on zevlor (<code>pgrep -a steam</code>).</li>
+      <li>Over RDP, install SteamVR in zevlor's Steam and opt into the SteamVR beta (2.17.8 or newer).</li>
+      <li>On the Frame, open Steam → streaming. zevlor should appear, because both are on the LAN. Pair them.</li>
+      <li>Test a flat game first, then a VR game.</li>
+    </ol>
+    <h5>B · Start SteamVR by hand (Valve's Linux bug)</h5>
+    <p>On Linux, SteamVR does not start on its own when the Frame connects. Add a small <code>steamvr-up</code> command on zevlor, so you can run it from the Frame over SSH. The <code>steam</code> CLI passes the URL to the Steam instance that is already running in the headless session:</p>
+<pre><code>(pkgs.writeShellScriptBin "steamvr-up" ''
+  exec steam steam://run/250820
+'')</code></pre>
+    <p>Delete it when Valve fixes the bug.</p>
+    <h5>C · Valve dongle (repo change)</h5>
+    <ul>
+      <li>The dongle needs kernel 7.2 or newer. zevlor runs 6.18.53. Set <code>boot.kernelPackages = pkgs.linuxPackages_latest;</code> in <code>zevlor/steam.nix</code>, which gives 7.2.8 in your pin.</li>
+      <li>Checked: <code>hid-tmff2</code> (Thrustmaster wheel), zevlor's only out-of-tree module, is already built for 7.2.8 in cache.nixos.org.</li>
+      <li>Plug the dongle into zevlor's USB-A. It works best in the same room as the headset. If zevlor is in another room, use a USB extension cable.</li>
+      <li><code>hardware.steam-hardware.enable</code> is already on, so the Valve udev rules are in place.</li>
+    </ul>
+    <h5>Known NixOS issues to check</h5>
+    <ul>
+      <li>SteamVR asks to <code>setcap</code> <code>vrcompositor-launcher</code> for async reprojection. Inside Steam's FHS sandbox the capability does not apply. With streaming, the headset reprojects too, so try it without first.</li>
+      <li>SteamVR runs inside the headless KWin session. That session sees only the 9070 XT (<code>excludeGpus</code>) and has Xwayland, which SteamVR needs.</li>
+      <li>Keep SteamVR as the active OpenXR runtime. Check that <code>~/.config/openxr/1/active_runtime.json</code> points at SteamVR, especially if you later add the WiVRn fallback.</li>
+    </ul>
+    <h5>Check</h5>
+    <ul>
+      <li>A VR game runs at 90 Hz without stutter. Compare Wi-Fi with the dongle.</li>
+      <li>The stream survives 30 minutes of idle desktop use.</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 3</span> zevlor: three virtual outputs <span class="phase-note">repo · small</span>
+    <span class="one-line">Add an <code>outputs</code> option to <code>services.headlessRdp</code> and set it to 3 × 1440p on zevlor.</span></summary>
+  <div class="details-body">
+    <ul>
+      <li>Add an <code>outputs</code> option (positive int, default 1). Pass it as <code>--output-count</code> to <code>kwin_wayland</code> in <code>nix/modules/desktop/krdp/system.nix</code>. KWin 6.6.6 includes this flag.</li>
+      <li>zevlor: <code>outputs = 3; width = 2560; height = 1440;</code>. Three 1440p panels are easier to read in the Frame than one 4K panel, and they cover about 30% more area.</li>
+      <li>KRDP still streams monitor 0. Games run on output 0, which Steam Link captures.</li>
+    </ul>
+    <h5>Check</h5>
+    <ul>
+      <li>Test by hand first: confirm that <code>--virtual</code> respects <code>--output-count</code> (<code>kscreen-doctor -o</code>).</li>
+      <li>Confirm that plasmashell keeps its panel on output 0, and that Steam Link still captures the right output.</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 4</span> Big desk: WayVR in SteamVR <span class="phase-note">repo · small</span>
+    <span class="one-line">zevlor's three outputs as VR panels inside the Steam Link stream.</span></summary>
+  <div class="details-body">
+    <ul>
+      <li>Add <code>pkgs.wayvr</code> (26.8.0) to zevlor. WayVR supports SteamVR and can register to start with it.</li>
+      <li>WayVR must run in the headless session, so it can see <code>WAYLAND_DISPLAY</code>. Starting it from SteamVR, which runs in that session, takes care of this.</li>
+      <li>On KDE, WayVR asks once for screen-share consent. Accept it over RDP, and check that the consent survives a restart.</li>
+    </ul>
+    <h5>Check</h5>
+    <ul>
+      <li>Three readable panels in the stream. Foveated streaming should make text where you look sharper than a fixed-quality stream.</li>
+      <li><strong>Mixed-window test:</strong> open T3 Code and Remmina panels from the Frame dashboard during the stream. If both show together, the home flow above works as written.</li>
+    </ul>
+    <details>
+      <summary><span class="phase-n opt">Fallback</span> WiVRn + WayVR, only if SteamVR on Linux fails</summary>
+      <div class="details-body">
+        <p>Use this only if SteamVR on Linux is too unstable for long sessions. The Frame client was merged on 2026-09-27 and is not in a release, so the server must come from <code>nixpkgs-xr</code> and match the client build exactly.</p>
+<pre><code>services.wivrn = {
+  enable = true;
+  openFirewall = true;
+  highPriority = true;
+  package = inputs.nixpkgs-xr.packages.${system}.wivrn;
+  config = {
+    enable = true;
+    json = {
+      application = [ (lib.getExe pkgs.wayvr) ];
+      encoders = [ { encoder = "vaapi"; codec = "h265"; } ];  # Frame decodes 8-bit H.264/H.265 only
+    };
+  };
+};</code></pre>
+        <p>Do not set <code>steam.importOXRRuntimes</code>, so SteamVR stays the runtime for games.</p>
+      </div>
+    </details>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 5</span> Sunshine for away use <span class="phase-note">repo · small</span>
+    <span class="one-line">Moonlight windows over Tailscale for zevlor's desktop.</span></summary>
+  <div class="details-body">
+    <ul>
+      <li>zevlor: <code>services.sunshine = { enable = true; capSysAdmin = true; openFirewall = false; settings.capture = "kwin"; }</code>.</li>
+      <li>Sunshine's user service is bound to <code>graphical-session.target</code>, which the headless session never starts. Add a <code>headless-session.target</code> that <code>headless-rdp-body</code> starts after <code>import-environment</code>, and bind Sunshine to it.</li>
+      <li>First test Moonlight on the Frame, because hardware decode there is not confirmed. If it fails, use KRDP → Remmina.</li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><span class="phase-n">Phase 6</span> gale windows <span class="phase-note">small repo change + manual</span>
+    <span class="one-line">Mac windows as separate panels next to the Linux ones.</span></summary>
+  <div class="details-body">
+    <ul>
+      <li>Turn on Remote Login with nix-darwin <code>services.openssh</code> (the module is in your pin). Frame Control and <code>ssh gale</code> both need it.</li>
+      <li>Install Frame Control on gale and on the Frame. It sends one panel per Mac window. It is a hobby project, so expect gaps.</li>
+      <li>Fallback: macOS Screen Sharing → Remmina VNC, with BetterDisplay virtual displays. It lags, and the Mac cursor does not show.</li>
+      <li>Leave out Sunshine on macOS. It always streams the main display, even when you select a virtual display (bug #4585).</li>
+    </ul>
+  </div>
+</details>
+
+<h2>Ideas</h2>
+<div class="grid">
+  <div class="card">
+    <span class="tag good">cheap</span>
+    <h4>Text over pixels</h4>
+    <p>Do coding in T3 Code and native terminals on the Frame. Keep video streams for apps that only have a GUI.</p>
+    <p>Native text renders at the headset's full resolution. A video stream always makes text softer, even with foveation.</p>
+  </div>
+  <div class="card">
+    <span class="tag info">medium</span>
+    <h4>One headless desk, many viewers</h4>
+    <p>After Phases 2–5, zevlor serves the same outputs to RDP, Steam Link, WayVR and Sunshine. You can leave RDP on gale and see the same windows in VR.</p>
+    <p>Rename <code>headlessRdp</code> to <code>headlessDesk</code> when it stops being just RDP.</p>
+  </div>
+  <div class="card">
+    <span class="tag info">small</span>
+    <h4>T3 Code load balancing</h4>
+    <p>With zevlor and popper both paired, T3 Code can send new threads to whichever machine has free resources.</p>
+    <p>Set zevlor to <strong>Less often</strong> while you play, so agent work does not take GPU and CPU time from a VR game.</p>
+  </div>
+</div>
+
+<h2>Risks</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr></thead>
+  <tbody>
+    <tr><td>SteamVR on Linux is only partly supported (manual start, rough edges)</td><td>Phase 2 is unreliable</td><td><code>steamvr-up</code> helper. SteamVR beta. WiVRn fallback for the desk</td></tr>
+    <tr><td>SteamVR in a headless KWin session is untested</td><td>SteamVR fails to start</td><td>Test early in Phase 2. Fallback: log in at zevlor's seat with a dummy plug</td></tr>
+    <tr><td>Kernel 7.2 on zevlor</td><td>Driver regressions</td><td><code>hid-tmff2</code> already builds. Roll back to the previous generation</td></tr>
+    <tr><td>Dongle range if zevlor is in another room</td><td>Dropouts</td><td>USB extension, or stay on Wi-Fi</td></tr>
+    <tr><td>T3 Code AppImage untested on the Frame</td><td>No native app</td><td><code>app.t3.codes</code> in the browser, then the Android app</td></tr>
+    <tr><td><code>--output-count</code> with <code>--virtual</code> is untested here</td><td>Phase 3 fails</td><td>Test by hand first. Fallback: <code>krfb-virtualmonitor</code></td></tr>
+    <tr><td>Moonlight hardware decode on the Frame is unknown</td><td>Away GUI is slow or blurry</td><td>KRDP → Remmina already works</td></tr>
+    <tr><td>Frame Control and Frametop are hobby projects</td><td>Breakage on SteamOS updates</td><td>VNC fallback. Plain Plasma panels</td></tr>
+    <tr><td>1–1.5 h battery</td><td>Session length</td><td>Power bank on the rear USB-C port</td></tr>
+  </tbody>
+</table>
+</div>
+
+<footer class="doc">
+  <p>Research by three subagents on 2026-10-02: the repo profile, Steam Frame hardware and OS, and VR desktop software. Repo facts, the kernel 7.2 module build and the zevlor crash loop were checked live on zevlor.</p>
+  <ul class="srcs">
+    <li><a href="https://roadtovr.com/valve-steam-frame-review/">Road to VR · Steam Frame review</a></li>
+    <li><a href="https://aftermath.site/steam-frame-review/">Aftermath · Steam Frame review</a></li>
+    <li><a href="https://help.steampowered.com/en/faqs/view/2668-0B6E-79E0-A85B">Valve · Steam Frame streaming guide</a></li>
+    <li><a href="https://mixed-news.com/en/valve-steam-frame-linux-steamvr-started-by-hand/">MIXED · Linux needs SteamVR started by hand</a></li>
+    <li><a href="https://partner.steamgames.com/doc/steamhardware/steamframe/debugging">Steamworks · Frame debugging / dev mode</a></li>
+    <li><a href="https://www.uploadvr.com/flatpaks-open-source-steam-frame/">UploadVR · Flatpaks on the Frame</a></li>
+    <li><a href="https://github.com/pingdotgg/t3code/blob/main/docs/user/remote-access.md">T3 Code · remote access and pairing</a></li>
+    <li><a href="https://github.com/pingdotgg/t3code/releases">T3 Code releases (arm64 AppImage)</a></li>
+    <li><a href="https://github.com/wayvr-org/wayvr">WayVR</a></li>
+    <li><a href="https://github.com/WiVRn/WiVRn/pull/1130">WiVRn PR #1130 · Frame client</a></li>
+    <li><a href="https://github.com/nix-community/nixpkgs-xr">nix-community/nixpkgs-xr</a></li>
+    <li><a href="https://github.com/DeeJanuz/frametop">Frametop</a></li>
+    <li><a href="https://github.com/saphid/frame-control">Frame Control (Mac in the headset)</a></li>
+    <li><a href="https://github.com/AlexFigar/frame-tailscale">frame-tailscale</a></li>
+    <li><a href="https://github.com/LizardByte/Sunshine/issues/4585">Sunshine #4585 · macOS virtual display</a></li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>
