@@ -19,6 +19,13 @@ in
 
   programs.steam = {
     enable = true;
+    # niri keeps its intermediate spawn process alive until the app's systemd
+    # scope exists. Steam's wrapper runs `bwrap --die-with-parent`, so when that
+    # process exits, bwrap is killed before Steam logs anything. Launchers that
+    # spawn through niri then fail while a terminal works (niri-wm/niri#2463).
+    package = pkgs.steam.override {
+      buildFHSEnv = args: pkgs.buildFHSEnv (args // { dieWithParent = false; });
+    };
     extraPackages = with pkgs; [ hidapi ];
     extraCompatPackages = [ latestPkgs.proton-ge-bin ];
     protontricks.enable = true;

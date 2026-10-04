@@ -12,13 +12,21 @@ lib.mkMerge [
 
   # Discord not available on aarch64-linux
   (lib.mkIf (pkgs.stdenv.isLinux && pkgs.stdenv.hostPlatform.isx86_64) {
-    # The NIXOS_OZONE_WL wrapper enables WaylandWindowDecorations. Discord is
-    # frameless, so on niri it then draws smaller than its window. Chromium
-    # applies --disable-features over --enable-features.
+    # With NIXOS_OZONE_WL set, nixpkgs' wrapper also adds
+    # --enable-features=WaylandWindowDecorations and --enable-wayland-ime,
+    # which make Discord start broken on niri. Drop that branch and request
+    # native Wayland directly. Discord is frameless, so keep decorations off.
     environment.systemPackages = [
-      (pkgs.discord.override {
-        commandLineArgs = "--disable-features=WaylandWindowDecorations";
-      })
+      (
+        (pkgs.discord.override {
+          commandLineArgs = "--ozone-platform=wayland --disable-features=WaylandWindowDecorations";
+        }).overrideAttrs
+          (prev: {
+            postInstall = (prev.postInstall or "") + ''
+              wrapProgramShell $out/opt/Discord/Discord --unset NIXOS_OZONE_WL
+            '';
+          })
+      )
     ];
   })
 ]

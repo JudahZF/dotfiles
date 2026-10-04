@@ -183,7 +183,9 @@ let
   # The headless session must not coexist with a session on the physical seat:
   # both are the same Unix user, and Steam holds a single lockfile in ~/.steam.
   # SDDM's greeter also occupies seat0, so match Class=user only — otherwise the
-  # login screen alone would suppress the session forever.
+  # login screen alone would suppress the session forever. A logged-out session
+  # can linger in State=closing while stray processes survive; it no longer
+  # holds the seat, so ignore it.
   guard = pkgs.writeShellApplication {
     name = "headless-rdp-guard";
     runtimeInputs = [
@@ -193,24 +195,31 @@ let
     ];
     text = ''
       user_session_on_seat() {
-        local id seat class
+        local id props
         while read -r id _; do
           [ -n "$id" ] || continue
-          seat="$(loginctl show-session "$id" --property=Seat --value 2>/dev/null || true)"
-          class="$(loginctl show-session "$id" --property=Class --value 2>/dev/null || true)"
-          if [ "$seat" = "seat0" ] && [ "$class" = "user" ]; then
+          props="$(loginctl show-session "$id" --property=Seat --property=Class --property=State 2>/dev/null || true)"
+          if grep -qx 'Seat=seat0' <<<"$props" \
+            && grep -qx 'Class=user' <<<"$props" \
+            && ! grep -qx 'State=closing' <<<"$props"; then
             return 0
           fi
         done < <(loginctl list-sessions --no-legend | awk '{print $1}')
         return 1
       }
 
+      # Act only when the wanted state changes. Each --machine call opens a
+      # logind session of its own, which fires another SessionNew; calling
+      # systemctl on every signal fed back into itself once a second.
+      last_action=""
       sync_state() {
+        local action=start
         if user_session_on_seat; then
-          systemctl --user --machine=${cfg.user}@.host stop headless-rdp.service || true
-        else
-          systemctl --user --machine=${cfg.user}@.host start headless-rdp.service || true
+          action=stop
         fi
+        [ "$action" != "$last_action" ] || return 0
+        last_action="$action"
+        systemctl --user --machine=${cfg.user}@.host "$action" headless-rdp.service || true
       }
 
       sync_state

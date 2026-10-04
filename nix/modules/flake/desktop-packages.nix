@@ -13,9 +13,24 @@
     {
       packages = lib.optionalAttrs pkgs.stdenv.isLinux (
         let
+          unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+
+          # breakpad 2024.02.16 fails to link microdump_stackwalk on the current
+          # unstable toolchain (missing FastSourceLineResolver::Module vtable).
+          # Drop this once NixOS/nixpkgs#569323 reaches nixos-unstable.
+          noctalia-shell = unstable.noctalia-shell.override {
+            noctalia-qs = unstable.noctalia-qs.override {
+              breakpad = unstable.breakpad.overrideAttrs (prev: {
+                patches = (prev.patches or [ ]) ++ [
+                  ../desktop/noctalia/breakpad-fix-vtable-link.patch
+                ];
+              });
+            };
+          };
+
           noctalia-shell-wrapped = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
             pkgs = wrappedPkgs;
-            package = inputs.nixpkgs-unstable.legacyPackages.${system}.noctalia-shell;
+            package = noctalia-shell;
             outOfStoreConfig = "$HOME/.config/noctalia";
             autoCopyConfig = false;
             enableDumpScript = true;
