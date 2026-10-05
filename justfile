@@ -16,7 +16,8 @@ default:
 # Rebuild and switch, then clean up old generations and caches
 rebuild:
     #!/usr/bin/env bash
-    set -euo pipefail
+    set -Eeuo pipefail
+    trap 'status=$?; printf "Rebuild failed at line %s (exit %s): %s\n" "$LINENO" "$status" "$BASH_COMMAND" >&2; exit "$status"' ERR
     old_system=$(readlink -f /run/current-system 2>/dev/null || true)
     case "$(uname -s)" in
       Darwin)
@@ -46,7 +47,12 @@ rebuild:
       nvd diff "$old_system" "$new_system" || true
     fi
     if [[ "$(uname -s)" == "Darwin" ]]; then
-      sudo yabai --load-sa
+      if sudo -n "$HOME/Code/personal/yabai/bin/yabai" --load-sa; then
+        echo "yabai scripting addition loaded."
+      else
+        status=$?
+        printf 'Warning: yabai scripting addition failed to load (exit %s). The system rebuild succeeded; scripting-addition features remain unavailable.\n' "$status" >&2
+      fi
       launchctl kickstart -k "gui/$(id -u)/com.koekeishiya.yabai"
       just brew-clean
     fi

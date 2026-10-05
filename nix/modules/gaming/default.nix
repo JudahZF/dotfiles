@@ -3,7 +3,10 @@ lib.mkIf pkgs.stdenv.isDarwin {
   homebrew = {
     casks = [
       "curseforge"
-      "game-porting-toolkit"
+      {
+        name = "gcenx/wine/game-porting-toolkit";
+        trusted = true;
+      }
       "minecraft"
     ];
     brews = [ "samtay/tui/tetris" ];
