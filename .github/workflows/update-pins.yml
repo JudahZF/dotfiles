@@ -24,7 +24,7 @@ jobs:
       GH_TOKEN: ${{ secrets.DOTFILES_AUTOMATION_TOKEN }}
       NIX_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 1
           persist-credentials: false
