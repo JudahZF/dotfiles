@@ -32,16 +32,9 @@ Here are some of my preferences when working so we can be an effective team.
 - If Rust code looks like it was written by a python dev, it's bad Rust.
 - One liner functions that are just wrappers are pointless.
 
-# Questions are read only
-
-Don't make changes if a message starts with "How hard would X be?", "What would Y be like", "Is Z possible" "Should we". These are questions to be answered, not invitations to make changes.
 
 # Match the tool to the job
 
 - Don't spawn subagents for a simple job, it's unnecessary and wasteful. Delegation is for large, wide / parellel work, not small serial one-offs.
 - When severial agents do work in parellel, state file ownership up front so they do not colide.
 
-# Computer takeover is annoying
-
-- Do not launch browsers, start applications or take over screen control unless explicitly requested, this creates more issues than it fixes.
-- If a project already has a dev server running, do not kill it, just reuse it if possible, or ask the user to kill it.
