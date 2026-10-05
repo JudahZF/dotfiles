@@ -9,3 +9,7 @@ pi/agent/auth.json
 pi/agent/sessions/
 pi/agent/node_modules/
 wallpapers/Replicate*
+
+# Local clones of separate repos; not part of this repo
+/nix-xcodes/
+/nix/custom-packages/
