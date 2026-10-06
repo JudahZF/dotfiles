@@ -61,6 +61,11 @@
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
+    nix-apple-tools = {
+      url = "github:JudahZF/nix-apple-tools";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
     homebrew-bevanjkay-tap = {
       url = "github:bevanjkay/homebrew-tap";
       flake = false;

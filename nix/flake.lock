@@ -426,6 +426,26 @@
         "type": "github"
       }
     },
+    "nix-apple-tools": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-darwin"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791282281,
+        "narHash": "sha256-MigWFS5P5lobfEi1EkZ//JqppJxjrmMFGETmxEltciE=",
+        "owner": "JudahZF",
+        "repo": "nix-apple-tools",
+        "rev": "54c747f3f5ac76a1dd950399ef4904f23a773755",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JudahZF",
+        "repo": "nix-apple-tools",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -764,6 +784,7 @@
         "homebrew-steipete-tap": "homebrew-steipete-tap",
         "homebrew-withgraphite-tap": "homebrew-withgraphite-tap",
         "maclocker": "maclocker",
+        "nix-apple-tools": "nix-apple-tools",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nix-index-database": "nix-index-database",

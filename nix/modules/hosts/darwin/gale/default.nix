@@ -58,6 +58,7 @@ in
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
       inputs.nix-xcodes.darwinModules.default
+      inputs.nix-apple-tools.darwinModules.default
       {
         networking.hostName = "gale";
         services.dotfilesAutoUpdate.enable = true;
