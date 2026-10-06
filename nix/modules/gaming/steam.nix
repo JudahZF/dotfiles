@@ -9,6 +9,7 @@ let
   latestPkgs = if pkgs-unstable != null then pkgs-unstable else pkgs;
 in
 (lib.optionalAttrs (system != null && lib.hasSuffix "-linux" system) {
+    boot.kernelPackages = pkgs.linuxPackages_latest;
   # Steam/Proton launchers expect host OpenGL/Vulkan libraries to be available
   # through /run/opengl-driver. 32-bit support is also required by Steam's
   # overlay/runtime even for many 64-bit games.
@@ -25,6 +26,10 @@ in
     # spawn through niri then fail while a terminal works (niri-wm/niri#2463).
     package = pkgs.steam.override {
       buildFHSEnv = args: pkgs.buildFHSEnv (args // { dieWithParent = false; });
+      # Steam's client is X11, and bundled Qt builds (SteamVR's vrmonitor) ship
+      # only the xcb plugin, so they abort under QT_QPA_PLATFORM=wayland. That
+      # Qt is too old for the "wayland;xcb" fallback list.
+      extraEnv.QT_QPA_PLATFORM = "xcb";
     };
     extraPackages = with pkgs; [ hidapi ];
     extraCompatPackages = [ latestPkgs.proton-ge-bin ];
