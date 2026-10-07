@@ -46,6 +46,8 @@ in
     EnvironmentVariables = {
       HOME = "/Users/${username}";
       PATH = "/run/current-system/sw/bin:/etc/profiles/per-user/${username}/bin:/Users/${username}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${config.homebrew.prefix}/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      # Cursor SDK traffic goes through the CLIProxyAPI relay (see linux.nix).
+      CURSOR_BACKEND_URL = "https://cliprox.tabby-ilish.ts.net/cursor";
     };
     WorkingDirectory = "/Users/${username}";
     KeepAlive = true;

@@ -23,6 +23,10 @@ lib.mkIf pkgs.stdenv.isLinux {
         Environment = [
           "HOME=/home/judahf"
           "PATH=/run/current-system/sw/bin:/etc/profiles/per-user/judahf/bin:/home/judahf/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/run/wrappers/bin:/usr/bin:/bin"
+          # Cursor SDK traffic goes through the CLIProxyAPI relay. The SDK reads this once
+          # from the server process, so it cannot be set per provider instance. Set
+          # CURSOR_API_KEY=<proxy key> on the Cursor instance in T3 settings.
+          "CURSOR_BACKEND_URL=https://cliprox.tabby-ilish.ts.net/cursor"
         ];
         WorkingDirectory = "/home/judahf";
         Restart = "always";

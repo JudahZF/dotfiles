@@ -9,8 +9,10 @@ let
     "babysit-pr"
     "design"
     "file-pr"
+    "grill-me"
     "html-communication"
     "postplan"
+    "research"
     "workflows"
   ];
 
