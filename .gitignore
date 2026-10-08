@@ -9,3 +9,7 @@ pi/agent/auth.json
 pi/agent/sessions/
 pi/agent/node_modules/
 wallpapers/Replicate*
+
+# Local checkouts of flake inputs (consumed via their remote URLs, not as submodules)
+nix-xcodes/
+nix/custom-packages/
